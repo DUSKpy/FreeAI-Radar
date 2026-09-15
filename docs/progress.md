@@ -372,11 +372,32 @@ refusing to allow an OAuth App to create or update workflow
 >
 > 判断解锁是否成功的唯一标志：`git push` 不再报 `without 'workflow' scope`。
 
+#### 复核（本轮重新验证，非记忆）
+
+本轮重新跑了一遍对照实验并**从公网新鲜克隆独立验证**，结果与上述一致：
+
+| 检查项 | 结果 |
+| --- | --- |
+| `git push` 含 workflow | ⛔ 仍被拒：`without 'workflow' scope` |
+| Contents API 写普通新文件（同一 token、同一 API） | ✅ HTTP **201** |
+| Contents API 写 `.github/workflows/probe.yml` | ⛔ HTTP **404** |
+| 公网 `.github/` 目录内容 | 只有 `ISSUE_TEMPLATE`，**无 `workflows/`** |
+| Actions 运行次数 | **0**（从未运行过） |
+| `https://duskpy.github.io/FreeAI-Radar/` | **HTTP 404**（从未部署） |
+
+其中 404 而非 403 是 GitHub **有意的存在性混淆**：它不确认该路径存在，
+而不是在回答"你权限不够"。这一细节值得记下——它让"权限不足"和"路径不存在"
+在 API 层面无法区分，所以**不要用状态码推断原因**，要看 git-push 的原始报错。
+
+> 探针产生的临时文件（`.probe-normal*`）已通过 Contents API 删除并复核根目录干净。
+> 删除提交使远端历史前进了几个提交，但**已验证远端树与分叉点 tree SHA 完全相同**，
+> 即内容零变化——因此用 rebase（而非 force-push）整合，没有掩盖任何冲突。
+
 ### 四种验收结果分开报告
 
 | 验收项 | 结果 |
 | --- | --- |
-| 可部署代码 | ✅ **完成** —— 已推送，远端逐文件核对一致 |
+| 可部署代码 | ✅ **完成** —— 129 文件已推送，公网克隆逐文件核对一致 |
 | 真实 Pages 发布 | ⛔ **未开始** —— 工作流从未运行 |
 | 真实 CC Switch 导入 | ⛔ **未测试** —— 需实机 |
 | 真实 API 调用 | ⬜ 本版不要求（任务书：无用户 Key 时最后一项不作为强制门槛） |
@@ -390,7 +411,7 @@ refusing to allow an OAuth App to create or update workflow
 按重要性排序，不掩饰：
 
 1. **站点未上线** —— 代码已部署，但工作流文件被 `workflow` scope 挡在仓库外。
-   解锁只需你跑一条命令。
+   解锁需要由注入凭据的一侧重新授权（或提供带 `workflow` scope 的 PAT）。
 2. **真实 iPad Safari 未测** —— 只有视口模拟。
 3. **真实 CC Switch 导入未测** —— Deep Link 的百分号编码有单元测试，
    但没有在真机上点过。
