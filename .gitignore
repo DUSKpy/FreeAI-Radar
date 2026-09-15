@@ -1,0 +1,43 @@
+# Build output. Regenerated from the committed state on every run.
+dist/
+.work/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node -- the site ships no npm dependencies, but a contributor may run
+# tooling locally (the screenshot and flow scripts).
+node_modules/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local captures. The delivery screenshots in docs/screens/ ARE committed;
+# ad-hoc ones are not.
+.work/serve/
+*.local.json
+
+# Never commit a local state file or anything key-shaped.
+#
+# The leading slash matters. A bare `state.json` pattern matches at ANY depth,
+# which would also swallow data/seed/state.empty.json -- the committed
+# cold-start seed that the tests and docs depend on. Anchor it to the root.
+/state.json
+/data/state.json
+*.key
+.env
+.env.*

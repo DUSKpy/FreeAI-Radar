@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% from "components/state.html" import state %}
+
+{#
+  provider.html -- detail view.
+
+  This page is a client-side render driven by ?id=<provider_id>. It is NOT
+  one static file per provider: the catalog is data, and a 56-file dynamic
+  route would double the deploy size for no benefit. The consequence is
+  that the URL works on any static host and a refresh never 404s, but the
+  page needs JS to populate. The noscript branch says so plainly rather
+  than showing an empty shell.
+#}
+{% block title %}服务详情 · {{ site.name }}{% endblock %}
+{% block eyebrow %}服务详情{% endblock %}
+{% block heading %}服务详情{% endblock %}
+
+{% block actions %}
+<a class="btn btn--ghost btn--small" href="{{ base_path }}directory.html">返回目录</a>
+<button type="button" class="btn btn--small" data-favorite-toggle-current hidden>
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 4.6l2.3 4.9 5.2.7-3.8 3.7.9 5.3-4.6-2.5-4.6 2.5.9-5.3L4.5 10.2l5.2-.7z"></path>
+  </svg>
+  <span data-favorite-label>收藏</span>
+</button>
+{% endblock %}
+
+{% block content %}
+<noscript>
+  <div class="notice notice--warn">
+    <span class="notice__icon" aria-hidden="true">!</span>
+    <div class="notice__body">
+      <p class="notice__title">详情页需要 JavaScript</p>
+      <p>
+        服务详情是根据目录数据实时渲染的，需要浏览器脚本才能显示。
+        请开启 JavaScript，或直接<a href="{{ base_path }}data/index.json">读取原始 JSON 数据</a>。
+        目录列表页在关闭脚本时仍然可用。
+      </p>
+    </div>
+  </div>
+</noscript>
+
+<div class="provider" data-provider-root hidden>
+
+  <div class="provider__main">
+    <header class="provider__identity">
+      <h2 class="provider__name wrap-anywhere" data-provider-name>载入中…</h2>
+      <span class="provider__verified" data-provider-verified hidden></span>
+      <p class="provider__domain mono wrap-anywhere" data-provider-domain></p>
+    </header>
+
+    <div class="provider__links" data-provider-links></div>
+
+    {# The honesty notice is placed above the data, not after it. A reader who
+       stops scrolling must still have seen it. #}
+    <div class="notice notice--info" data-verification-notice>
+      <span class="notice__icon" aria-hidden="true">i</span>
+      <div class="notice__body">
+        <p class="notice__title">这些字段是怎么来的</p>
+        <p data-verification-text></p>
+      </div>
+    </div>
+
+    <section class="section" data-section="offers">
+      <div class="section__head">
+        <h3 class="section__title">免费条目</h3>
+      </div>
+      <div data-offers></div>
+    </section>
+
+    <section class="section" data-section="models">
+      <div class="section__head">
+        <h3 class="section__title">模型</h3>
+        <span class="helper" data-models-note></span>
+      </div>
+      <div class="tablewrap">
+        <table class="data" data-models-table>
+          <caption class="sr-only">该服务在来源中明确列出的模型</caption>
+          <thead>
+            <tr>
+              <th scope="col">模型 ID</th>
+              <th scope="col">上下文窗口</th>
+              <th scope="col">声明能力</th>
+              <th scope="col">协议</th>
+            </tr>
+          </thead>
+          <tbody data-models-body></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" data-section="evidence">
+      <div class="section__head">
+        <h3 class="section__title">来源与摘录</h3>
+      </div>
+      <div class="evidence" data-evidence></div>
+    </section>
+  </div>
+
+  <aside class="provider__aside">
+    <div class="card glass glass--card glass--edge">
+      <div class="card__head">
+        <h3 class="card__title">导入到 CC Switch</h3>
+      </div>
+      <p class="helper">
+        生成一份包含 Base URL 与模型 ID 的配置。密钥一栏永远是空的，
+        需要你自己在 CC Switch 里填。
+      </p>
+      <button type="button" class="btn btn--primary btn--block" data-open-ccswitch>
+        生成配置
+      </button>
+      <p class="helper" style="margin-top: var(--space-3);" data-ccswitch-support></p>
+    </div>
+
+    <div class="card glass glass--card glass--edge">
+      <div class="card__head">
+        <h3 class="card__title">核对状态</h3>
+      </div>
+      <dl class="deflist" data-provider-meta></dl>
+    </div>
+
+    <div class="card glass glass--card glass--edge">
+      <div class="card__head">
+        <h3 class="card__title">数据来源</h3>
+      </div>
+      <ul class="deflist" data-provider-sources></ul>
+    </div>
+  </aside>
+</div>
+
+{# Dialog lives outside the glass containers so the native top layer is not
+   clipped by a filtered ancestor. #}
+{% include "components/ccswitch-dialog.html" %}
+
+<div data-provider-fallback>
+  {{ state('loading', '正在载入服务详情', '目录数据从本站 data/ 目录读取，不需要任何外部接口。') }}
+</div>
+{% endblock %}

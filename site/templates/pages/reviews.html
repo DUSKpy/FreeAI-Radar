@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% from "components/state.html" import state %}
+
+{#
+  reviews.html -- the read-only verification checklist.
+
+  Two things this page must never do:
+
+    1. Offer a control that writes anywhere. There is no admin write API by
+       design; the review workflow is a GitHub commit against
+       config/reviews.yaml. The banner says this before the list, so nobody
+       hunts for a submit button.
+    2. Present an unreviewed claim as if it were approved. Every row starts
+       in the "open" state and only shows "confirmed" when a human decision
+       exists in the reviews file.
+#}
+{% block title %}核验清单 · {{ site.name }}{% endblock %}
+{% block eyebrow %}可信度{% endblock %}
+{% block heading %}只读核验清单{% endblock %}
+
+{% block content %}
+<div class="sources">
+
+  <div class="notice notice--warn readonly-banner">
+    <span class="notice__icon" aria-hidden="true">!</span>
+    <div class="readonly-banner__body">
+      <p class="notice__title">这是只读页面</p>
+      <p>
+        Radar 没有在线管理后台，也没有写入接口——这是刻意的设计。
+        目录数据由 GitHub Actions 每天采集，修正意见通过向仓库提交一次
+        <span class="mono">config/reviews.yaml</span> 的改动完成，改动记录本身就是审计日志。
+        本页只展示「哪些条目还等着被核验」，不会、也无法接受任何提交。
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section__head">
+      <h2 class="section__title">待核验条目</h2>
+      <span class="helper">
+        共 <span class="tabular" data-review-count>{{ counts.needs_review }}</span> 条
+      </span>
+    </div>
+
+    <div data-review-list>
+      {{ state('loading', '正在载入核验清单', '清单从本站 data/ 目录读取。') }}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__head">
+      <h2 class="section__title">核验判定标准</h2>
+    </div>
+    <div class="notice notice--info">
+      <span class="notice__icon" aria-hidden="true">i</span>
+      <div class="notice__body">
+        <p class="notice__title">什么样的条目才算「官方已确认」</p>
+        <p>
+          只有当服务方自己的文档明确写出该字段（例如免费额度数值、是否要求绑卡、支持的接口协议），
+          并且我们能给出可访问的官方链接和一段摘录时，才会记为已确认。
+          目录类来源的说法再一致，也只能算「目录声明」。
+        </p>
+      </div>
+    </div>
+
+    <dl class="deflist">
+      <dt><span class="chip chip--info"><span class="chip__dot"></span>目录声明</span></dt>
+      <dd>来自第三方整理列表，尚未与官方文档比对。可能是对的，但需要你自己也看一眼。</dd>
+
+      <dt><span class="chip chip--ok"><span class="chip__dot"></span>官方已确认</span></dt>
+      <dd>官方文档明确写出，并附有链接与摘录。这是可信度最高的一档。</dd>
+
+      <dt><span class="chip chip--warn"><span class="chip__dot"></span>来源冲突</span></dt>
+      <dd>两个及以上独立来源对同一字段给出了不同值。两侧的原始说法都会被保留，不取平均、不擅自选一个。</dd>
+
+      <dt><span class="chip chip--neutral"><span class="chip__dot"></span>未知</span></dt>
+      <dd>我们没找到任何依据。这不等于否定的答案——「未知」不会在任何地方被当作「不支持」处理。</dd>
+    </dl>
+  </section>
+
+  <section class="section">
+    <div class="section__head">
+      <h2 class="section__title">核验状态定义</h2>
+    </div>
+    <div class="tablewrap">
+      <table class="data">
+        <caption class="sr-only">各核验状态的判定条件与用户可见后果</caption>
+        <thead>
+          <tr>
+            <th scope="col">状态</th>
+            <th scope="col">判定条件</th>
+            <th scope="col">页面上怎么显示</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">待核验</th>
+            <td>条目已采集，但没有任何人工决定</td>
+            <td>出现在本页清单里；详情页显示「目录声明」</td>
+          </tr>
+          <tr>
+            <th scope="row">已确认</th>
+            <td>有人在 reviews.yaml 里给出确认，并附了可访问的依据</td>
+            <td>显示「官方已确认」徽标与该链接</td>
+          </tr>
+          <tr>
+            <th scope="row">已驳回</th>
+            <td>依据与来源说法不符，或来源本身已失效</td>
+            <td>保留条目但标为已驳回，并显示驳回理由</td>
+          </tr>
+          <tr>
+            <th scope="row">需要重新核验</th>
+            <td>证据字段变了（例如额度数值或 Base URL 更新），旧结论不再适用</td>
+            <td>自动退回待核验，旧结论不再展示</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}

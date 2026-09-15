@@ -1,0 +1,30 @@
+{#
+  offertype.html -- the "free type" chip.
+
+  This is one of the five dimensions that must stay separate. The chip is
+  driven by data-offer-type on the parent card, so this file only needs the
+  label mapping. Every label names the type explicitly; there is no
+  generic "免费" chip, because collapsing the types is the mistake the
+  brief warns about.
+
+  Colour choice is deliberate: a time-limited trial is warn, a sustained
+  free tier is ok, and an unknown type is neutral. Unknown is never styled
+  as a negative.
+#}
+{% set _offer_types = {
+  'sustained_free_tier': ('持续免费额度', 'ok'),
+  'recurring_free_quota': ('周期性免费额度', 'ok'),
+  'trial_credit': ('限时试用额度', 'warn'),
+  'one_time_credit': ('一次性赠金', 'warn'),
+  'promotional': ('活动期免费', 'warn'),
+  'community_endpoint': ('社区/公共端点', 'info'),
+  'open_weights_hosted': ('开源权重托管', 'info'),
+  'unknown': ('免费类型未知', 'neutral')
+} %}
+{% for key, meta in _offer_types.items() %}
+  <template data-offer-chip="{{ key }}">
+    <span class="chip chip--{{ meta[1] }}">
+      <span class="chip__dot"></span>{{ meta[0] }}
+    </span>
+  </template>
+{% endfor %}

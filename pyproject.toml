@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "freeai-radar"
+version = "0.1.0"
+description = "A verifiable directory of free AI API offers, published as a static site."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+# Runtime dependencies are deliberately few. The site itself ships zero
+# JavaScript dependencies; everything here is build-time only.
+dependencies = [
+  "httpx>=0.27",
+  "PyYAML>=6.0",
+  "Jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "jsonschema>=4.20",
+]
+
+[project.urls]
+Homepage = "https://github.com/OWNER/freeai-radar"
+Issues = "https://github.com/OWNER/freeai-radar/issues"
+
+[tool.setuptools]
+# Only the collector package is a library. `site/` is templates and static
+# assets, and `tests/` is not shipped.
+packages = ["radar", "radar.collectors", "radar.parsers"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# `dist` and `.work` are build output; `.work/public` in particular holds a copy
+# of the exported tree and would otherwise be linted as project source.
+extend-exclude = ["dist", ".work", "site/static/js"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
+ignore = [
+  # Long URLs and Chinese prose in docstrings routinely exceed the line limit
+  # in a way that no formatter improves.
+  "E501",
+  # `typing.Optional` reads better than `X | None` in a few public signatures.
+  "UP007",
+  # RUF001 flags "ambiguous" unicode -- but this project's comments and string
+  # literals are mostly Chinese, where full-width punctuation is correct and
+  # not a typo. The rule is for Latin text only.
+  "RUF001",
+  # RUF002/RUF003 are the same check against docstrings and comments.
+  "RUF002",
+  "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests legitimately reach into private helpers and use long literal fixtures.
+"tests/**" = ["E501", "SIM117", "B011"]
+# The CLI entry points print to stdout by design.
+"radar/collect.py" = ["T201"]
+"radar/export_public.py" = ["T201"]
+"radar/build_site.py" = ["T201"]
+# These nested `if`s are deliberate: the outer condition is a cheap guard and
+# the inner one is the real test, and the two read better on separate lines
+# than as one long `and` chain. Merging them would bury the guard.
+"radar/normalize.py" = ["SIM102"]
+"radar/parsers/markdown_tables.py" = ["SIM102"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Fixtures live in tests/fixtures and are committed; nothing here hits the
+# network. A test that needs the network must be marked and skipped by default.
+addopts = "-q --strict-markers"
+markers = [
+  "network: requires outbound network access; deselected unless --run-network",
+]

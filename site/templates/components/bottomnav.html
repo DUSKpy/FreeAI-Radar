@@ -1,0 +1,40 @@
+{#
+  bottomnav.html -- phone tab bar (< 768px).
+
+  Four destinations, not six: at 390px six tabs give 65px each, which is
+  too narrow for a Chinese two-character label plus an icon. Overview stays
+  reachable from the brand link.
+#}
+<nav class="bottomnav glass glass--nav" aria-label="底部导航">
+  <div class="bottomnav__items">
+    <a class="bottomnav__link" href="{{ base_path }}index.html"
+       {% if active_page == 'overview' %}aria-current="page"{% endif %}>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 10.5L12 4l8 6.5"></path>
+        <path d="M6 9.6V19h12V9.6"></path>
+      </svg>
+      <span>概览</span>
+    </a>
+    <a class="bottomnav__link" href="{{ base_path }}directory.html"
+       {% if active_page == 'directory' %}aria-current="page"{% endif %}>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 6.5h16M4 12h16M4 17.5h10"></path>
+      </svg>
+      <span>目录</span>
+    </a>
+    <a class="bottomnav__link" href="{{ base_path }}changes.html"
+       {% if active_page == 'changes' %}aria-current="page"{% endif %}>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 17.5V9.2M9.3 17.5V4.5M14.7 17.5v-6.3M20 17.5V7"></path>
+      </svg>
+      <span>变化</span>
+    </a>
+    <a class="bottomnav__link" href="{{ base_path }}favorites.html"
+       {% if active_page == 'favorites' %}aria-current="page"{% endif %}>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 4.6l2.3 4.9 5.2.7-3.8 3.7.9 5.3-4.6-2.5-4.6 2.5.9-5.3L4.5 10.2l5.2-.7z"></path>
+      </svg>
+      <span>收藏</span>
+    </a>
+  </div>
+</nav>

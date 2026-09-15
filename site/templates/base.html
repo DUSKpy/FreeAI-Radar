@@ -1,0 +1,104 @@
+{#
+  base.html -- the single page shell.
+
+  Every page extends this. The design decisions worth calling out:
+
+  * The theme is decided by an inline script in <head>, before first paint.
+    A deferred module would flash the wrong theme. The script is tiny and
+    has no dependencies.
+  * Assets carry a content hash so a stale cached stylesheet can never pair
+    with new markup.
+  * Every interactive control is a real button or link, so keyboard and
+    screen-reader behaviour is native rather than emulated.
+  * The skip link is the first focusable element on the page.
+#}
+<!DOCTYPE html>
+<html lang="zh-CN" data-base-path="{{ base_path }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block title %}{{ site.name }}{% endblock %}</title>
+<meta name="description" content="{% block description %}免费 AI API 目录：来源留痕、口径分离、不会把「未知」写成「不支持」。{% endblock %}">
+<meta name="color-scheme" content="light dark">
+{# The canonical URL points at the real HTML file, not the internal page id,
+   so a crawler does not index a path that returns 404. #}
+<link rel="canonical" href="{{ base_path }}{{ canonical_file | default(page) }}">
+
+{# Inline theme resolution: runs before the first paint. #}
+<script>
+(function () {
+  var d = document.documentElement;
+  try {
+    var t = localStorage.getItem('radar.theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    d.setAttribute('data-theme', t);
+    if (localStorage.getItem('radar.transparency') === 'reduced') {
+      d.setAttribute('data-transparency', 'reduced');
+    }
+    if (localStorage.getItem('radar.motion') === 'reduced') {
+      d.setAttribute('data-motion', 'reduced');
+    }
+  } catch (e) {
+    d.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+
+<link rel="icon" href="{{ static('favicon.svg') }}" type="image/svg+xml">
+<link rel="mask-icon" href="{{ static('favicon.svg') }}" color="#142238">
+{# A tab icon is requested by every browser whether or not it is declared, so
+   declaring the SVG here is what stops a guaranteed 404 in the console. #}
+
+<link rel="stylesheet" href="{{ static('css/tokens.css') }}">
+<link rel="stylesheet" href="{{ static('css/glass.css') }}">
+<link rel="stylesheet" href="{{ static('css/components.css') }}">
+<link rel="stylesheet" href="{{ static('css/pages.css') }}">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% block og_title %}{{ site.name }}{% endblock %}">
+<meta property="og:description" content="免费 AI API 目录 · 每次采集都有来源留痕">
+{# The dataset version is the cache key for the whole page. Bump it and every
+   viewer sees fresh data; leave it and the browser reuses the cached JSON. #}
+<meta name="radar:dataset-version" content="{{ manifest.dataset_version or 'unknown' }}">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<div class="app" data-page="{{ page }}">
+  {% include "components/sidebar.html" %}
+
+  <div class="app__main">
+    {% include "components/topnav.html" %}
+    {% include "components/topbar.html" %}
+
+    <main id="main" tabindex="-1">
+      {% block content %}{% endblock %}
+    </main>
+
+    {% include "components/footer.html" %}
+  </div>
+</div>
+
+{% include "components/bottomnav.html" %}
+{% include "components/toast.html" %}
+
+{# Shared client state is exposed to the ES modules through data attributes
+   rather than a global variable, so the modules stay independently testable. #}
+<script type="application/json" id="radar-bootstrap">
+{{ {
+  "basePath": base_path,
+  "datasetVersion": manifest.dataset_version,
+  "changesVersion": manifest.changes_version,
+  "ccSwitchVersion": cc_switch.supported_version,
+  "ccSwitchCommit": cc_switch.supported_commit,
+  "generatedAt": manifest.generated_at,
+  "noDataYet": flags.no_data_yet
+} | tojson }}
+</script>
+
+<script type="module" src="{{ static('js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

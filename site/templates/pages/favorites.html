@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% from "components/state.html" import state %}
+
+{#
+  favorites.html -- local-only saved list.
+
+  The privacy statement is not boilerplate. A reader needs to know before
+  they click the star that this list lives in this browser's localStorage
+  and nowhere else, which is exactly why it will not follow them to another
+  device. Stating that up front prevents the "where did my list go" moment.
+#}
+{% block title %}我的收藏 · {{ site.name }}{% endblock %}
+{% block eyebrow %}收藏{% endblock %}
+{% block heading %}我的收藏{% endblock %}
+
+{% block actions %}
+<button type="button" class="btn btn--ghost btn--small" data-favorites-export>
+  导出 JSON
+</button>
+<button type="button" class="btn btn--ghost btn--small" data-favorites-clear>
+  清空
+</button>
+{% endblock %}
+
+{% block content %}
+<div class="favorites">
+
+  <div class="favorites__head">
+    <div class="favorites__privacy">
+      <p>
+        收藏只保存在<strong>你这台设备的浏览器</strong>里，不会上传到任何服务器，也不需要登录。
+        换一台设备或换一个浏览器就看不到这份列表——这正是它不上传的代价。
+        站点永远不会知道你收藏了什么。
+      </p>
+      <p class="helper" data-favorites-meta></p>
+    </div>
+  </div>
+
+  <div data-favorites-root>
+    {{ state('loading', '正在读取本地收藏', '读取过程完全在本地进行，不会发起任何网络请求。') }}
+  </div>
+
+  <section class="section" data-compare-section hidden>
+    <div class="section__head">
+      <h2 class="section__title">并排对比</h2>
+      <span class="helper">最多 3 个</span>
+    </div>
+    <div class="compare">
+      <div class="compare__grid" data-compare-grid></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__head">
+      <h2 class="section__title">关于收藏</h2>
+    </div>
+    <dl class="deflist">
+      <dt>存了什么</dt>
+      <dd>只存服务的内部 ID 和收藏时间。不存密钥、不存你的任何输入。</dd>
+
+      <dt>换设备怎么办</dt>
+      <dd>用上面的「导出 JSON」把列表存下来，在另一台设备上导入。导入格式与导出格式一致，就是一份纯文本。</dd>
+
+      <dt>数据更新后会怎样</dt>
+      <dd>收藏是按 ID 记录的，所以目录更新之后收藏依然有效。如果某个服务从目录里消失了，它会留在这里并标明「已不在目录中」，而不是悄悄消失。</dd>
+
+      <dt>会被追踪吗</dt>
+      <dd>不会。这个站点没有分析脚本、没有第三方统计、没有 Cookie，也不发任何请求到本站之外的地址。</dd>
+    </dl>
+  </section>
+</div>
+{% endblock %}

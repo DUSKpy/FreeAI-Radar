@@ -1,0 +1,60 @@
+name: Bug 报告
+description: 站点显示不对、构建失败、页面报错
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: 发生了什么
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 你期望发生什么
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开 ...
+        2. 点击 ...
+        3. 看到 ...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 影响范围
+      options:
+        - 页面渲染 / 样式
+        - 搜索或筛选
+        - CC Switch 导出
+        - 收藏功能
+        - 采集或构建流程
+        - GitHub Actions
+        - 其他
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      description: 浏览器与版本；如果是构建问题，附 Python 版本
+      placeholder: "Chrome 128 / Windows 11；Python 3.13"
+  - type: textarea
+    id: console
+    attributes:
+      label: 浏览器控制台输出或构建日志
+      description: 如果有报错，请贴出来。注意先删掉任何密钥。
+      render: shell
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认
+      options:
+        - label: 我已经在四个断点（桌面 / 笔记本 / iPad / 手机）里试过，或这个问题与断点无关
+        - label: 我贴出的日志里没有任何密钥

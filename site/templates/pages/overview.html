@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% from "components/state.html" import state %}
+
+{% block title %}{{ site.name }} · 免费 AI API 目录{% endblock %}
+{% block eyebrow %}概览{% endblock %}
+{% block heading %}{{ site.tagline }}{% endblock %}
+
+{% block content %}
+<div class="overview">
+
+  {% if flags.no_data_yet %}
+    {{ state(
+      'nodata',
+      '还没有采集到任何数据',
+      '这个部署还没有成功完成过一次采集。目录、变化和核验页面在首次采集成功前都会是空的——这不是筛选结果为空，而是整个数据集为空。',
+      site.repo_url ~ '/actions' if site.repo_url else None,
+      '查看采集记录'
+    ) }}
+  {% endif %}
+
+  <section class="overview__hero">
+    <div class="overview__hero-text">
+      <p class="muted">
+        把散落在 GitHub README 里的免费 AI 服务整理成一份可核对、可追溯的目录。
+        每个字段都带来源与核对时间；来源没说的事，我们写「未知」，不写「不支持」。
+      </p>
+      <div class="overview__freshness">
+        {% if manifest.state and manifest.state.serving_last_known_good %}
+          <span class="chip chip--warn"><span class="chip__dot"></span>正在展示上一次成功采集的数据</span>
+        {% elif manifest.last_successful_collection_at %}
+          <span class="chip chip--ok"><span class="chip__dot"></span>最近一次采集成功</span>
+        {% else %}
+          <span class="chip chip--neutral"><span class="chip__dot"></span>尚无成功采集记录</span>
+        {% endif %}
+        <span class="helper">
+          数据截止
+          <time class="tabular" datetime="{{ manifest.last_successful_collection_at or '' }}">
+            {{ (manifest.last_successful_collection_at or '未知')[:16] | replace('T', ' ') }} UTC
+          </time>
+        </span>
+        <span class="helper">
+          构建于
+          <span class="tabular">{{ (manifest.generated_at or '未知')[:16] | replace('T', ' ') }} UTC</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <a class="btn btn--primary" href="{{ base_path }}directory.html">浏览目录</a>
+      <a class="btn" href="{{ base_path }}changes.html">看今日变化</a>
+    </div>
+  </section>
+
+  <section class="overview__grid" aria-label="数据集统计">
+    <div class="metric glass glass--card glass--edge">
+      <p class="metric__label">收录服务</p>
+      <p class="metric__value tabular">{{ counts.providers | compact_number }}</p>
+      <p class="metric__note">按官方域名与别名合并后的独立服务数</p>
+    </div>
+    <div class="metric glass glass--card glass--edge">
+      <p class="metric__label">明确列出的模型</p>
+      <p class="metric__value tabular">{{ counts.models | compact_number }}</p>
+      <p class="metric__note">只统计来源明确写出模型的条目</p>
+    </div>
+    <div class="metric glass glass--card glass--edge">
+      <p class="metric__label">免费条目</p>
+      <p class="metric__value tabular">{{ counts.offers | compact_number }}</p>
+      <p class="metric__note">一个服务可以有多个不同类型的免费条目</p>
+    </div>
+    <div class="metric glass glass--card glass--edge">
+      <p class="metric__label">今日变化</p>
+      <p class="metric__value tabular">{{ counts.changes_today | compact_number }}</p>
+      <p class="metric__note">首次导入不计入「今日新增」</p>
+    </div>
+    <div class="metric glass glass--card glass--edge">
+      <p class="metric__label">官方文档已确认</p>
+      <p class="metric__value tabular">{{ counts.official_confirmed | compact_number }}</p>
+      <p class="metric__note">只有官方文档明确写出才会记入</p>
+    </div>
+    <div class="metric glass glass--card glass--edge">
+      <p class="metric__label">待人工核验</p>
+      <p class="metric__value tabular">{{ counts.needs_review | compact_number }}</p>
+      <p class="metric__note">来源冲突或口径不清的条目</p>
+    </div>
+  </section>
+
+  <div class="overview__columns">
+
+    <section class="section">
+      <div class="section__head">
+        <h2 class="section__title">今日报告</h2>
+        {% if reports %}
+          <a class="section__link" href="{{ base_path }}changes.html">全部变化</a>
+        {% endif %}
+      </div>
+
+      {% if reports %}
+        {% set latest = reports[0] %}
+        <div class="report__meta">
+          <span class="chip chip--accent"><span class="chip__dot"></span>{{ latest.date }}</span>
+          <span class="helper">
+            采集成功率
+            <span class="tabular">{{ latest.payload.collection.succeeded_sources }}</span> /
+            <span class="tabular">{{ latest.payload.collection.enabled_sources }}</span>
+          </span>
+        </div>
+        <div class="prose" data-markdown="{{ latest.url }}">
+          {# Replaced client-side from the raw Markdown. The fallback below is
+             the structured summary, so the page is still useful without JS. #}
+          <pre class="code" hidden>{{ latest.markdown }}</pre>
+          <p class="muted">正在载入报告…</p>
+        </div>
+      {% else %}
+        {{ state('empty', '还没有生成每日报告', '第一次采集成功之后，这里会出现当天的变化摘要。') }}
+      {% endif %}
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <h2 class="section__title">怎么用</h2>
+      </div>
+      <ol class="howto">
+        <li>
+          <div>
+            <p class="howto__title">先看「免费类型」再决定</p>
+            <p class="howto__body">
+              持续免费额度和限时试用是两回事。类型标签写在每张卡片上，
+              点进去还能看到额度、周期和限制条件。
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="howto__title">确认接口协议匹配你的工具</p>
+            <p class="howto__body">
+              Chat Completions、Responses、Anthropic Messages、Gemini 原生是四套不同的协议。
+              源码没写协议的，我们标「未知」——那不代表不支持，只代表我们没找到依据。
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="howto__title">用 CC Switch 导入配置</p>
+            <p class="howto__body">
+              详情页可以生成一份带 Base URL、模型 ID 的配置。
+              只有当你自己填好密钥之后才可能连通；Radar 不会、也无法替你验证密钥。
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="howto__title">收藏常用服务</p>
+            <p class="howto__body">
+              收藏只存在你这台设备的浏览器里，不会上传，也不需要登录。
+              换设备就看不到，这是刻意的。
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+  </div>
+
+  <section class="scope-note glass glass--card plate">
+    <h2 class="section__title" style="margin-top: 0;">Radar 不做这些事</h2>
+    <ul>
+      <li>不代替你调用任何上游 API，因此不会声称某个密钥可用、某个额度一定能用上。</li>
+      <li>不把「来源没写」翻译成「不支持」。未知就是未知。</li>
+      <li>不承诺任何服务「永久免费」——免费是来源在某一次采集时的说法，随时可能变。</li>
+      <li>不保存、不传输、不记录你的任何密钥。导出的配置里密钥字段永远是空的。</li>
+      <li>不会因为一次采集失败就删掉已有条目。失败只会保留上一次的数据并标出来。</li>
+    </ul>
+  </section>
+
+</div>
+{% endblock %}

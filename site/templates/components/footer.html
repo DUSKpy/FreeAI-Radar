@@ -1,0 +1,55 @@
+{#
+  footer.html -- the standing disclaimer.
+
+  The brief is explicit that Radar must never imply a guarantee. The wording
+  here is load-bearing, not decoration:
+
+    * it states what Radar does verify (field format, protocol declaration)
+    * it states what Radar cannot verify (key validity, quota availability)
+    * it says where user keys live (their own CC Switch, never here)
+    * it names the upstream sources rather than claiming the data as ours
+#}
+<footer class="sitefoot glass glass--panel" aria-label="页脚">
+  <div class="sitefoot__grid">
+    <div>
+      <p class="sitefoot__title">关于 Radar</p>
+      <ul>
+        <li><a href="{{ base_path }}index.html">概览</a></li>
+        <li><a href="{{ base_path }}directory.html">服务目录</a></li>
+        <li><a href="{{ base_path }}changes.html">每日变化</a></li>
+        <li><a href="{{ base_path }}favorites.html">我的收藏</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="sitefoot__title">可信度</p>
+      <ul>
+        <li><a href="{{ base_path }}sources.html">数据源状态</a></li>
+        <li><a href="{{ base_path }}reviews.html">只读核验清单</a></li>
+        {% if site.repo_url %}
+        <li><a href="{{ site.repo_url }}/commit/{{ site.build_commit }}" rel="noopener noreferrer">本次构建提交</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    <div>
+      <p class="sitefoot__title">本页数据</p>
+      <ul>
+        <li>
+          数据版本
+          <span class="mono wrap-anywhere">{{ manifest.dataset_version or '未知' }}</span>
+        </li>
+        <li>
+          构建时间
+          <span class="tabular">{{ (manifest.generated_at or '未知')[:16] | replace('T', ' ') }} UTC</span>
+        </li>
+        <li>构建标识 <span class="mono">{{ site.build_commit }}</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="sitefoot__disclaimer">
+    Radar 只核对<strong>字段格式</strong>与来源<strong>声明的协议</strong>，不验证密钥有效性、不验证额度是否可用、
+    也不做任何真实调用测试。所有密钥都保存在你自己的 CC Switch 里，Radar 不收集、不传输、不记录。
+    目录内容来自下列公开来源，版权归各来源所有；Radar 只做归一化与留痕。
+    「免费」是来源在某次采集时的声明，不构成任何长期承诺。
+  </p>
+</footer>

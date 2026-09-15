@@ -1,0 +1,30 @@
+{#
+  protocols.html -- the four protocol markers.
+
+  Four independent markers, never one "OpenAI compatible" summary. Each has
+  three states, and the three states look different:
+
+    on       the source declared it
+    off      the source explicitly declared it unsupported
+    unknown  no declaration -- rendered as a dashed, muted marker
+
+  "unknown" must not look like "off". A user reading a greyed-out marker
+  must be able to tell "we don't know" from "we were told no".
+#}
+{% set _protocols = [
+  ('openai_chat', 'Chat', 'Chat Completions'),
+  ('openai_responses', 'Resp', 'Responses API'),
+  ('anthropic_messages', 'Anth', 'Anthropic Messages'),
+  ('gemini_native', 'Gem', 'Gemini 原生')
+] %}
+<span class="proto-group" role="group" aria-label="接口协议支持情况">
+  {% for key, short, full in _protocols %}
+    <span class="proto proto--{{ state }}"
+          data-protocol="{{ key }}"
+          data-state="unknown"
+          title="{{ full }}：暂无来源声明"
+          aria-label="{{ full }}：未知">
+      {{ short }}
+    </span>
+  {% endfor %}
+</span>

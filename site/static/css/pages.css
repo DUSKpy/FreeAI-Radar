@@ -1,0 +1,1051 @@
+/* ==========================================================================
+   pages.css -- page-specific layout
+   --------------------------------------------------------------------------
+   components.css owns anything reused across pages. This file owns what is
+   unique to one page: the overview dashboard rhythm, the directory filter
+   rail, the provider detail two-column split, the daily-report prose block,
+   and the source status board.
+
+   Breakpoints (four, matching the brief's device matrix):
+
+     >= 1200px   desktop          sidebar + wide content
+     1024-1199   small laptop     sidebar narrows, right rail collapses
+     768-1023    tablet / iPad    top navigation, single column
+     < 768       phone            bottom navigation, stacked cards
+
+   The 1024-1199 range exists because the sidebar plus a two-column reader
+   stops fitting before the sidebar itself does. Collapsing the right rail
+   first keeps the content column readable instead of squeezing both.
+   ========================================================================== */
+
+/* ==========================================================================
+   Overview
+   ========================================================================== */
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.overview__hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.overview__hero-text {
+  min-width: 0;
+  max-width: 62ch;
+}
+
+/* The freshness line is the single most important honesty signal on the
+   page: it says exactly how old the data is. It must never be visually
+   quieter than the metric cards below it. */
+.overview__freshness {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.overview__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(216px, 1fr));
+  gap: var(--space-4);
+}
+
+.overview__columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* "How to use this" is a numbered sequence, so a real ordered list is used
+   and styled with the counter, not with manual numbers in the markup. */
+.howto {
+  counter-reset: howto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.howto > li {
+  counter-increment: howto;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.howto > li::before {
+  content: counter(howto);
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-fg);
+  border: 1px solid var(--accent-border);
+  font-size: var(--text-helper);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.howto__title {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-body);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.howto__body {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+
+/* The "what Radar does not claim" panel. Deliberately uses the neutral
+   status colour, never danger -- it is a boundary statement, not an error. */
+.scope-note {
+  border-left: 3px solid var(--neutral-border);
+  padding-left: var(--space-4);
+}
+
+.scope-note ul {
+  margin: var(--space-2) 0 0;
+  padding-left: 1.1em;
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+
+.scope-note li + li {
+  margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   Directory
+   ========================================================================== */
+
+.directory {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 268px;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.directory__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* The toolbar sticks under the top bar so search and sort stay reachable
+   while scrolling a 56-row result list. */
+.directory__toolbar {
+  position: sticky;
+  top: calc(var(--topbar-height) + var(--space-3));
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-panel);
+}
+
+.directory__toolbar .search {
+  flex: 1 1 260px;
+  min-width: 200px;
+}
+
+.directory__sort {
+  flex: 0 0 auto;
+}
+
+/* Active-filter chips read as removable tokens, so they get pill styling
+   with an explicit remove control. */
+.directory__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.directory__filters-label {
+  color: var(--text-muted);
+  font-size: var(--text-helper);
+}
+
+.directory__count {
+  color: var(--text-muted);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The filter rail. On desktop it is a sticky column; when it collapses the
+   same markup becomes a disclosure panel above the results. */
+.facets {
+  position: sticky;
+  top: calc(var(--topbar-height) + var(--space-3));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  max-height: calc(100vh - var(--topbar-height) - var(--space-8));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.facets__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.facets__title {
+  margin: 0;
+  font-size: var(--text-section);
+  font-weight: 650;
+}
+
+.facets__group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.facets__legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-helper);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.facets__options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Each facet option is a label wrapping a checkbox plus a count. The whole
+   row is the touch target, which is why padding lives on the label. */
+.facet {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  font-size: var(--text-small);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .facet:hover {
+    background: var(--surface-soft);
+  }
+}
+
+.facet input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.facet__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.facet__count {
+  flex: 0 0 auto;
+  color: var(--text-subtle);
+  font-size: var(--text-helper);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A facet with zero matches is disabled rather than hidden, so the filter
+   vocabulary does not reshuffle under the user's cursor as they type. */
+.facet--empty {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.facet--empty input {
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Provider detail
+   ========================================================================== */
+
+.provider {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.provider__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.provider__aside {
+  position: sticky;
+  top: calc(var(--topbar-height) + var(--space-3));
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.provider__identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  min-width: 0;
+}
+
+.provider__name {
+  margin: 0;
+  font-size: var(--text-display);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.provider__domain {
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+
+/* The domain verification badge is a real security signal, so it is a
+   first-class chip with an explanation, never a bare icon. */
+.provider__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.provider__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.provider__models-empty {
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+
+/* ==========================================================================
+   Daily report
+   ========================================================================== */
+
+.report {
+  display: grid;
+  grid-template-columns: 216px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.report__index {
+  position: sticky;
+  top: calc(var(--topbar-height) + var(--space-3));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: calc(100vh - var(--topbar-height) - var(--space-8));
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.report__index-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-helper);
+  font-weight: 650;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.report__index-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-small);
+  color: var(--text);
+  text-decoration: none;
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.report__index-link:hover {
+  background: var(--surface-soft);
+}
+
+.report__index-link[aria-current="true"] {
+  background: var(--accent-soft);
+  color: var(--accent-fg);
+  font-weight: 650;
+}
+
+.report__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.report__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Rendered Markdown. The report is generated by our own build job, but it
+   is still treated as data: it is rendered from the parsed structure, not
+   injected as HTML. */
+.prose {
+  font-size: var(--text-body);
+  line-height: 1.72;
+  max-width: 72ch;
+}
+
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose > :last-child {
+  margin-bottom: 0;
+}
+
+.prose h2 {
+  margin: var(--space-8) 0 var(--space-3);
+  font-size: var(--text-title);
+  font-weight: 680;
+  letter-spacing: -0.005em;
+}
+
+.prose h3 {
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: var(--text-section);
+  font-weight: 650;
+}
+
+.prose p {
+  margin: 0 0 var(--space-4);
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 var(--space-4);
+  padding-left: 1.4em;
+}
+
+.prose li + li {
+  margin-top: var(--space-1);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.12em 0.4em;
+  border-radius: var(--radius-tile);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+.prose pre {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-4);
+  overflow-x: auto;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+.prose blockquote {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--border-strong);
+  color: var(--text-muted);
+}
+
+.prose a {
+  color: var(--accent);
+}
+
+.prose hr {
+  margin: var(--space-6) 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   Sources board
+   ========================================================================== */
+
+.sources {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.sources__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-4);
+}
+
+.sourcecard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.sourcecard__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.sourcecard__ident {
+  min-width: 0;
+}
+
+.sourcecard__name {
+  margin: 0;
+  font-size: var(--text-section);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.sourcecard__family {
+  color: var(--text-muted);
+  font-size: var(--text-helper);
+}
+
+.sourcecard__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sourcecard__url {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--text-helper);
+  overflow-wrap: anywhere;
+}
+
+.sourcecard__error {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-small);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger-fg);
+  font-size: var(--text-small);
+  overflow-wrap: anywhere;
+}
+
+/* Legacy / disabled sources are visually separated so nobody assumes a
+   disabled source contributed zero records because it was healthy. */
+.sourcecard--disabled {
+  border-style: dashed;
+}
+
+/* ==========================================================================
+   Verification checklist
+   ========================================================================== */
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkitem {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-4);
+  border-radius: var(--radius-control);
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+}
+
+.checkitem__mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-helper);
+  font-weight: 700;
+  border: 1px solid var(--neutral-border);
+  background: var(--neutral-bg);
+  color: var(--neutral-fg);
+}
+
+.checkitem[data-state="open"] .checkitem__mark {
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+  color: var(--warn-fg);
+}
+
+.checkitem[data-state="confirmed"] .checkitem__mark {
+  background: var(--ok-bg);
+  border-color: var(--ok-border);
+  color: var(--ok-fg);
+}
+
+.checkitem__body {
+  min-width: 0;
+}
+
+.checkitem__title {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-body);
+  font-weight: 650;
+}
+
+.checkitem__detail {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+
+.checkitem__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/* This page is explicitly read-only. The notice must be impossible to miss
+   so nobody looks for a button that does not and will not exist. */
+.readonly-banner {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.readonly-banner__body {
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Favorites
+   ========================================================================== */
+
+.favorites {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.favorites__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.favorites__privacy {
+  max-width: 60ch;
+  color: var(--text-muted);
+  font-size: var(--text-small);
+}
+
+.favorites__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Comparison bar: keeps up to three favorites side by side. Horizontally
+   scrollable rather than reflowing, because the columns are compared
+   vertically and wrapping would destroy the alignment. */
+.compare {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.compare__grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  gap: var(--space-3);
+  min-width: min-content;
+}
+
+.compare__col {
+  padding: var(--space-4);
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.compare__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.compare__rows {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.compare__row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: var(--space-2);
+  font-size: var(--text-small);
+}
+
+.compare__row dt {
+  color: var(--text-muted);
+  font-size: var(--text-helper);
+}
+
+.compare__row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+   404
+   ========================================================================== */
+
+.notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: 62ch;
+  padding: var(--space-10) 0;
+}
+
+.notfound__code {
+  font-family: var(--font-mono);
+  font-size: var(--text-helper);
+  letter-spacing: 0.16em;
+  color: var(--text-subtle);
+}
+
+.notfound__title {
+  margin: 0;
+  font-size: var(--text-display);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Breakpoint: 1024px - 1199px
+   The sidebar survives, but both the filter rail and the detail aside
+   collapse into the flow. Narrowing the product rail first is what keeps
+   the primary column readable; squeezing both columns is what causes a
+   56-character model id to overflow.
+   ========================================================================== */
+@media (max-width: 1199px) {
+  .directory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .facets {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .facets__group {
+    flex: 1 1 200px;
+    min-width: 180px;
+  }
+
+  .provider {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .provider__aside {
+    position: static;
+  }
+
+  .overview__columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .report {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .report__index {
+    position: static;
+    max-height: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .report__index-title {
+    flex-basis: 100%;
+  }
+}
+
+/* ==========================================================================
+   Breakpoint: 768px - 1023px  (tablet, iPad portrait)
+   Swaps the sidebar for the top navigation. The app grid becomes a single
+   column and the content gains the bottom padding the tab bar needs.
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    /* The two-column gap is now a single column with no second track, so the
+       leftover gap would push the whole page up. Zero it and let the topnav's
+       own margin-bottom provide the separation. */
+    gap: 0;
+  }
+
+  /* The comment above is the contract: below 1024 the sidebar is *replaced* by
+     the topnav. Hiding it here is what enforces that. Without this rule the
+     desktop sidebar keeps its `--sidebar-width` track and the content column
+     is squeezed into whatever is left, which is how an 820px iPad ended up
+     rendering a desktop layout with a 40-character-wide text column. */
+  .sidebar {
+    display: none;
+  }
+
+  .topnav {
+    display: flex;
+  }
+
+  .overview__grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .directory__toolbar {
+    top: var(--space-2);
+  }
+
+  /* The facet rail turns into a disclosure panel: it starts collapsed so
+     the first screenful is results, not controls. */
+  .facets {
+    display: none;
+  }
+
+  .facets[data-open="true"] {
+    display: flex;
+  }
+
+  .facets__toggle {
+    display: inline-flex;
+  }
+
+  .provider__name {
+    font-size: 26px;
+  }
+
+  .favorites__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Breakpoint: < 768px  (phone)
+   Bottom tab bar, fully stacked layout, rooms for the safe-area inset.
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* The tab bar is fixed to the bottom edge, so the document needs enough
+     trailing space that the last card is never trapped underneath it. */
+  .app {
+    padding-bottom: calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bottomnav {
+    display: block;
+  }
+
+  /* Explore gets the bottom tab bar on a phone, so the scrolling tablet nav
+     would be a second, redundant navigation. */
+  .topnav--has-bottomnav {
+    display: none;
+  }
+
+  .overview,
+  .sources,
+  .favorites {
+    gap: var(--space-5);
+  }
+
+  .overview__hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .overview__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .directory__toolbar {
+    position: static;
+    padding: var(--space-3);
+  }
+
+  .directory__toolbar .search {
+    flex-basis: 100%;
+  }
+
+  /* Sort and the facet toggle share one row rather than wrapping to two. */
+  .directory__controls {
+    display: flex;
+    gap: var(--space-2);
+    width: 100%;
+  }
+
+  .directory__controls > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .sources__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .provider__identity {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .provider__name {
+    font-size: 24px;
+  }
+
+  .provider__links .btn {
+    flex: 1 1 auto;
+  }
+
+  .report__index {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    overscroll-behavior-x: contain;
+  }
+
+  .report__index-link {
+    flex: 0 0 auto;
+  }
+
+  .compare__row {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .notfound {
+    padding: var(--space-6) 0;
+  }
+
+  .checkitem {
+    padding: var(--space-3);
+  }
+}
+
+/* Very narrow phones: the two-up metric grid would make each card too
+   narrow for a five-digit count plus its unit. */
+@media (max-width: 419px) {
+  .overview__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Print
+   A directory page is plausibly printed or saved as PDF. Navigation and
+   controls are removed; the data grid keeps its borders so columns stay
+   readable in black and white.
+   ========================================================================== */
+@media print {
+  .sidebar,
+  .topnav,
+  .bottomnav,
+  .topbar,
+  .directory__toolbar,
+  .facets,
+  .pager,
+  .toast {
+    display: none !important;
+  }
+
+  .app,
+  .directory,
+  .provider,
+  .report,
+  .overview__columns {
+    display: block;
+  }
+
+  .glass,
+  .glass--card,
+  .plate {
+    background: #fff !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  table.data th,
+  table.data td {
+    border-color: #999;
+  }
+
+  .prose a::after {
+    content: " (" attr(href) ")";
+    font-size: 11px;
+    color: #555;
+  }
+}

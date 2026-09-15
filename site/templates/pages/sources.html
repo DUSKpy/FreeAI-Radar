@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% from "components/state.html" import state %}
+
+{% block title %}数据源状态 · {{ site.name }}{% endblock %}
+{% block eyebrow %}可信度{% endblock %}
+{% block heading %}数据源状态{% endblock %}
+
+{% block actions %}
+<span class="helper">
+  <span class="tabular">{{ sources | length }}</span> 个来源
+</span>
+{% endblock %}
+
+{% block content %}
+<div class="sources">
+
+  <div class="notice notice--info">
+    <span class="notice__icon" aria-hidden="true">i</span>
+    <div class="notice__body">
+      <p class="notice__title">关于来源等级</p>
+      <p>
+        <strong>目录类来源</strong>是别人维护的整理列表，能告诉你「有这么个服务」，但它是二手的。
+        <strong>官方来源</strong>是服务方自己的文档，可信度更高。
+        同一份上游的镜像（比如同一个仓库的网页版）只算<strong>一个</strong>来源，
+        不会被当成两份独立证据。
+      </p>
+    </div>
+  </div>
+
+  {% if flags.no_data_yet %}
+    {{ state('nodata', '还没有采集记录',
+             '首次采集成功之后，这里会显示每个来源的状态、记录条数和失败原因。',
+             site.repo_url ~ '/actions' if site.repo_url else None, '查看采集记录') }}
+  {% else %}
+
+    <section class="section">
+      <div class="section__head">
+        <h2 class="section__title">已启用的来源</h2>
+      </div>
+      <div class="sources__grid">
+        {% for source in sources %}
+          {% if source.enabled %}
+            {% include "components/sourcecard.html" %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+
+    {% set disabled = sources | rejectattr('enabled') | list %}
+    {% if disabled %}
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">已禁用的来源</h2>
+        </div>
+        <p class="helper" style="max-width: 76ch;">
+          这些来源当前不参与采集。禁用通常是因为许可证不允许再分发、
+          或者站点结构与解析器不再匹配。它们不计入上面的记录总数。
+        </p>
+        <div class="sources__grid">
+          {% for source in disabled %}
+            {% include "components/sourcecard.html" %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    <section class="section">
+      <div class="section__head">
+        <h2 class="section__title">采集时间线</h2>
+      </div>
+      <div class="tablewrap">
+        <table class="data data--compact">
+          <caption class="sr-only">本次构建的采集信息</caption>
+          <tbody>
+            <tr>
+              <th scope="row">最近一次采集尝试</th>
+              <td class="tabular">{{ (manifest.collection.started_at or '未知')[:19] | replace('T', ' ') }} UTC</td>
+            </tr>
+            <tr>
+              <th scope="row">最近一次采集成功</th>
+              <td class="tabular">{{ (manifest.last_successful_collection_at or '未知')[:19] | replace('T', ' ') }} UTC</td>
+            </tr>
+            <tr>
+              <th scope="row">最近一次完整采集</th>
+              <td class="tabular">{{ (manifest.last_complete_collection_at or '未知')[:19] | replace('T', ' ') }} UTC</td>
+            </tr>
+            <tr>
+              <th scope="row">本次构建时间</th>
+              <td class="tabular">{{ (manifest.generated_at or '未知')[:19] | replace('T', ' ') }} UTC</td>
+            </tr>
+            <tr>
+              <th scope="row">采集任务结果</th>
+              <td>
+                {% if manifest.collection.outcome == 'success' %}
+                  <span class="chip chip--ok"><span class="chip__dot"></span>成功</span>
+                {% elif manifest.collection.outcome == 'partial' %}
+                  <span class="chip chip--warn"><span class="chip__dot"></span>部分成功</span>
+                {% elif manifest.collection.outcome == 'failed' %}
+                  <span class="chip chip--danger"><span class="chip__dot"></span>失败</span>
+                {% else %}
+                  <span class="chip chip--neutral"><span class="chip__dot"></span>{{ manifest.collection.outcome or '未知' }}</span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">本次解析出的候选记录</th>
+              <td class="tabular">{{ manifest.collection.counts.candidates if manifest.collection.counts else '未知' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="scope-note plate">
+      <h2 class="section__title" style="margin-top: 0;">采集失败时会发生什么</h2>
+      <ul>
+        <li>某个来源抓取失败时，该来源<strong>已有的条目会被保留</strong>，并标记为「可能过期」。</li>
+        <li>失败的那一天<strong>不会产生任何删除记录</strong>。我们无法区分「服务下线」和「我们没抓到」。</li>
+        <li>如果解析出的记录数相对上次断崖式下跌（例如从 400 条掉到 3 条），整次解析会被判为解析错误，
+            沿用上一次的数据，而不是发布一份残缺目录。</li>
+        <li>如果状态文件损坏到无法读取，采集会直接失败，而不是当作「从零开始」——
+            否则会把整个目录误判成全新导入。</li>
+      </ul>
+    </section>
+  {% endif %}
+</div>
+{% endblock %}

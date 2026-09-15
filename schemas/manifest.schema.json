@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freeai-radar.local/schemas/manifest.schema.json",
+  "title": "FreeAI Radar Manifest",
+  "description": "Entry point for the static site. Read first, then follow the versioned pointers. generated_at never participates in semantic change comparison.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_version",
+    "build_commit",
+    "generated_at",
+    "last_successful_collection_at",
+    "catalog_url",
+    "changes_url",
+    "sources",
+    "counts",
+    "collection"
+  ],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "dataset_version": { "type": "string", "pattern": "^sha256:[0-9a-f]{16,64}$" },
+    "changes_version": { "type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{16,64}$" },
+    "build_commit": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 64,
+      "description": "Source SHA. Null-safe fallback is the literal 'unknown-local-build'."
+    },
+    "generated_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "last_successful_collection_at": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "description": "Most recent time at least one enabled source succeeded or returned 304. null when never."
+    },
+    "last_complete_collection_at": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "description": "Most recent time ALL enabled sources succeeded. null when never."
+    },
+    "catalog_url": { "type": "string", "maxLength": 256 },
+    "changes_url": { "type": "string", "maxLength": 256 },
+    "reports": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 256 }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" },
+          "name": { "type": "string", "maxLength": 120 },
+          "source_family": { "type": "string", "maxLength": 80 },
+          "enabled": { "type": "boolean" },
+          "status": { "enum": ["ok", "not_modified", "failed", "parse_error", "never_run", "stale"] },
+          "last_attempt_at": { "type": ["string", "null"] },
+          "last_success_at": { "type": ["string", "null"] },
+          "record_count": { "type": ["integer", "null"] },
+          "error": { "type": ["string", "null"], "maxLength": 300 }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["providers", "models", "offers", "official_confirmed", "needs_review", "changes_today"],
+      "properties": {
+        "providers": { "type": "integer", "minimum": 0 },
+        "models": { "type": "integer", "minimum": 0 },
+        "offers": { "type": "integer", "minimum": 0 },
+        "official_confirmed": { "type": "integer", "minimum": 0 },
+        "needs_review": { "type": "integer", "minimum": 0 },
+        "changes_today": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["job_type", "outcome", "started_at", "finished_at", "counts"],
+      "properties": {
+        "job_type": { "enum": ["collect", "build_only", "initial_import", "rollback"] },
+        "outcome": { "enum": ["success", "partial", "failed", "skipped"] },
+        "started_at": { "type": "string" },
+        "finished_at": { "type": "string" },
+        "counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "no_data_yet": {
+          "type": "boolean",
+          "description": "True when no successful collection has ever happened. The site must show an explicit 'not yet collected' page instead of fixture data."
+        },
+        "message": { "type": ["string", "null"], "maxLength": 300 },
+        "serving_last_known_good": { "type": "boolean" }
+      }
+    }
+  }
+}

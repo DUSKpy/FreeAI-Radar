@@ -1,0 +1,75 @@
+{#
+  ccswitch-dialog.html -- the configuration preview sheet.
+
+  Structure decisions worth keeping:
+
+  * Native <dialog> so focus trapping, Escape-to-close and the top layer are
+    handled by the browser. A hand-rolled modal gets those wrong.
+  * The app selector is a real radio group, so arrow keys work and the
+    selected state is exposed to assistive technology.
+  * The deep link is a normal <a href="ccswitch://...">. If the protocol
+    handler is not installed the click does nothing visible, which is why
+    every app also gets a visible "copy fields" fallback and an explicit
+    note saying the link may not open.
+  * No field in this dialog is pre-filled with a secret. The apiKey row is
+    rendered as a placeholder explaining where to type it.
+#}
+<dialog class="sheet glass glass--panel" id="ccswitch-sheet" aria-labelledby="ccswitch-title">
+  <div class="sheet__head">
+    <h2 class="sheet__title" id="ccswitch-title">导入到 CC Switch</h2>
+    <button type="button" class="sheet__close" data-ccswitch-close aria-label="关闭">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sheet__body">
+
+    <div class="notice notice--info">
+      <span class="notice__icon" aria-hidden="true">i</span>
+      <div class="notice__body">
+        <p class="notice__title">Radar 只生成配置，不做验证</p>
+        <p>
+          下方字段来自公开目录，格式已按 CC Switch
+          的规则检查过；但 Radar 没有、也不会用你的密钥发起任何请求。
+          导入之后能否连通，取决于你自己申请到的密钥和账号状态。
+        </p>
+      </div>
+    </div>
+
+    <div class="field">
+      <p class="field__label">目标应用</p>
+      <div class="segmented" role="radiogroup" aria-label="选择目标应用" data-ccswitch-apps>
+        {# Options are injected client-side from the cc-switch.json app map so
+           the list can never drift from the built configurations. #}
+        <p class="helper">载入中…</p>
+      </div>
+    </div>
+
+    <div class="field">
+      <p class="field__label">模型</p>
+      <label class="sr-only" for="ccswitch-model">选择模型</label>
+      <select class="field" id="ccswitch-model" data-ccswitch-model></select>
+      <p class="helper">
+        留空表示不指定模型，由你在 CC Switch 里自己选。
+      </p>
+    </div>
+
+    <div data-ccswitch-status></div>
+
+    <div class="stack" data-ccswitch-fields></div>
+
+    <details class="plate" data-ccswitch-preview-wrap hidden>
+      <summary style="cursor: pointer; padding: var(--space-3);">查看原始配置 JSON</summary>
+      <pre class="code" data-ccswitch-preview></pre>
+    </details>
+  </div>
+
+  <div class="sheet__foot">
+    <button type="button" class="btn" data-ccswitch-close>关闭</button>
+    <button type="button" class="btn btn--primary" data-ccswitch-copy-all>
+      复制全部字段
+    </button>
+  </div>
+</dialog>

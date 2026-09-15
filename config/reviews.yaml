@@ -1,0 +1,79 @@
+# FreeAI Radar 人工核验层 / review overrides
+#
+# 这是唯一能改变"信息状态"的地方：目录来源说"某提供商免费用"，只有在这里
+# 经过人工核对官方页面之后，才允许把它标成 official_confirmed。
+#
+# 三条硬规则：
+#
+# 1. **不写没核过的东西。** 本文件初始为空，这不是没写完，而是如实反映
+#    "目前还没有人逐条核对过官方页面"。为了让页面好看而预填几行，等于
+#    把目录声明伪装成官方确认——这是任务书明令禁止的。
+#
+# 2. **证据是必填的。** 每条都要有 evidence_url，指向你实际看过的官方页面。
+#    指纹会从 evidence_url + scope 重新计算，所以证据一变，这条核验自动失效，
+#    不会拿旧结论去覆盖新事实。
+#
+# 3. **核验会过期。** 超过 `offer_stale_days`（默认 30 天）没有复核的条目
+#    会被重新标成 needs_review。这不是故障，是设计。
+#
+# ---------------------------------------------------------------------
+# 字段说明
+# ---------------------------------------------------------------------
+#
+# subject_type: provider | model | offer
+# subject:      目标 slug（provider slug / model id / offer id）
+# field:        要覆盖的字段，只能是下面 allowed_fields 里的一个
+# value:        覆盖后的值（必填）
+# decision:     confirm | reject | supersede | needs_review
+# evidence_url: 你实际看过的官方页面链接
+# reviewer:     你的 GitHub 用户名
+# reviewed_at:  ISO 8601 时间，例：2026-09-15T20:00:00Z
+# scope:        可选，限定这条结论适用范围
+#   region:     地区列表，例：["global"] / ["cn"]
+#   plan:       套餐名，例："free" / "pro"
+#   model_id:   限定到某个模型
+# reason:       可选，写清为什么这么判定
+#
+# ---------------------------------------------------------------------
+# 允许覆盖的字段（白名单，写别的会让构建失败）
+# ---------------------------------------------------------------------
+#
+#   base_url                  provider 的 API 基础地址
+#   protocols                 支持的协议列表
+#                             （openai_chat / openai_responses /
+#                              anthropic_messages / gemini_native）
+#   model_id                  模型标识
+#   quota                     免费额度
+#   conditions                限制条件
+#   credit_card               是否需要信用卡：need / not_need / unknown
+#   phone_verification        是否需要手机验证：need / not_need / unknown
+#   registration              是否需要注册：need / not_need / unknown
+#   topup_required            是否必须充值：need / not_need / unknown
+#   offer_type                免费类型
+#   region                    可用地区
+#   rate_limits               速率限制
+#   context_window_tokens     上下文窗口
+#   capabilities              能力标签
+#
+# 注意四个 TriState 字段只接受 need / not_need / unknown。
+# **如果官方页面没有提到某项，只能写 unknown，不能写 not_need。**
+# "文档里没写" 不等于 "不需要"。把前者写成后者是本项目最严重的错误之一。
+#
+# ---------------------------------------------------------------------
+# 示例（已注释——照抄请先自己去把官方页面打开看一眼）
+# ---------------------------------------------------------------------
+#
+# reviews:
+#   - subject_type: provider
+#     subject: groq
+#     field: credit_card
+#     value: not_need
+#     decision: confirm
+#     evidence_url: https://console.groq.com/docs/rate-limits
+#     reviewer: your-github-handle
+#     reviewed_at: 2026-09-15T20:00:00Z
+#     scope:
+#       region: ["global"]
+#     reason: 官方免费额度页面未要求绑定支付方式即可使用免费档。
+
+reviews: []

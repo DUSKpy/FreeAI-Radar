@@ -1,0 +1,167 @@
+# FreeAI Radar source configuration.
+#
+# Every source is an independent adapter. `parser` must reference a parser
+# registered inside this project; remote scripts are never executed.
+#
+# Collection priority (task book section 9):
+#   public JSON/API  ->  GitHub README  ->  static HTML  ->  RSS (optional)
+#
+# `allowed_domains` is enforced per source. A host outside the list is refused
+# before any request is made.
+#
+# License and terms are recorded per source. Only necessary facts, short
+# evidence excerpts and links are stored -- never a mirror of the source page.
+
+schema_version: 1
+
+defaults:
+  timeout_seconds: 20
+  max_body_bytes: 5242880        # 5 MiB after decompression
+  per_domain_concurrency: 1
+  global_concurrency: 3
+  manual_cooldown_minutes: 10
+  daily_collection: true
+  respect_retry_after: true
+  follow_redirects: true
+  max_redirects: 4
+
+sources:
+  # ---------------------------------------------------------------------
+  # Source 1 -- Free-LLM (GitHub README, Markdown tables)
+  # ---------------------------------------------------------------------
+  # Data is authored by the community and synchronised daily from
+  # free-llm.com. The repository README is the canonical artefact we read.
+  - id: free-llm-github
+    name: Free-LLM (GitHub README)
+    type: markdown
+    url: https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md
+    source_family: free-llm
+    enabled: true
+    parser: free_llm_markdown
+    role: directory
+    # Free-LLM and free-llm.com share one data source. They are the SAME
+    # source family, so a row appearing in both is not two independent
+    # confirmations.
+    mirrors:
+      - https://free-llm.com
+    allowed_domains:
+      - raw.githubusercontent.com
+    license: MIT
+    license_url: https://github.com/nejib1/Free-LLM/blob/main/LICENSE
+    terms_url: https://docs.github.com/en/site-policy/github-terms/github-terms-of-service
+    notes: >-
+      README contains <!--TABLE:*:START--> sentinel blocks around each Markdown
+      table. The parser keys off those sentinels and falls back to heading
+      detection when they are absent.
+
+  # ---------------------------------------------------------------------
+  # Source 2 -- awesome-freellm-apis (GitHub README, Markdown tables)
+  # ---------------------------------------------------------------------
+  # Structured directory maintained by open-free-llm-api, refreshed daily from
+  # freellm.net. It carries provider-level free-model counts, modalities and a
+  # Base URL quick-reference table, which source 1 does not.
+  - id: awesome-freellm-apis
+    name: awesome-freellm-apis (GitHub README)
+    type: markdown
+    url: https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md
+    source_family: freellm-net
+    enabled: true
+    parser: awesome_freellm_markdown
+    role: directory
+    # Same upstream as freellm.net. One family, not two.
+    mirrors:
+      - https://freellm.net
+    allowed_domains:
+      - raw.githubusercontent.com
+    license: MIT
+    license_url: https://github.com/open-free-llm-api/awesome-freellm-apis/blob/main/LICENSE
+    terms_url: >-
+      https://docs.github.com/en/site-policy/github-terms/github-terms-of-service
+    notes: >-
+      Uses BEGIN_PERMANENT_FREE / BEGIN_RENEWABLE / BEGIN_QUICK_REF comment
+      sentinels. The "Best Free Models" table is multi-row-per-provider with a
+      blank provider cell on continuation rows, so the parser must carry the
+      provider forward.
+
+  # ---------------------------------------------------------------------
+  # Source 3 -- free-llm-resources (GitHub README, per-provider sections)
+  # ---------------------------------------------------------------------
+  # Verified-by-docs resource list. WARNING: no LICENSE file is published in
+  # this repository as of first check. Per the task book, absent a licence we
+  # do not copy large content or mirror anything -- the adapter is therefore
+  # restricted to extracting a small number of factual fields (provider name,
+  # model identifiers, numeric rate limits) plus a link, and it is DISABLED by
+  # default. Enable it only after confirming the licence with the maintainer.
+  - id: free-llm-resources
+    name: AILookup/free-llm-resources (GitHub README)
+    type: markdown
+    url: https://raw.githubusercontent.com/AILookup/free-llm-resources/main/README.md
+    source_family: ailookup
+    enabled: false
+    parser: ailookup_markdown
+    role: directory
+    allowed_domains:
+      - raw.githubusercontent.com
+    license: null
+    license_url: null
+    terms_url: null
+    notes: >-
+      No LICENSE file found. Disabled pending licence clarification. Extracts
+      facts only (numeric rate limits, model ids) and never prose.
+
+  # ---------------------------------------------------------------------
+  # Official sources used for verification (section 10).
+  # ---------------------------------------------------------------------
+  # Official pages feed the verification queue. Pages without a field parser
+  # still produce a short excerpt and a link for manual confirmation through
+  # config/reviews.yaml. Newly discovered domains are reviewed before being
+  # requested, and are never called with a key attached.
+  - id: official-google-ai-studio
+    name: Google AI Studio (official rate limits)
+    type: html
+    url: https://ai.google.dev/gemini-api/docs/rate-limits
+    source_family: google
+    enabled: true
+    parser: official_docs_generic
+    role: official
+    provider_slug: google-ai-studio
+    allowed_domains:
+      - ai.google.dev
+    license: null
+    license_url: null
+    terms_url: https://policies.google.com/terms
+    notes: >-
+      Official page. Field extraction is best-effort; the generic parser keeps
+      an excerpt so a maintainer can confirm through reviews.yaml.
+
+  - id: official-groq
+    name: Groq (official rate limits)
+    type: html
+    url: https://console.groq.com/docs/rate-limits
+    source_family: groq
+    enabled: true
+    parser: official_docs_generic
+    role: official
+    provider_slug: groq
+    allowed_domains:
+      - console.groq.com
+    license: null
+    license_url: null
+    terms_url: https://groq.com/terms-of-use/
+    notes: Official page; excerpt-only extraction.
+
+  - id: official-openrouter
+    name: OpenRouter (official limits documentation)
+    type: html
+    url: https://openrouter.ai/docs/api-reference/limits
+    source_family: openrouter
+    enabled: true
+    parser: official_docs_generic
+    role: official
+    provider_slug: openrouter
+    allowed_domains:
+      - openrouter.ai
+    license: null
+    license_url: null
+    terms_url: https://openrouter.ai/terms
+    notes: Official page; excerpt-only extraction.

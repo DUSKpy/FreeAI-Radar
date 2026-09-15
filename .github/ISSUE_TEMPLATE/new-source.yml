@@ -1,0 +1,55 @@
+name: 建议新增数据来源
+description: 推荐一个新的免费 AI API 目录来源
+title: "[来源] "
+labels: ["source"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        新增来源是最需要帮助的方向。请务必回答**"它是不是独立来源"**那一题——
+        把镜像当成独立证据是这类贡献里最常见的错误。
+  - type: input
+    id: url
+    attributes:
+      label: 来源地址
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: 来源类型
+      options:
+        - 公开 JSON / API
+        - GitHub 仓库 README
+        - 静态 HTML 页面
+        - RSS / Atom
+        - 其他
+    validations:
+      required: true
+  - type: dropdown
+    id: independent
+    attributes:
+      label: 它是不是独立来源？
+      description: 如果它的数据和已有来源同源（例如同一份数据的镜像），请选"否"并说明
+      options:
+        - "是：数据由该来源自己维护"
+        - "否：它镜像/转述了另一个已有来源"
+        - "不确定"
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: 许可与使用条款链接
+      description: 没有明确许可的页面会被拒绝收录
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: 它能补充什么
+      description: 它覆盖了哪些现有来源没有的提供商或字段？
+    validations:
+      required: true

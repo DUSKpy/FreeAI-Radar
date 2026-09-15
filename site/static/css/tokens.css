@@ -1,0 +1,300 @@
+/* ==========================================================================
+   tokens.css -- design variables for FreeAI Radar
+   --------------------------------------------------------------------------
+   Initial tokens from the project brief, verified against real rendered
+   backgrounds before being adjusted. Every colour pair used for text is
+   checked for contrast after compositing, not just as a hex value.
+
+   Naming: --<role> so a theme swap only rewrites this file.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* --- surfaces ------------------------------------------------------- */
+  --bg: #eef3f9;
+  --surface: #ffffff;
+  --surface-soft: #f5f8fc;
+  --surface-sunken: #e8eef7;
+
+  /* --- text ----------------------------------------------------------- */
+  --text: #142238;
+  --text-muted: #4d5d73;
+  /* 13px+ helper text still meets 4.5:1 against --surface after compositing */
+  --text-subtle: #61718a;
+
+  /* --- brand ---------------------------------------------------------- */
+  --accent: #185bd8;
+  --accent-hover: #1449b0;
+  --accent-soft: #e3ecfd;
+  --on-accent: #ffffff;
+
+  /* --- glass ---------------------------------------------------------- */
+  --glass-bg: rgb(255 255 255 / 78%);
+  --glass-edge: rgb(255 255 255 / 88%);
+  --glass-highlight: rgb(255 255 255 / 80%);
+  --glass-blur: 18px;
+  --glass-saturate: 125%;
+
+  /* --- lines & shadows ------------------------------------------------ */
+  --border: #ccd6e3;
+  --border-strong: #b3c1d2;
+  --shadow: 0 12px 36px rgb(30 55 90 / 12%);
+  --shadow-soft: 0 4px 16px rgb(30 55 90 / 8%);
+  --shadow-lift: 0 18px 48px rgb(30 55 90 / 16%);
+
+  /* --- radii (nested groups: inner never exceeds outer) --------------- */
+  --radius-card: 20px;
+  --radius-panel: 24px;
+  --radius-control: 14px;
+  --radius-small: 10px;
+  --radius-tile: 8px;
+  --radius-pill: 999px;
+
+  /* --- spacing -------------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* --- motion --------------------------------------------------------- */
+  --motion-fast: 140ms;
+  --motion-normal: 220ms;
+  --motion-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* --- status: every status has a foreground AND a tinted background -- */
+  --ok-fg: #10643c;
+  --ok-bg: #dff5e8;
+  --ok-border: #9ed8ba;
+
+  --warn-fg: #8a4b00;
+  --warn-bg: #fdf0d9;
+  --warn-border: #f0c67f;
+
+  --danger-fg: #a01f2e;
+  --danger-bg: #fde7ea;
+  --danger-border: #f0a6b0;
+
+  --info-fg: #14498f;
+  --info-bg: #e2edfd;
+  --info-border: #a8c6f0;
+
+  --neutral-fg: #46566d;
+  --neutral-bg: #eaeff6;
+  --neutral-border: #c3cede;
+
+  --accent-fg: #14417f;
+  --accent-bg: #e0ebfd;
+  --accent-border: #a5c2f2;
+
+  /* --- layout --------------------------------------------------------- */
+  --sidebar-width: 224px;
+  --sidebar-gutter: 20px;
+  --content-max: 1320px;
+  --topbar-height: 64px;
+  --control-height: 44px;
+  --touch-target: 44px;
+
+  /* --- typography ----------------------------------------------------- */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono",
+    Consolas, "Liberation Mono", monospace;
+
+  --text-display: 30px;
+  --text-title: 20px;
+  --text-section: 18px;
+  --text-body: 15px;
+  --text-small: 14px;
+  --text-helper: 13px;
+
+  /* --- chart / data --------------------------------------------------- */
+  --data-grid: #dbe4ef;
+  --data-track: #e6edf6;
+}
+
+/* ==========================================================================
+   Dark theme: deep blue-black with cold grey-blue glass.
+   Applied via data-theme so the choice can be made before first paint.
+   ========================================================================== */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0b1220;
+  --surface: #162235;
+  --surface-soft: #1b2b40;
+  --surface-sunken: #101a2b;
+
+  --text: #edf3fc;
+  --text-muted: #b0bfd3;
+  --text-subtle: #93a3ba;
+
+  --accent: #aac9ff;
+  --accent-hover: #c6daff;
+  --accent-soft: #1d3352;
+  --on-accent: #102b50;
+
+  --glass-bg: rgb(20 32 51 / 86%);
+  --glass-edge: rgb(184 211 245 / 20%);
+  --glass-highlight: rgb(217 233 255 / 14%);
+
+  --border: #40536d;
+  --border-strong: #56698a;
+  --shadow: 0 16px 42px rgb(0 0 0 / 30%);
+  --shadow-soft: 0 6px 20px rgb(0 0 0 / 24%);
+  --shadow-lift: 0 22px 56px rgb(0 0 0 / 40%);
+
+  --ok-fg: #7ee2ac;
+  --ok-bg: #123527;
+  --ok-border: #2c6c4c;
+
+  --warn-fg: #f5c877;
+  --warn-bg: #3a2c10;
+  --warn-border: #7a5c1f;
+
+  --danger-fg: #ff9aa6;
+  --danger-bg: #3d161d;
+  --danger-border: #7d3038;
+
+  --info-fg: #9dc4ff;
+  --info-bg: #16294a;
+  --info-border: #33548c;
+
+  --neutral-fg: #b3c2d8;
+  --neutral-bg: #1e2c42;
+  --neutral-border: #40536d;
+
+  --accent-fg: #aac9ff;
+  --accent-bg: #1b3253;
+  --accent-border: #3c5f9c;
+
+  --data-grid: #2b3d55;
+  --data-track: #1f2e44;
+}
+
+/* ==========================================================================
+   Reduced transparency.
+   The media query is not available everywhere, so the app also exposes an
+   in-page switch that sets data-transparency="reduced" on the root element.
+   Both paths must produce an opaque, fully readable result.
+   ========================================================================== */
+[data-transparency="reduced"] {
+  --glass-bg: var(--surface);
+  --glass-edge: var(--border);
+  --glass-highlight: transparent;
+  --glass-blur: 0px;
+  --glass-saturate: 100%;
+}
+
+/* ==========================================================================
+   Baseline reset (scoped, no framework)
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The environment layer: two or three static radial gradients, low-contrast
+   glow confined to the corners. It never animates.
+   NOTE: no filter or transform is applied to <body> or the app root, because
+   that would create a containing block and clip position:fixed navigation. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 42% at 6% 4%, rgb(120 190 235 / 22%), transparent 68%),
+    radial-gradient(52% 38% at 96% 6%, rgb(150 170 240 / 18%), transparent 66%),
+    radial-gradient(46% 40% at 50% 102%, rgb(110 200 215 / 14%), transparent 70%);
+}
+
+[data-theme="dark"] body::before {
+  background:
+    radial-gradient(58% 42% at 6% 4%, rgb(48 96 150 / 34%), transparent 68%),
+    radial-gradient(52% 38% at 96% 6%, rgb(60 76 150 / 28%), transparent 66%),
+    radial-gradient(46% 40% at 50% 102%, rgb(30 92 110 / 22%), transparent 70%);
+}
+
+/* Respect the OS preference for reduced motion by default. The theme script
+   additionally sets data-motion="reduced" for an explicit user choice. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Focus ring: visible on every background, never hidden by the glass
+   highlight layer because the highlight has pointer-events: none. */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-small);
+}
+
+/* Remove the default outline only where the focus-visible ring replaces it. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tabular figures keep quota numbers from jittering between rows. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* Long model ids and Base URLs must never break the grid layout. */
+.wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}

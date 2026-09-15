@@ -1,0 +1,341 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freeai-radar.local/schemas/catalog.schema.json",
+  "title": "FreeAI Radar Public Catalog",
+  "description": "Public, versioned export of the normalized catalog. Field allowlist enforced by export_public.py. Never contains keys, tokens, cookies, raw HTML or local paths.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_version",
+    "generated_at",
+    "providers",
+    "models",
+    "offers",
+    "claims",
+    "sources"
+  ],
+  "properties": {
+    "schema_version": { "$ref": "#/$defs/schemaVersion" },
+    "dataset_version": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{16,64}$",
+      "description": "Content hash over the normalized public catalog payload."
+    },
+    "generated_at": { "$ref": "#/$defs/utcTimestamp" },
+    "dataset_version_of_changes": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{16,64}$"
+    },
+    "providers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/provider" }
+    },
+    "models": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/model" }
+    },
+    "offers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/offer" }
+    },
+    "claims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/claim" }
+    },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/publicSource" }
+    }
+  },
+  "$defs": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "utcTimestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "triState": {
+      "description": "need / not_need / unknown. Unknown must be null-safe and never coerced to 'not_need'.",
+      "enum": ["need", "not_need", "unknown"]
+    },
+    "accessType": {
+      "enum": ["api", "web_chat_only", "local", "unknown"],
+      "description": "Default catalog list shows api only."
+    },
+    "offerType": {
+      "enum": [
+        "sustained_free_tier",
+        "recurring_free_credit",
+        "one_time_trial",
+        "limited_time_promo",
+        "requires_topup",
+        "unknown"
+      ]
+    },
+    "infoStatus": {
+      "enum": ["directory_claim", "official_confirmed", "needs_review", "source_conflict", "expired"]
+    },
+    "callStatus": {
+      "enum": [
+        "untested",
+        "success",
+        "credential_error",
+        "rate_limited",
+        "quota_exhausted",
+        "network_error",
+        "service_error"
+      ]
+    },
+    "protocol": {
+      "enum": ["openai_chat", "openai_responses", "anthropic_messages", "gemini_native"],
+      "description": "Protocols stored separately. Never collapse into a single 'openai compatible' boolean. Absent from the array means unknown/unsupported, not 'compatible'."
+    },
+    "capabilityTag": {
+      "enum": ["coding", "reasoning", "vision", "audio", "embedding", "image", "video", "pdf", "rerank", "text"],
+      "description": "Only from source-declared tags. Never inferred from model names."
+    },
+    "quotaUnit": {
+      "enum": ["requests", "tokens", "neurons", "credits_usd", "audio_seconds", "messages", "unknown"]
+    },
+    "shortEvidence": {
+      "type": "string",
+      "maxLength": 400,
+      "description": "Short excerpt required for legality; never a full page mirror."
+    },
+    "httpUrl": {
+      "type": "string",
+      "pattern": "^https?://",
+      "maxLength": 2048
+    },
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,63}$"
+    },
+    "providerId": {
+      "type": "string",
+      "pattern": "^p_[a-z0-9][a-z0-9-]{1,63}$"
+    },
+    "modelId": {
+      "type": "string",
+      "pattern": "^m_[a-f0-9]{16}$"
+    },
+    "offerId": {
+      "type": "string",
+      "pattern": "^o_[a-f0-9]{16}$"
+    },
+    "claimId": {
+      "type": "string",
+      "pattern": "^c_[a-f0-9]{16}$"
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "slug", "name", "official_domain", "aliases", "status"],
+      "properties": {
+        "id": { "$ref": "#/$defs/providerId" },
+        "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "official_domain": { "type": ["string", "null"], "maxLength": 253 },
+        "homepage_url": { "anyOf": [{ "$ref": "#/$defs/httpUrl" }, { "type": "null" }] },
+        "signup_url": { "anyOf": [{ "$ref": "#/$defs/httpUrl" }, { "type": "null" }] },
+        "docs_url": { "anyOf": [{ "$ref": "#/$defs/httpUrl" }, { "type": "null" }] },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 120 },
+          "description": "Manual alias table. Renames preserve aliases instead of rewriting ids."
+        },
+        "domain_verified": { "type": "boolean" },
+        "status": { "enum": ["active", "stale", "conflict", "removed_from_source"] },
+        "source_families": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Distinct source families that independently attest this provider. Mirrored content contributed by one family counts once."
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "provider_id", "model_id", "display_name", "protocols", "status"],
+      "properties": {
+        "id": { "$ref": "#/$defs/modelId" },
+        "provider_id": { "$ref": "#/$defs/providerId" },
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Exact upstream model identifier. Unique key is (provider_id, model_id)."
+        },
+        "display_name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "declared_capabilities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/capabilityTag" },
+          "description": "Source-declared only."
+        },
+        "capabilities_unknown": {
+          "type": "boolean",
+          "description": "True when no source declared capability tags. Kept separate instead of inventing scores."
+        },
+        "context_window_tokens": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "null means unknown, never 0."
+        },
+        "protocols": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/protocol" }
+        },
+        "streaming": { "$ref": "#/$defs/triState" },
+        "tool_calling": { "$ref": "#/$defs/triState" },
+        "multimodal": { "$ref": "#/$defs/triState" },
+        "free": { "type": "boolean" },
+        "status": { "enum": ["active", "stale", "conflict", "removed_from_source"] }
+      }
+    },
+    "offer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "provider_id", "model_id", "offer_type", "info_status", "conditions", "quota", "region", "evidence"],
+      "description": "evidence is required for the same reason it is required on a claim: an offer with no source is an assertion nobody can check. The exporter always emits it; requiring it here is what turns a regression into a validation failure instead of a silently unsourced listing.",
+      "properties": {
+        "id": { "$ref": "#/$defs/offerId" },
+        "provider_id": { "$ref": "#/$defs/providerId" },
+        "model_id": {
+          "anyOf": [{ "$ref": "#/$defs/modelId" }, { "type": "null" }],
+          "description": "null means the offer is provider-level and applies to the provider, NOT copied onto every model."
+        },
+        "model_ids": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/modelId" },
+          "description": "Present only when a source explicitly enumerates the models an offer covers."
+        },
+        "offer_type": { "$ref": "#/$defs/offerType" },
+        "info_status": { "$ref": "#/$defs/infoStatus" },
+        "call_status": { "$ref": "#/$defs/callStatus" },
+        "conditions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["credit_card", "phone_verification", "registration", "topup_required"],
+          "properties": {
+            "credit_card": { "$ref": "#/$defs/triState" },
+            "phone_verification": { "$ref": "#/$defs/triState" },
+            "registration": { "$ref": "#/$defs/triState" },
+            "topup_required": { "$ref": "#/$defs/triState" },
+            "topup_minimum": { "type": ["string", "null"], "maxLength": 80 },
+            "notes": { "type": ["string", "null"], "maxLength": 300 }
+          }
+        },
+        "quota": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "unit", "period", "raw"],
+          "properties": {
+            "value": {
+              "type": ["number", "null"],
+              "description": "null when unknown. Never 0 as a stand-in for unknown."
+            },
+            "unit": { "$ref": "#/$defs/quotaUnit" },
+            "period": {
+              "enum": ["per_minute", "per_hour", "per_day", "per_month", "per_second", "session", "weekly", "one_time", "unknown"]
+            },
+            "raw": {
+              "type": "string",
+              "maxLength": 300,
+              "description": "Original wording preserved. Different units are never force-converted."
+            }
+          }
+        },
+        "rate_limits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["metric", "value", "period"],
+            "properties": {
+              "metric": { "enum": ["rpm", "rpd", "tpm", "tpd", "rps", "concurrency"] },
+              "value": { "type": ["number", "null"] },
+              "period": { "enum": ["per_minute", "per_hour", "per_day", "per_month", "per_second"] }
+            }
+          }
+        },
+        "region": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 40 },
+          "description": "Empty array = not stated by source."
+        },
+        "ends_on": { "type": ["string", "null"], "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "effective_from": { "type": ["string", "null"], "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "base_url": { "anyOf": [{ "$ref": "#/$defs/httpUrl" }, { "type": "null" }] },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/claimEvidence" }
+        },
+        "reviewed_at": { "anyOf": [{ "$ref": "#/$defs/utcTimestamp" }, { "type": "null" }] },
+        "stale": { "type": "boolean" },
+        "needs_review": { "type": "boolean" }
+      }
+    },
+    "claimEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_level", "source_record_url", "excerpt", "observed_at"],
+      "properties": {
+        "source_id": { "$ref": "#/$defs/sourceId" },
+        "source_level": { "enum": ["official", "directory", "mirror"] },
+        "source_record_url": { "$ref": "#/$defs/httpUrl" },
+        "excerpt": { "$ref": "#/$defs/shortEvidence" },
+        "observed_at": { "$ref": "#/$defs/utcTimestamp" },
+        "checked_at": { "$ref": "#/$defs/utcTimestamp" },
+        "http_status": { "type": ["integer", "null"] },
+        "source_family": { "type": "string" }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "subject_type", "subject_id", "field", "value", "evidence", "review_status"],
+      "properties": {
+        "id": { "$ref": "#/$defs/claimId" },
+        "subject_type": { "enum": ["provider", "model", "offer"] },
+        "subject_id": { "type": "string" },
+        "field": { "type": "string", "maxLength": 80 },
+        "value": {},
+        "evidence": { "$ref": "#/$defs/claimEvidence" },
+        "review_status": {
+          "enum": ["directory_claim", "official_confirmed", "needs_review", "rejected", "superseded"]
+        },
+        "conflict_with": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/claimId" }
+        }
+      }
+    },
+    "publicSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "url", "type", "source_family", "enabled", "status"],
+      "properties": {
+        "id": { "$ref": "#/$defs/sourceId" },
+        "name": { "type": "string", "maxLength": 120 },
+        "url": { "$ref": "#/$defs/httpUrl" },
+        "type": { "enum": ["markdown", "html", "json", "api", "rss"] },
+        "source_family": { "type": "string", "maxLength": 80 },
+        "enabled": { "type": "boolean" },
+        "parser": { "type": "string", "maxLength": 80 },
+        "parser_version": { "type": "string", "maxLength": 40 },
+        "license": { "type": ["string", "null"], "maxLength": 200 },
+        "license_url": { "anyOf": [{ "$ref": "#/$defs/httpUrl" }, { "type": "null" }] },
+        "terms_url": { "anyOf": [{ "$ref": "#/$defs/httpUrl" }, { "type": "null" }] },
+        "first_checked_at": { "anyOf": [{ "$ref": "#/$defs/utcTimestamp" }, { "type": "null" }] },
+        "last_attempt_at": { "anyOf": [{ "$ref": "#/$defs/utcTimestamp" }, { "type": "null" }] },
+        "last_success_at": { "anyOf": [{ "$ref": "#/$defs/utcTimestamp" }, { "type": "null" }] },
+        "status": { "enum": ["ok", "not_modified", "failed", "parse_error", "never_run", "stale"] },
+        "error": { "type": ["string", "null"], "maxLength": 300 },
+        "record_count": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    }
+  }
+}

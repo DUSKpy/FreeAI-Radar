@@ -1,0 +1,117 @@
+{#
+  sidebar.html -- desktop navigation.
+
+  Always rendered, but hidden by CSS below 1024px where topnav.html takes
+  over. Keeping one markup tree and switching presentation avoids the two
+  navigation copies drifting out of sync.
+#}
+<aside class="sidebar glass glass--nav glass--edge" aria-label="主导航">
+  <a class="sidebar__brand" href="{{ base_path }}index.html">
+    <span class="sidebar__mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="8.5"></circle>
+        <circle cx="12" cy="12" r="3.2"></circle>
+        <path d="M12 3.5v2.6M12 17.9v2.6M3.5 12h2.6M17.9 12h2.6"></path>
+      </svg>
+    </span>
+    <span>
+      <span class="sidebar__name">{{ site.name }}</span>
+      <span class="sidebar__sub">{{ site.tagline }}</span>
+    </span>
+  </a>
+
+  <nav class="sidebar__group">
+    <p class="sidebar__label" id="nav-label-browse">浏览</p>
+    <ul role="list" aria-labelledby="nav-label-browse">
+      <li>
+        <a class="navlink" href="{{ base_path }}index.html"
+           {% if active_page == 'overview' %}aria-current="page"{% endif %}>
+          <span class="navlink__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <rect x="3.5" y="3.5" width="7" height="7" rx="1.6"></rect>
+              <rect x="13.5" y="3.5" width="7" height="7" rx="1.6"></rect>
+              <rect x="3.5" y="13.5" width="7" height="7" rx="1.6"></rect>
+              <rect x="13.5" y="13.5" width="7" height="7" rx="1.6"></rect>
+            </svg>
+          </span>
+          <span>概览</span>
+        </a>
+      </li>
+      <li>
+        <a class="navlink" href="{{ base_path }}directory.html"
+           {% if active_page == 'directory' %}aria-current="page"{% endif %}>
+          <span class="navlink__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M4 6.5h16M4 12h16M4 17.5h10"></path>
+            </svg>
+          </span>
+          <span>目录</span>
+          {% if counts.providers %}<span class="navlink__count tabular">{{ counts.providers | compact_number }}</span>{% endif %}
+        </a>
+      </li>
+      <li>
+        <a class="navlink" href="{{ base_path }}changes.html"
+           {% if active_page == 'changes' %}aria-current="page"{% endif %}>
+          <span class="navlink__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 17.5V9.2M9.3 17.5V4.5M14.7 17.5v-6.3M20 17.5V7"></path>
+            </svg>
+          </span>
+          <span>每日变化</span>
+          {% if counts.changes_today %}<span class="navlink__count tabular">{{ counts.changes_today }}</span>{% endif %}
+        </a>
+      </li>
+      <li>
+        <a class="navlink" href="{{ base_path }}favorites.html"
+           {% if active_page == 'favorites' %}aria-current="page"{% endif %}>
+          <span class="navlink__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 4.6l2.3 4.9 5.2.7-3.8 3.7.9 5.3-4.6-2.5-4.6 2.5.9-5.3L4.5 10.2l5.2-.7z"></path>
+            </svg>
+          </span>
+          <span>我的收藏</span>
+          <span class="navlink__count tabular" data-favorites-count hidden></span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav class="sidebar__group">
+    <p class="sidebar__label" id="nav-label-trust">可信度</p>
+    <ul role="list" aria-labelledby="nav-label-trust">
+      <li>
+        <a class="navlink" href="{{ base_path }}sources.html"
+           {% if active_page == 'sources' %}aria-current="page"{% endif %}>
+          <span class="navlink__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <ellipse cx="12" cy="6.4" rx="7.5" ry="2.9"></ellipse>
+              <path d="M4.5 6.4v11.2c0 1.6 3.4 2.9 7.5 2.9s7.5-1.3 7.5-2.9V6.4M4.5 12c0 1.6 3.4 2.9 7.5 2.9s7.5-1.3 7.5-2.9"></path>
+            </svg>
+          </span>
+          <span>数据源状态</span>
+        </a>
+      </li>
+      <li>
+        <a class="navlink" href="{{ base_path }}reviews.html"
+           {% if active_page == 'reviews' %}aria-current="page"{% endif %}>
+          <span class="navlink__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 4.5h6M5.5 8.5h13M6.8 8.5l.9 10.2a1.6 1.6 0 001.6 1.4h5.4a1.6 1.6 0 001.6-1.4l.9-10.2"></path>
+              <path d="M10.4 12v4.6M13.6 12v4.6"></path>
+            </svg>
+          </span>
+          <span>核验清单</span>
+          {% if counts.needs_review %}<span class="navlink__count tabular">{{ counts.needs_review }}</span>{% endif %}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar__foot">
+    {% include "components/themecontrols.html" %}
+    <p class="helper" style="margin: var(--space-3) 0 0;">
+      数据版本
+      <span class="mono">{{ (manifest.dataset_version or 'unknown')[:20] }}</span>
+    </p>
+  </div>
+</aside>

@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{#
+  dev-preview.html -- component gallery.
+
+  Only emitted with --dev-preview and never published by the workflow: it
+  exists so the four breakpoints and both themes can be sanity-checked in
+  one scroll without needing real data. It is a build-time tool, not a
+  site page.
+#}
+{% block title %}组件预览（仅开发） · {{ site.name }}{% endblock %}
+{% block eyebrow %}DEV{% endblock %}
+{% block heading %}组件与断点预览{% endblock %}
+
+{% block content %}
+<div class="stack" style="gap: var(--space-8);">
+
+  <div class="notice notice--warn">
+    <span class="notice__icon" aria-hidden="true">!</span>
+    <div class="notice__body">
+      <p class="notice__title">这是开发用页面</p>
+      <p>发布流程不会把 dev-preview.html 上传到线上。它只在本地 <span class="mono">--dev-preview</span> 时生成。</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2 class="section__title">状态标签</h2>
+    <div class="cluster">
+      <span class="chip chip--ok"><span class="chip__dot"></span>正常</span>
+      <span class="chip chip--warn"><span class="chip__dot"></span>注意</span>
+      <span class="chip chip--danger"><span class="chip__dot"></span>失败</span>
+      <span class="chip chip--info"><span class="chip__dot"></span>说明</span>
+      <span class="chip chip--neutral"><span class="chip__dot"></span>未知</span>
+      <span class="chip chip--accent"><span class="chip__dot"></span>强调</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">协议标记：三态必须可区分</h2>
+    <p class="helper">
+      左边是已声明，中间是明确不支持，右边是未声明。如果后两者看起来一样，就是 bug。
+    </p>
+    <div class="cluster">
+      <span class="proto proto--on">Chat</span>
+      <span class="proto proto--off">Resp</span>
+      <span class="proto" data-state="unknown">Anth</span>
+      <span class="proto proto--on">Gem</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">按钮</h2>
+    <div class="cluster">
+      <button class="btn btn--primary" type="button">主要操作</button>
+      <button class="btn" type="button">常规操作</button>
+      <button class="btn btn--ghost" type="button">次要操作</button>
+      <button class="btn btn--small" type="button">小号</button>
+      <button class="btn" type="button" disabled>已禁用</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">表单控件</h2>
+    <div class="filterbar">
+      <div class="search" style="flex: 1 1 280px;">
+        <span class="search__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <circle cx="11" cy="11" r="6.4"></circle>
+            <path d="M15.9 15.9l3.6 3.6"></path>
+          </svg>
+        </span>
+        <input class="search__input" type="search" placeholder="搜索框 48px 高">
+      </div>
+      <select class="field" aria-label="示例下拉">
+        <option>下拉选项</option>
+      </select>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="switch__track" aria-hidden="true"></span>
+        <span class="helper">开关</span>
+      </label>
+    </div>
+    <div class="segmented" role="group" aria-label="示例分段控件" style="margin-top: var(--space-4);">
+      <button type="button" class="segmented__option" aria-pressed="true">已选</button>
+      <button type="button" class="segmented__option" aria-pressed="false">未选</button>
+      <button type="button" class="segmented__option" aria-pressed="false">第三项</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">数据表格（含超长内容）</h2>
+    <div class="tablewrap">
+      <table class="data">
+        <caption class="sr-only">超长字段的换行表现</caption>
+        <thead>
+          <tr>
+            <th scope="col">字段</th>
+            <th scope="col">值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">超长模型 ID</th>
+            <td class="mono wrap-anywhere">deepseek-ai/DeepSeek-V3.1-Terminus-0324-very-long-upstream-identifier-that-must-not-break-the-grid</td>
+          </tr>
+          <tr>
+            <th scope="row">超长 Base URL</th>
+            <td class="mono wrap-anywhere">https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=REDACTED</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">四种数据状态</h2>
+    <div class="grid-3">
+      <div class="state" data-state-kind="loading" aria-busy="true">
+        <p class="state__title">载入中</p>
+        <p class="state__body">骨架屏，同时向辅助技术报告 busy。</p>
+      </div>
+      <div class="state" data-state-kind="empty">
+        <p class="state__title">筛选结果为空</p>
+        <p class="state__body">查询有效，只是没有匹配项。</p>
+      </div>
+      <div class="state" data-state-kind="error">
+        <p class="state__title">读取失败</p>
+        <p class="state__body">数据文件没能读出。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">信息提示</h2>
+    <div class="stack">
+      <div class="notice notice--info"><span class="notice__icon" aria-hidden="true">i</span>
+        <div class="notice__body"><p class="notice__title">说明</p><p>中性信息提示。</p></div></div>
+      <div class="notice notice--warn"><span class="notice__icon" aria-hidden="true">!</span>
+        <div class="notice__body"><p class="notice__title">注意</p><p>需要留意但不算错误。</p></div></div>
+      <div class="notice notice--danger"><span class="notice__icon" aria-hidden="true">×</span>
+        <div class="notice__body"><p class="notice__title">失败</p><p>明确的错误状态。</p></div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">骨架屏</h2>
+    <div class="grid-2">
+      <div class="skeleton" style="height: 96px;"></div>
+      <div class="skeleton" style="height: 96px;"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">对话框</h2>
+    <button class="btn" type="button" data-open-ccswitch>打开 CC Switch 配置面板</button>
+  </section>
+</div>
+
+{% include "components/ccswitch-dialog.html" %}
+{% endblock %}

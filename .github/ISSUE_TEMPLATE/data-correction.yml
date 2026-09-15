@@ -1,0 +1,64 @@
+name: 数据纠错
+description: 某个提供商、套餐或字段的信息不对
+title: "[数据] "
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢纠错。目录的价值完全取决于准确性，**这条 issue 是最有价值的贡献**。
+
+        ⚠️ 请不要在 issue 里粘贴任何 API Key、账号信息或私人截图。
+  - type: input
+    id: subject
+    attributes:
+      label: 涉及哪个条目
+      description: 提供商名称，或详情页的链接
+      placeholder: "例如：Groq，或 /provider.html?id=p_groq"
+    validations:
+      required: true
+  - type: dropdown
+    id: field
+    attributes:
+      label: 哪个字段不对
+      options:
+        - 访问方式（api / 网页版 / 本地）
+        - 免费类型（额度类型判错了）
+        - 限制条件（信用卡 / 手机号 / 注册 / 需充值）
+        - 额度或速率限制
+        - Base URL
+        - 支持的协议
+        - 模型列表
+        - 条目已失效或已过期
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: 现在显示的是什么
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: 正确的情况应该是什么
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 依据的官方来源链接
+      description: 优先官方文档或官方定价页。没有来源的纠错无法核实。
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认
+      options:
+        - label: 我确认上面填的是官方来源，不是二手转述或我自己的推测
+          required: true
+        - label: 我确认这个 issue 里没有任何密钥或账号信息
+          required: true

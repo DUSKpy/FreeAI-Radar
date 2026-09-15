@@ -1,0 +1,815 @@
+{
+  "schema_version": 1,
+  "state_version": "sha256:239207d9809d135348e8565e56eb628d9cc149c6df5bdefbd5614d3c187647b1",
+  "created_at": "2026-01-01T00:00:00Z",
+  "updated_at": "2026-01-01T00:00:00Z",
+  "runs": [
+    {
+      "id": "run_670d8004492249fc",
+      "job_type": "collect",
+      "started_at": "2026-09-15T14:07:11Z",
+      "finished_at": "2026-09-15T14:07:14Z",
+      "outcome": "success",
+      "counts": {
+        "candidates": 166,
+        "providers": 56,
+        "models": 147,
+        "offers": 166,
+        "claims": 609,
+        "changes": 56
+      },
+      "source_results": [
+        {
+          "source_id": "free-llm-github",
+          "status": "ok",
+          "http_status": 200,
+          "record_count": 81,
+          "error": null
+        },
+        {
+          "source_id": "awesome-freellm-apis",
+          "status": "ok",
+          "http_status": 200,
+          "record_count": 85,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "awesome-freellm-apis",
+      "name": "awesome-freellm-apis (GitHub README)",
+      "url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+      "type": "markdown",
+      "source_family": "freellm-net",
+      "enabled": true,
+      "parser": "awesome_freellm_markdown",
+      "parser_version": "1.0.0",
+      "allowed_domains": [
+        "raw.githubusercontent.com"
+      ],
+      "license": "MIT",
+      "license_url": "https://github.com/open-free-llm-api/awesome-freellm-apis/blob/main/LICENSE",
+      "terms_url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+      "first_checked_at": "2026-09-15T14:07:11Z",
+      "last_attempt_at": "2026-09-15T14:07:11Z",
+      "last_success_at": "2026-09-15T14:07:11Z",
+      "status": "ok",
+      "error": null,
+      "etag": null,
+      "last_modified": null,
+      "content_hash": null,
+      "record_count": 85,
+      "last_record_count": null,
+      "stale": false
+    },
+    {
+      "id": "free-llm-github",
+      "name": "Free-LLM (GitHub README)",
+      "url": "https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md",
+      "type": "markdown",
+      "source_family": "free-llm",
+      "enabled": true,
+      "parser": "free_llm_markdown",
+      "parser_version": "1.0.0",
+      "allowed_domains": [
+        "raw.githubusercontent.com"
+      ],
+      "license": "MIT",
+      "license_url": "https://github.com/nejib1/Free-LLM/blob/main/LICENSE",
+      "terms_url": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+      "first_checked_at": "2026-09-15T14:07:11Z",
+      "last_attempt_at": "2026-09-15T14:07:11Z",
+      "last_success_at": "2026-09-15T14:07:11Z",
+      "status": "ok",
+      "error": null,
+      "etag": null,
+      "last_modified": null,
+      "content_hash": null,
+      "record_count": 81,
+      "last_record_count": null,
+      "stale": false
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "sn_e8f99d9479cb7ed1",
+      "source_id": "free-llm-github",
+      "fetched_at": "2026-09-15T14:07:14Z",
+      "http_status": 200,
+      "content_hash": "sha256:b0b73f31f539cb209e5d3c0c21bea56c2d4f2c5282c363e8e5707f4ef8deccfe",
+      "etag": null,
+      "last_modified": null,
+      "extracted": {
+        "record_count": 81
+      }
+    },
+    {
+      "id": "sn_d8bc5b85bbf0bc3d",
+      "source_id": "awesome-freellm-apis",
+      "fetched_at": "2026-09-15T14:07:14Z",
+      "http_status": 200,
+      "content_hash": "sha256:b1926dba7f86b907ba0c4e5808e5cbd12370a9fe3773d1d23d1f602a69e142eb",
+      "etag": null,
+      "last_modified": null,
+      "extracted": {
+        "record_count": 85
+      }
+    }
+  ],
+  "reviews": [],
+  "collection_meta": {
+    "last_successful_collection_at": "2026-09-15T14:07:11Z",
+    "last_complete_collection_at": "2026-09-15T14:07:11Z",
+    "initial_import_done": true,
+    "retention_days": 90,
+    "null_result_streaks": {}
+  },
+  "providers": [
+    {
+      "id": "p_agnes-ai",
+      "slug": "agnes-ai",
+      "name": "Agnes AI",
+      "official_domain": null,
+      "homepage_url": null,
+      "signup_url": null,
+      "docs_url": null,
+      "aliases": [],
+      "domain_verified": false,
+      "status": "active",
+      "source_families": [
+        "freellm-net"
+      ]
+    },
+    {
+      "id": "p_ai21-labs",
+      "slug": "ai21-labs",
+      "name": "AI21 Labs",
+      "official_domain": "docs.ai21.com",
+      "homepage_url": "https://docs.ai21.com/",
+      "signup_url": null,
+      "docs_url": null,
+      "aliases": [],
+      "domain_verified": true,
+      "status": "active",
+      "source_families": [
+        "free-llm",
+        "freellm-net"
+      ]
+    },
+    {
+      "id": "p_aion-labs",
+      "slug": "aion-labs",
+      "name": "Aion Labs",
+      "official_domain": "aionlabs.ai",
+      "homepage_url": "https://www.aionlabs.ai/pricing/",
+      "signup_url": null,
+      "docs_url": null,
+      "aliases": [],
+      "domain_verified": true,
+      "status": "active",
+      "source_families": [
+        "free-llm",
+        "freellm-net"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "id": "m_c931246e50be452c",
+      "provider_id": "p_agnes-ai",
+      "model_id": "agnes-1.5-flash",
+      "display_name": "agnes-1.5-flash",
+      "declared_capabilities": [
+        "image",
+        "reasoning",
+        "text",
+        "video",
+        "vision"
+      ],
+      "capabilities_unknown": false,
+      "context_window_tokens": 256000,
+      "protocols": [],
+      "streaming": "unknown",
+      "tool_calling": "unknown",
+      "multimodal": "unknown",
+      "free": true,
+      "status": "active"
+    },
+    {
+      "id": "m_26876ca386a1f937",
+      "provider_id": "p_agnes-ai",
+      "model_id": "agnes-2.0-flash",
+      "display_name": "agnes-2.0-flash",
+      "declared_capabilities": [
+        "image",
+        "reasoning",
+        "text",
+        "video",
+        "vision"
+      ],
+      "capabilities_unknown": false,
+      "context_window_tokens": 256000,
+      "protocols": [],
+      "streaming": "unknown",
+      "tool_calling": "unknown",
+      "multimodal": "unknown",
+      "free": true,
+      "status": "active"
+    },
+    {
+      "id": "m_9a2fb0e82a75d3c2",
+      "provider_id": "p_agnes-ai",
+      "model_id": "agnes-image-2.0-flash",
+      "display_name": "agnes-image-2.0-flash",
+      "declared_capabilities": [
+        "image",
+        "reasoning",
+        "text",
+        "video",
+        "vision"
+      ],
+      "capabilities_unknown": false,
+      "context_window_tokens": 4000,
+      "protocols": [],
+      "streaming": "unknown",
+      "tool_calling": "unknown",
+      "multimodal": "unknown",
+      "free": true,
+      "status": "active"
+    },
+    {
+      "id": "m_6f2286a3804f0d5c",
+      "provider_id": "p_ai21-labs",
+      "model_id": "Jamba Large",
+      "display_name": "Jamba Large",
+      "declared_capabilities": [],
+      "capabilities_unknown": true,
+      "context_window_tokens": null,
+      "protocols": [],
+      "streaming": "unknown",
+      "tool_calling": "unknown",
+      "multimodal": "unknown",
+      "free": true,
+      "status": "active"
+    },
+    {
+      "id": "m_0b3146c56a768106",
+      "provider_id": "p_ai21-labs",
+      "model_id": "Jamba Mini",
+      "display_name": "Jamba Mini",
+      "declared_capabilities": [],
+      "capabilities_unknown": true,
+      "context_window_tokens": null,
+      "protocols": [],
+      "streaming": "unknown",
+      "tool_calling": "unknown",
+      "multimodal": "unknown",
+      "free": true,
+      "status": "active"
+    },
+    {
+      "id": "m_3f71840befd61f38",
+      "provider_id": "p_ai21-labs",
+      "model_id": "jamba-large-1-7",
+      "display_name": "Jamba Large 1.7",
+      "declared_capabilities": [
+        "text"
+      ],
+      "capabilities_unknown": false,
+      "context_window_tokens": 256000,
+      "protocols": [],
+      "streaming": "unknown",
+      "tool_calling": "unknown",
+      "multimodal": "unknown",
+      "free": true,
+      "status": "active"
+    }
+  ],
+  "offers": [
+    {
+      "id": "o_38449c7a787acb24",
+      "provider_id": "p_agnes-ai",
+      "model_id": "m_9a2fb0e82a75d3c2",
+      "model_ids": [
+        "m_9a2fb0e82a75d3c2"
+      ],
+      "offer_type": "sustained_free_tier",
+      "info_status": "directory_claim",
+      "call_status": "untested",
+      "conditions": {
+        "credit_card": "need",
+        "phone_verification": "unknown",
+        "registration": "need",
+        "topup_required": "unknown",
+        "topup_minimum": null,
+        "notes": null
+      },
+      "quota": {
+        "value": null,
+        "unit": "unknown",
+        "period": "unknown",
+        "raw": "Registration"
+      },
+      "rate_limits": [
+        {
+          "metric": "rpm",
+          "value": 30000000.0,
+          "period": "per_minute"
+        }
+      ],
+      "region": [],
+      "ends_on": null,
+      "effective_from": null,
+      "base_url": "https://apihub.agnes-ai.com/v1",
+      "evidence": [
+        {
+          "source_id": "awesome-freellm-apis",
+          "source_level": "directory",
+          "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+          "excerpt": "Agnes AI | best model: agnes-image-2.0-flash | model id: agnes-image-2.0-flash | context: 4000 | rate: 30 RPM (1K)",
+          "observed_at": "2026-09-15T14:07:14Z",
+          "checked_at": "2026-09-15T14:07:11Z",
+          "http_status": null,
+          "source_family": "freellm-net"
+        }
+      ],
+      "reviewed_at": null,
+      "stale": false,
+      "needs_review": false
+    },
+    {
+      "id": "o_4d6362ded8937d3b",
+      "provider_id": "p_agnes-ai",
+      "model_id": "m_26876ca386a1f937",
+      "model_ids": [
+        "m_26876ca386a1f937"
+      ],
+      "offer_type": "sustained_free_tier",
+      "info_status": "directory_claim",
+      "call_status": "untested",
+      "conditions": {
+        "credit_card": "need",
+        "phone_verification": "unknown",
+        "registration": "need",
+        "topup_required": "unknown",
+        "topup_minimum": null,
+        "notes": null
+      },
+      "quota": {
+        "value": null,
+        "unit": "unknown",
+        "period": "unknown",
+        "raw": "Registration"
+      },
+      "rate_limits": [
+        {
+          "metric": "rpm",
+          "value": 30000000.0,
+          "period": "per_minute"
+        }
+      ],
+      "region": [],
+      "ends_on": null,
+      "effective_from": null,
+      "base_url": "https://apihub.agnes-ai.com/v1",
+      "evidence": [
+        {
+          "source_id": "awesome-freellm-apis",
+          "source_level": "directory",
+          "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+          "excerpt": "Agnes AI | best model: agnes-2.0-flash | model id: agnes-2.0-flash | context: 256000 | rate: 30 RPM",
+          "observed_at": "2026-09-15T14:07:14Z",
+          "checked_at": "2026-09-15T14:07:11Z",
+          "http_status": null,
+          "source_family": "freellm-net"
+        }
+      ],
+      "reviewed_at": null,
+      "stale": false,
+      "needs_review": false
+    },
+    {
+      "id": "o_cfd6eee26da3c783",
+      "provider_id": "p_agnes-ai",
+      "model_id": "m_c931246e50be452c",
+      "model_ids": [
+        "m_c931246e50be452c"
+      ],
+      "offer_type": "sustained_free_tier",
+      "info_status": "directory_claim",
+      "call_status": "untested",
+      "conditions": {
+        "credit_card": "need",
+        "phone_verification": "unknown",
+        "registration": "need",
+        "topup_required": "unknown",
+        "topup_minimum": null,
+        "notes": null
+      },
+      "quota": {
+        "value": null,
+        "unit": "unknown",
+        "period": "unknown",
+        "raw": "Registration"
+      },
+      "rate_limits": [
+        {
+          "metric": "rpm",
+          "value": 30000000.0,
+          "period": "per_minute"
+        }
+      ],
+      "region": [],
+      "ends_on": null,
+      "effective_from": null,
+      "base_url": "https://apihub.agnes-ai.com/v1",
+      "evidence": [
+        {
+          "source_id": "awesome-freellm-apis",
+          "source_level": "directory",
+          "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+          "excerpt": "Agnes AI | best model: agnes-1.5-flash | model id: agnes-1.5-flash | context: 256000 | rate: 30 RPM",
+          "observed_at": "2026-09-15T14:07:14Z",
+          "checked_at": "2026-09-15T14:07:11Z",
+          "http_status": null,
+          "source_family": "freellm-net"
+        }
+      ],
+      "reviewed_at": null,
+      "stale": false,
+      "needs_review": false
+    },
+    {
+      "id": "o_a120fda2cb2dfccf",
+      "provider_id": "p_ai21-labs",
+      "model_id": "m_b470b10abec6e97b",
+      "model_ids": [
+        "m_b470b10abec6e97b"
+      ],
+      "offer_type": "sustained_free_tier",
+      "info_status": "directory_claim",
+      "call_status": "untested",
+      "conditions": {
+        "credit_card": "need",
+        "phone_verification": "unknown",
+        "registration": "need",
+        "topup_required": "unknown",
+        "topup_minimum": null,
+        "notes": null
+      },
+      "quota": {
+        "value": null,
+        "unit": "unknown",
+        "period": "unknown",
+        "raw": "Registration"
+      },
+      "rate_limits": [
+        {
+          "metric": "rpm",
+          "value": 200000000.0,
+          "period": "per_minute"
+        },
+        {
+          "metric": "rps",
+          "value": 10.0,
+          "period": "per_second"
+        }
+      ],
+      "region": [],
+      "ends_on": null,
+      "effective_from": null,
+      "base_url": "https://api.ai21.com/studio/v1",
+      "evidence": [
+        {
+          "source_id": "awesome-freellm-apis",
+          "source_level": "directory",
+          "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+          "excerpt": "AI21 Labs | best model: Jamba Mini 2 | model id: jamba-mini-2 | context: 256000 | rate: 200 RPM, 10 RPS",
+          "observed_at": "2026-09-15T14:07:14Z",
+          "checked_at": "2026-09-15T14:07:11Z",
+          "http_status": null,
+          "source_family": "freellm-net"
+        }
+      ],
+      "reviewed_at": null,
+      "stale": false,
+      "needs_review": false
+    },
+    {
+      "id": "o_b0d2f3e47c454378",
+      "provider_id": "p_ai21-labs",
+      "model_id": "m_0b3146c56a768106",
+      "model_ids": [
+        "m_0b3146c56a768106"
+      ],
+      "offer_type": "one_time_trial",
+      "info_status": "directory_claim",
+      "call_status": "untested",
+      "conditions": {
+        "credit_card": "need",
+        "phone_verification": "unknown",
+        "registration": "need",
+        "topup_required": "unknown",
+        "topup_minimum": null,
+        "notes": null
+      },
+      "quota": {
+        "value": null,
+        "unit": "unknown",
+        "period": "one_time",
+        "raw": ""
+      },
+      "rate_limits": [],
+      "region": [],
+      "ends_on": null,
+      "effective_from": null,
+      "base_url": "https://api.ai21.com/studio/v1",
+      "evidence": [
+        {
+          "source_id": "free-llm-github",
+          "source_level": "directory",
+          "source_record_url": "https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md",
+          "excerpt": "AI21 Labs | card: Registration | rate: not stated",
+          "observed_at": "2026-09-15T14:07:13Z",
+          "checked_at": "2026-09-15T14:07:11Z",
+          "http_status": null,
+          "source_family": "free-llm"
+        }
+      ],
+      "reviewed_at": null,
+      "stale": false,
+      "needs_review": false
+    },
+    {
+      "id": "o_dd7a9bf8effc46eb",
+      "provider_id": "p_ai21-labs",
+      "model_id": "m_3f71840befd61f38",
+      "model_ids": [
+        "m_3f71840befd61f38"
+      ],
+      "offer_type": "sustained_free_tier",
+      "info_status": "directory_claim",
+      "call_status": "untested",
+      "conditions": {
+        "credit_card": "need",
+        "phone_verification": "unknown",
+        "registration": "need",
+        "topup_required": "unknown",
+        "topup_minimum": null,
+        "notes": null
+      },
+      "quota": {
+        "value": null,
+        "unit": "unknown",
+        "period": "unknown",
+        "raw": "Registration"
+      },
+      "rate_limits": [
+        {
+          "metric": "rpm",
+          "value": 200000000.0,
+          "period": "per_minute"
+        },
+        {
+          "metric": "rps",
+          "value": 10.0,
+          "period": "per_second"
+        }
+      ],
+      "region": [],
+      "ends_on": null,
+      "effective_from": null,
+      "base_url": "https://api.ai21.com/studio/v1",
+      "evidence": [
+        {
+          "source_id": "awesome-freellm-apis",
+          "source_level": "directory",
+          "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+          "excerpt": "AI21 Labs | best model: Jamba Large 1.7 | model id: jamba-large-1-7 | context: 256000 | rate: 200 RPM, 10 RPS",
+          "observed_at": "2026-09-15T14:07:14Z",
+          "checked_at": "2026-09-15T14:07:11Z",
+          "http_status": null,
+          "source_family": "freellm-net"
+        }
+      ],
+      "reviewed_at": null,
+      "stale": false,
+      "needs_review": false
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_b2a69a48d3392ff3",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "base_url",
+      "value": "https://api.aionlabs.ai/v1",
+      "evidence": {
+        "source_id": "free-llm-github",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md",
+        "excerpt": "Aion Labs | card: No | rate: Not published — verify on aionlabs.ai/pricing | daily: Daily token allowance (exact quota undisclosed) | monthly: Free, no billing",
+        "observed_at": "2026-09-15T14:07:13Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "free-llm"
+      },
+      "review_status": "directory_claim",
+      "conflict_with": []
+    },
+    {
+      "id": "c_066b9b7f71793738",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "base_url",
+      "value": "https://api.aionlabs.ai/v1",
+      "evidence": {
+        "source_id": "awesome-freellm-apis",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+        "excerpt": "Aion Labs | best model: aion-labs/aion-2.0 | model id: aion-labs-aion-2-0 | context: 128000 | rate: 15 RPM, 20K TPD",
+        "observed_at": "2026-09-15T14:07:14Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "freellm-net"
+      },
+      "review_status": "directory_claim",
+      "conflict_with": []
+    },
+    {
+      "id": "c_b01e5d5b0e5c5d0d",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "access_type",
+      "value": "api",
+      "evidence": {
+        "source_id": "free-llm-github",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md",
+        "excerpt": "Aion Labs | card: No | rate: Not published — verify on aionlabs.ai/pricing | daily: Daily token allowance (exact quota undisclosed) | monthly: Free, no billing",
+        "observed_at": "2026-09-15T14:07:13Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "free-llm"
+      },
+      "review_status": "directory_claim",
+      "conflict_with": []
+    },
+    {
+      "id": "c_34090e7330843dd5",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "access_type",
+      "value": "api",
+      "evidence": {
+        "source_id": "awesome-freellm-apis",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+        "excerpt": "Aion Labs | best model: aion-labs/aion-2.0 | model id: aion-labs-aion-2-0 | context: 128000 | rate: 15 RPM, 20K TPD",
+        "observed_at": "2026-09-15T14:07:14Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "freellm-net"
+      },
+      "review_status": "directory_claim",
+      "conflict_with": []
+    },
+    {
+      "id": "c_cae69a4662a34632",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "offer_type",
+      "value": "sustained_free_tier",
+      "evidence": {
+        "source_id": "free-llm-github",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md",
+        "excerpt": "Aion Labs | card: No | rate: Not published — verify on aionlabs.ai/pricing | daily: Daily token allowance (exact quota undisclosed) | monthly: Free, no billing",
+        "observed_at": "2026-09-15T14:07:13Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "free-llm"
+      },
+      "review_status": "directory_claim",
+      "conflict_with": []
+    },
+    {
+      "id": "c_6e318e026d5e7e53",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "offer_type",
+      "value": "sustained_free_tier",
+      "evidence": {
+        "source_id": "awesome-freellm-apis",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+        "excerpt": "Aion Labs | best model: aion-labs/aion-2.0 | model id: aion-labs-aion-2-0 | context: 128000 | rate: 15 RPM, 20K TPD",
+        "observed_at": "2026-09-15T14:07:14Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "freellm-net"
+      },
+      "review_status": "directory_claim",
+      "conflict_with": []
+    },
+    {
+      "id": "c_31f392bc865d48b9",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "quota_raw",
+      "value": "Not published — verify on aionlabs.ai/pricing Daily token allowance (exact quota undisclosed) Free, no billing",
+      "evidence": {
+        "source_id": "free-llm-github",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/nejib1/Free-LLM/main/README.md",
+        "excerpt": "Aion Labs | card: No | rate: Not published — verify on aionlabs.ai/pricing | daily: Daily token allowance (exact quota undisclosed) | monthly: Free, no billing",
+        "observed_at": "2026-09-15T14:07:13Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "free-llm"
+      },
+      "review_status": "needs_review",
+      "conflict_with": []
+    },
+    {
+      "id": "c_de50ea65d1188e2e",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "field": "quota_raw",
+      "value": "Registration",
+      "evidence": {
+        "source_id": "awesome-freellm-apis",
+        "source_level": "directory",
+        "source_record_url": "https://raw.githubusercontent.com/open-free-llm-api/awesome-freellm-apis/main/README.md",
+        "excerpt": "Aion Labs | best model: aion-labs/aion-2.0 | model id: aion-labs-aion-2-0 | context: 128000 | rate: 15 RPM, 20K TPD",
+        "observed_at": "2026-09-15T14:07:14Z",
+        "checked_at": "2026-09-15T14:07:11Z",
+        "http_status": null,
+        "source_family": "freellm-net"
+      },
+      "review_status": "needs_review",
+      "conflict_with": []
+    }
+  ],
+  "changes": [
+    {
+      "id": "ch_08fac09e0cd375bc",
+      "fingerprint": "fp_362ad604f3c1ab1b",
+      "subject_type": "provider",
+      "subject_id": "p_agnes-ai",
+      "subject_label": "Agnes AI",
+      "provider_id": "p_agnes-ai",
+      "field": "*",
+      "old_value": null,
+      "new_value": "Agnes AI",
+      "change_type": "initial_import",
+      "detected_at": "2026-09-15T14:07:11Z",
+      "observed_at": "2026-09-15T14:07:11Z",
+      "source_id": "freellm-net",
+      "evidence_fingerprint": null,
+      "evidence_ref": null,
+      "confirmed": false,
+      "note": "first import; not a new release today"
+    },
+    {
+      "id": "ch_1e162d21110d7a15",
+      "fingerprint": "fp_514163a78721ed9a",
+      "subject_type": "provider",
+      "subject_id": "p_ai21-labs",
+      "subject_label": "AI21 Labs",
+      "provider_id": "p_ai21-labs",
+      "field": "*",
+      "old_value": null,
+      "new_value": "AI21 Labs",
+      "change_type": "initial_import",
+      "detected_at": "2026-09-15T14:07:11Z",
+      "observed_at": "2026-09-15T14:07:11Z",
+      "source_id": "free-llm",
+      "evidence_fingerprint": null,
+      "evidence_ref": null,
+      "confirmed": false,
+      "note": "first import; not a new release today"
+    },
+    {
+      "id": "ch_e178a99d7b4236b3",
+      "fingerprint": "fp_baea609483b49eb7",
+      "subject_type": "provider",
+      "subject_id": "p_aion-labs",
+      "subject_label": "Aion Labs",
+      "provider_id": "p_aion-labs",
+      "field": "*",
+      "old_value": null,
+      "new_value": "Aion Labs",
+      "change_type": "initial_import",
+      "detected_at": "2026-09-15T14:07:11Z",
+      "observed_at": "2026-09-15T14:07:11Z",
+      "source_id": "free-llm",
+      "evidence_fingerprint": null,
+      "evidence_ref": null,
+      "confirmed": false,
+      "note": "first import; not a new release today"
+    }
+  ]
+}

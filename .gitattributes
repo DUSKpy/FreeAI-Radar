@@ -1,0 +1,56 @@
+# Line-ending policy.
+#
+# Without this file, a Windows checkout with core.autocrlf=true stores CRLF in
+# the repository. Linux CI then sees every text file as modified, and
+# `ruff format --check` fails on files nobody touched.
+#
+# Force LF in the repository and let git hand the working tree whatever the
+# local platform wants. This is the one setting that makes "passes on my
+# machine" mean something on the runner.
+
+* text=auto eol=lf
+
+# Shell scripts must keep LF even when checked out on Windows, or bash refuses
+# to run them.
+*.sh text eol=lf
+
+# Windows-only scripts keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets: never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.zip binary
+*.gz binary
+*.pdf binary
+
+# The screenshots under docs/screens/ are PNGs and are matched above.
+# favicon.svg is text and stays normalised like the rest.
+
+# Generated data. These are written by Python and diffed by humans, so keep
+# them on LF too and let git decide the working-tree form.
+*.json text
+*.yaml text
+*.yml text
+*.md text
+*.css text
+*.js text
+*.mjs text
+*.html text
+*.svg text
+*.py text
+*.toml text
+
+# Make the language stats on the repository page honest: these are vendored
+# fixture snapshots, not source we wrote.
+tests/fixtures/*.md linguist-vendored

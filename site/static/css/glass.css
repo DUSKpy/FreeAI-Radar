@@ -1,0 +1,184 @@
+/* ==========================================================================
+   glass.css -- the three-layer material system
+   --------------------------------------------------------------------------
+   Layer 1  environment  : static radial gradients, behind everything
+   Layer 2  content      : near-opaque surfaces, stable contrast, fine border
+   Layer 3  control      : translucent with blur, inner highlight, soft shadow
+
+   Only navigation and control surfaces get real blur. Content cards use
+   edges, highlights and shadows to stay consistent with the glass without
+   turning every table cell into a lens.
+
+   Progressive enhancement order: a static, fully reliable version is built
+   first; the blurred variant is added only inside @supports.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Reliable base: opaque surface, border, radius, shadow.
+   This is what renders when backdrop-filter is unsupported.
+   -------------------------------------------------------------------------- */
+.glass {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow);
+}
+
+/* --------------------------------------------------------------------------
+   Blurred variant, only where it actually works.
+   -------------------------------------------------------------------------- */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: var(--glass-bg);
+    border-color: var(--glass-edge);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced transparency: in-page switch and the OS media query.
+   -------------------------------------------------------------------------- */
+[data-transparency="reduced"] .glass {
+  background: var(--surface);
+  border-color: var(--border);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--shadow);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--surface);
+    border-color: var(--border);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: var(--shadow);
+  }
+}
+
+/* ==========================================================================
+   Glass variants
+   ========================================================================== */
+
+/* Floating sidebar and top toolbar: the two strongest glass surfaces. */
+.glass--nav {
+  border-radius: var(--radius-panel);
+}
+
+/* Modal shell and popovers. */
+.glass--panel {
+  border-radius: var(--radius-panel);
+}
+
+/* Content cards: glass-adjacent, but the base is much closer to opaque so
+   text contrast never depends on what happens to be behind the card. */
+.glass--card {
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass--card {
+    background: var(--glass-bg);
+    border-color: var(--glass-edge);
+    -webkit-backdrop-filter: blur(10px) saturate(115%);
+    backdrop-filter: blur(10px) saturate(115%);
+    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-soft);
+  }
+}
+
+[data-transparency="reduced"] .glass--card {
+  background: var(--surface);
+  border-color: var(--border);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* A near-opaque plate for anything the user must read precisely: code
+   previews, quota tables, evidence excerpts, data grids. */
+.plate {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+}
+
+.plate--sunken {
+  background: var(--surface-soft);
+}
+
+/* ==========================================================================
+   Edge highlight
+   A thin, non-interactive pseudo element draws the specular edge. It must
+   never intercept clicks, so pointer-events is none. This is the element the
+   brief warns about: it is applied only to control-layer surfaces, and never
+   covers an interactive area.
+   ========================================================================== */
+.glass--edge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  /* A one-pixel top-left highlight that fades along the edge. */
+  background: linear-gradient(
+    160deg,
+    var(--glass-highlight) 0%,
+    transparent 34%,
+    transparent 66%,
+    var(--glass-highlight) 100%
+  );
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+
+[data-theme="dark"] .glass--edge::after {
+  opacity: 0.4;
+}
+
+[data-transparency="reduced"] .glass--edge::after,
+[data-transparency="reduced"] .glass::after {
+  display: none;
+}
+
+/* ==========================================================================
+   Optional refraction experiment
+   --------------------------------------------------------------------------
+   Disabled by default. When enabled it applies an SVG displacement filter to
+   a SINGLE small control-layer widget -- never to text, code, or data tables.
+   Safari does not render the displacement, so the glass base, edge and all
+   content must remain complete without it.
+   ========================================================================== */
+.refract {
+  display: none;
+}
+
+[data-refraction="on"] .refract {
+  display: block;
+  filter: url("#radar-refraction");
+}
+
+/* Never transform or filter text, code or tables. */
+[data-refraction="on"] .refract :is(p, span, code, table, pre, h1, h2, h3) {
+  filter: none;
+}
+
+/* ==========================================================================
+   Layering context notes
+   --------------------------------------------------------------------------
+   backdrop-filter creates a stacking context, which clips descendants that
+   need to escape (native <dialog> in the top layer, for instance). The
+   dialogs therefore use the native top-layer behaviour and are NOT nested
+   inside a filtered ancestor. The sidebar keeps its own context, and the
+   page content is never filtered as a whole.
+   ========================================================================== */
+
+/* Content inside a glass container sits above the edge highlight. */
+.glass > * {
+  position: relative;
+  z-index: 1;
+}

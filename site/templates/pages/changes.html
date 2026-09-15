@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% from "components/state.html" import state %}
+
+{% block title %}每日变化 · {{ site.name }}{% endblock %}
+{% block eyebrow %}每日变化{% endblock %}
+{% block heading %}每日变化报告{% endblock %}
+
+{% block actions %}
+<span class="helper">
+  保留最近 90 天
+</span>
+{% endblock %}
+
+{% block content %}
+<div class="report">
+
+  <nav class="report__index glass glass--panel glass--edge" aria-label="报告日期">
+    <p class="report__index-title">报告日期</p>
+    {% if reports %}
+      {% for item in reports %}
+        <a class="report__index-link"
+           href="{{ base_path }}changes.html?date={{ item.date }}"
+           data-report-date="{{ item.date }}"
+           {% if loop.first %}aria-current="true"{% endif %}>
+          <span>{{ item.date }}</span>
+          {% if item.payload.counts %}
+            <span class="tabular subtle">{{ item.payload.counts.total }}</span>
+          {% endif %}
+        </a>
+      {% endfor %}
+    {% else %}
+      <p class="helper">还没有报告</p>
+    {% endif %}
+  </nav>
+
+  <div class="report__body">
+    {% if not reports %}
+      {{ state('empty', '还没有生成任何报告',
+               '每日报告在每次成功采集后生成。第一次采集成功后这里就会出现内容。') }}
+    {% else %}
+      {% set latest = reports[0] %}
+
+      <div class="report__meta">
+        <span class="chip chip--accent"><span class="chip__dot"></span>{{ latest.date }}</span>
+        <span class="chip chip--neutral">
+          <span class="chip__dot"></span>
+          今日事件 <span class="tabular">{{ latest.payload.counts.total or 0 }}</span>
+        </span>
+        <span class="chip chip--ok">
+          <span class="chip__dot"></span>
+          采集 <span class="tabular">{{ latest.payload.collection.succeeded_sources }}</span>
+          / <span class="tabular">{{ latest.payload.collection.enabled_sources }}</span> 成功
+        </span>
+      </div>
+
+      <div class="notice notice--info">
+        <span class="notice__icon" aria-hidden="true">i</span>
+        <div class="notice__body">
+          <p class="notice__title">怎么读这份报告</p>
+          <p>
+            「首次导入」表示这个条目是 Radar 第一次收录，<strong>不代表它今天才发布</strong>。
+            条目从来源里消失时，我们记「来源已不再列出」，不写「服务已关闭」——
+            我们无法区分这两种情况。采集失败的那一天不会产生任何删除记录。
+          </p>
+        </div>
+      </div>
+
+      <div class="prose" data-markdown="{{ latest.url }}">
+        <pre class="code" hidden>{{ latest.markdown }}</pre>
+        <p class="muted">正在载入报告…</p>
+      </div>
+
+      {% if latest.payload.important_changes %}
+        <section class="section">
+          <div class="section__head">
+            <h2 class="section__title">需要留意</h2>
+          </div>
+          <div class="timeline">
+            {% for change in latest.payload.important_changes %}
+              <div class="changeitem">
+                <div class="changeitem__body">
+                  <p class="changeitem__subject">{{ change.subject_label }}</p>
+                  <p class="changeitem__delta">
+                    <span class="mono">{{ change.field }}</span>
+                    <span class="changeitem__old">{{ change.old or '—' }}</span>
+                    <span class="changeitem__arrow" aria-hidden="true">→</span>
+                    <span class="changeitem__new">{{ change.new or '—' }}</span>
+                  </p>
+                  {% if change.note %}<p class="changeitem__note">{{ change.note }}</p>{% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      {% if latest.payload.pending %}
+        <section class="section">
+          <div class="section__head">
+            <h2 class="section__title">待确认</h2>
+            <span class="helper">
+              共 <span class="tabular">{{ latest.payload.pending | length }}</span> 条
+            </span>
+          </div>
+          <div class="notice notice--warn">
+            <span class="notice__icon" aria-hidden="true">!</span>
+            <div class="notice__body">
+              <p>
+                以下事件已记录但还没有人工复核。在核验完成之前，
+                它们不会被当成「已确认的变化」。
+              </p>
+            </div>
+          </div>
+          <div class="timeline">
+            {% for change in latest.payload.pending[:40] %}
+              <div class="changeitem">
+                <div class="changeitem__body">
+                  <p class="changeitem__subject">
+                    {% if change.provider_id %}
+                      <a href="{{ base_path }}provider.html?id={{ change.provider_id }}">{{ change.subject_label }}</a>
+                    {% else %}
+                      {{ change.subject_label }}
+                    {% endif %}
+                  </p>
+                  <p class="changeitem__delta">
+                    <span class="mono">{{ change.field }}</span>
+                    <span class="changeitem__new">{{ change.new or '—' }}</span>
+                  </p>
+                  {% if change.note %}<p class="changeitem__note">{{ change.note }}</p>{% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          {% if latest.payload.pending | length > 40 %}
+            <p class="helper">
+              仅显示前 40 条。完整列表请查看
+              <a href="{{ base_path }}data/reports/{{ latest.date }}.json">结构化报告</a>。
+            </p>
+          {% endif %}
+        </section>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

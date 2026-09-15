@@ -1,0 +1,81 @@
+{#
+  sourcecard.html -- one row of the source status board.
+
+  Expects `source` in scope. The status chip is driven by the real status
+  value, and a source that has never succeeded is shown as such rather than
+  as "ok with zero records".
+#}
+<article class="sourcecard glass glass--card glass--edge {% if not source.enabled %}sourcecard--disabled{% endif %}">
+  <div class="sourcecard__head">
+    <div class="sourcecard__ident">
+      <h3 class="sourcecard__name">{{ source.name }}</h3>
+      <p class="sourcecard__family">
+        <span class="mono">{{ source.id }}</span>
+        {% if source.source_family and source.source_family != source.id %}
+          · 同源家族 <span class="mono">{{ source.source_family }}</span>
+        {% endif %}
+      </p>
+    </div>
+    <div class="sourcecard__chips">
+      {% if not source.enabled %}
+        <span class="chip chip--neutral"><span class="chip__dot"></span>已禁用</span>
+      {% elif source.status == 'ok' %}
+        <span class="chip chip--ok"><span class="chip__dot"></span>正常</span>
+      {% elif source.status == 'stale' %}
+        <span class="chip chip--warn"><span class="chip__dot"></span>数据陈旧</span>
+      {% elif source.status == 'parse_error' %}
+        <span class="chip chip--warn"><span class="chip__dot"></span>解析异常</span>
+      {% elif source.status == 'error' %}
+        <span class="chip chip--danger"><span class="chip__dot"></span>抓取失败</span>
+      {% elif source.status == 'never' %}
+        <span class="chip chip--neutral"><span class="chip__dot"></span>从未成功</span>
+      {% else %}
+        <span class="chip chip--neutral"><span class="chip__dot"></span>{{ source.status or '未知' }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <dl class="deflist">
+    <dt>来源等级</dt>
+    <dd>{{ '官方文档' if source.source_level == 'official' else '目录整理' }}</dd>
+
+    <dt>解析器</dt>
+    <dd class="mono wrap-anywhere">{{ source.parser or '未知' }}</dd>
+
+    <dt>本次记录数</dt>
+    <dd class="tabular">
+      {% if source.record_count is not none %}{{ source.record_count }}{% else %}—{% endif %}
+    </dd>
+
+    <dt>最近成功</dt>
+    <dd class="tabular">
+      {{ (source.last_success_at or '从未成功')[:19] | replace('T', ' ') }}{% if source.last_success_at %} UTC{% endif %}
+    </dd>
+
+    <dt>最近尝试</dt>
+    <dd class="tabular">
+      {{ (source.last_attempt_at or '—')[:19] | replace('T', ' ') }}{% if source.last_attempt_at %} UTC{% endif %}
+    </dd>
+
+    {% if source.license %}
+      <dt>许可证</dt>
+      <dd>{{ source.license }}</dd>
+    {% endif %}
+  </dl>
+
+  {% if source.url %}
+    <a class="sourcecard__url mono" href="{{ source.url }}" rel="noopener noreferrer nofollow">{{ source.url }}</a>
+  {% endif %}
+
+  {% if source.error %}
+    <p class="sourcecard__error">
+      <strong>最近一次错误：</strong>{{ source.error }}
+    </p>
+  {% endif %}
+
+  {% if not source.license and source.enabled %}
+    <p class="helper">
+      这个来源没有声明许可证，因此只提取事实性字段，不复制正文内容。
+    </p>
+  {% endif %}
+</article>

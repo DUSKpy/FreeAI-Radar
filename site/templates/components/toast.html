@@ -1,0 +1,9 @@
+{#
+  toast.html -- single polite live region.
+
+  One element for the whole app. JS fills the text; aria-live="polite" means
+  a copy confirmation never interrupts what a screen reader is reading, and
+  role="status" gives it an implicit live region even if the attribute is
+  dropped.
+#}
+<div class="toast" id="radar-toast" role="status" aria-live="polite" data-visible="false"></div>

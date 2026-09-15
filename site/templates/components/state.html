@@ -1,0 +1,44 @@
+{#
+  state.html -- the four states any data region can be in.
+
+  Every async or data-driven region renders one of:
+    loading   skeleton, announced as busy
+    empty     genuinely zero results for a valid query
+    error     the request failed
+    nodata    the build has no data yet
+
+  "empty" and "nodata" are different states on purpose: "0 providers match
+  your filter" and "the catalog has never been collected" need different
+  user actions.
+#}
+{% macro state(kind, title, body, action_href=None, action_label=None) %}
+<div class="state" data-state-kind="{{ kind }}" {% if kind == 'loading' %}aria-busy="true"{% endif %}>
+  <span class="state__icon" aria-hidden="true">
+    {% if kind == 'loading' %}
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <path d="M12 3.6a8.4 8.4 0 108.4 8.4"></path>
+      </svg>
+    {% elif kind == 'error' %}
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="12" cy="12" r="8.4"></circle>
+        <path d="M12 7.8v5M12 15.9v.1"></path>
+      </svg>
+    {% elif kind == 'nodata' %}
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <ellipse cx="12" cy="6.6" rx="7.4" ry="2.8"></ellipse>
+        <path d="M4.6 6.6v10.8c0 1.5 3.3 2.8 7.4 2.8s7.4-1.3 7.4-2.8V6.6"></path>
+      </svg>
+    {% else %}
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="11" cy="11" r="6.6"></circle>
+        <path d="M16 16l3.4 3.4"></path>
+      </svg>
+    {% endif %}
+  </span>
+  <p class="state__title">{{ title }}</p>
+  <p class="state__body">{{ body }}</p>
+  {% if action_href %}
+    <a class="btn btn--small" href="{{ action_href }}">{{ action_label }}</a>
+  {% endif %}
+</div>
+{% endmacro %}
