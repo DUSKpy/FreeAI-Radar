@@ -183,5 +183,9 @@ Radar 只做信息汇总与核对，**不保证任何第三方服务的可用性
 | [docs/progress.md](docs/progress.md) | M0–M6 逐阶段进度与证据 |
 | [docs/delivery.md](docs/delivery.md) | 交付报告：已实现并验证 / 已实现未验证 / 未实现或受阻 |
 
-> **当前状态：** 代码完整、测试通过、可复现；**但站点尚未部署**，
-> 因为还没有被提供目标仓库。见 [docs/delivery.md](docs/delivery.md) 第 3 节。
+> **当前状态：** 代码完整、测试通过、可复现，**129 个源文件已推送到
+> [DUSKpy/FreeAI-Radar](https://github.com/DUSKpy/FreeAI-Radar) 并逐文件核对一致**；
+> 但**站点尚未上线**——`.github/workflows/` 需要 `workflow` scope 才能推送，
+> 而当前凭据没有。见 [docs/delivery.md](docs/delivery.md) 第 3.1 节。
+>
+> 解锁只需一步：`gh auth refresh -h github.com -s workflow`
