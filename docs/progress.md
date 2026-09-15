@@ -324,7 +324,7 @@ python -m tests.scan_secrets dist-fixture
 | 项目 | 证据 |
 | --- | --- |
 | 目标仓库 | `https://github.com/DUSKpy/FreeAI-Radar` |
-| 推送提交 | `5c7e531` |
+| 推送提交 | main 最新提交（`git ls-remote origin main` 可查） |
 | 远端文件数 | **129**，与本地 `git ls-tree` **diff 为空** |
 | 远端可达性 | README / LICENSE / pyproject / radar / schemas / site / tests / docs 抽查全部 HTTP 200 |
 | Issue 模板 | 4 个全部在线（`bug-report` / `config` / `data-correction` / `new-source`） |

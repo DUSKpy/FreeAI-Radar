@@ -49,7 +49,7 @@ FreeAI Radar v0.1 —— 对照任务书第 32 节写的交付报告。
 
 ```
 仓库      https://github.com/DUSKpy/FreeAI-Radar
-提交      5c7e531
+提交      main 最新提交（推送后以 `git ls-remote origin main` 为准）
 远端文件  129   （git ls-tree 与本地 tree diff 为空）
 ```
 
@@ -225,7 +225,7 @@ sources   : 2
 | 项目 | 状态 |
 | --- | --- |
 | 目标仓库 | `https://github.com/DUSKpy/FreeAI-Radar` |
-| 已推送提交 | `5c7e531`（`chore: stage workflows separately`） |
+| 已推送提交 | `main` 最新提交（`git ls-remote origin main` 可查） |
 | 远端文件数 | **129**，与本地 tree **逐文件核对一致** |
 | 远端可达性 | README / LICENSE / pyproject / radar / schemas / site / tests / docs 全部 HTTP 200 |
 | Issue 模板 | 4 个全部在线 |
