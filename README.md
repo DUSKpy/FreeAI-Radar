@@ -188,4 +188,6 @@ Radar 只做信息汇总与核对，**不保证任何第三方服务的可用性
 > 但**站点尚未上线**——`.github/workflows/` 需要 `workflow` scope 才能推送，
 > 而当前凭据没有。见 [docs/delivery.md](docs/delivery.md) 第 3.1 节。
 >
-> 解锁只需一步：`gh auth refresh -h github.com -s workflow`
+> 解锁需要由注入凭据的一侧重新授权并勾选 `workflow` 权限
+> （实测该凭据是环境注入的 `x-access-token`，`gh auth refresh` 对它大概率无效）。
+> 见 [docs/delivery.md](docs/delivery.md) 第 3.1 节。

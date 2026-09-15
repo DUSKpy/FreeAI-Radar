@@ -9,7 +9,9 @@ FreeAI Radar v0.1 —— 对照任务书第 32 节写的交付报告。
 > 而是**推送用的 GitHub 凭据缺少 `workflow` scope**，GitHub 因此在所有写入路径上
 > 拒绝 `.github/workflows/*.yml`。这是一个有意的安全控制，我不会绕过它。
 >
-> 需要你执行一条命令（`gh auth refresh -s workflow`）即可解锁，详见第 3.1 节。
+> 解锁需要**由注入该凭据的一侧重新授权并勾选 `workflow` 权限**（实测该凭据是环境注入的
+> `x-access-token` 形态，并非 `gh` 登录，所以 `gh auth refresh` 大概率无效——我早先
+> 写的那条命令过于乐观，详见第 3.1 节的更正）。
 
 报告按任务书要求分成三段：**已实现并验证** / **已实现未验证** / **未实现或受阻**。
 
@@ -251,7 +253,7 @@ https://duskpy.github.io/FreeAI-Radar/
 
 **具体阻塞点：推送用的凭据缺少 `workflow` scope。**
 
-已确认的事实：
+已确认的事实（`X-OAuth-Scopes` 响应头，非推断）：
 
 - 该凭据属于 `DUSKpy`（仓库所有者本人），scope 为 `gist, read:org, repo`
 - 普通路径写入**正常**（`repo` scope 足够）
@@ -262,33 +264,48 @@ https://duskpy.github.io/FreeAI-Radar/
 | 实验 | 结果 |
 | --- | --- |
 | `git push` 含 workflow | 被拒：`without 'workflow' scope` |
-| Contents API 写 `.github/workflows/ci.yml` | HTTP **404** |
-| Contents API 写普通文件 | HTTP **200** ✅ |
-| Git Data API 建 tree 含 workflow 路径 | HTTP **404** |
-| Git Data API 建 tree 含普通路径 | HTTP **201** ✅ |
+| Contents API 写 `.github/workflows/probe.yml` | HTTP **404** |
+| Contents API 写普通新文件（同一 token、同一 API） | HTTP **201** ✅ |
 
-同一套 API、同一份凭据，**只有 workflow 路径失败**。GitHub 在 git-push、
-Contents API、Git Data API **三条写入路径上都强制拦截** workflow 文件。
+同一套 API、同一份凭据，**只有 workflow 路径失败**。GitHub 在 git-push 与
+Contents API 两条写入路径上都拦截 workflow 文件，返回 404 而非 403 ——
+这是**有意的存在性混淆**，不确认该路径存在，而不是权限不足的普通报错。
 
-这是 GitHub 有意的安全控制（防止被盗凭据静默植入 CI 后窃取密钥），
+这是 GitHub 的安全控制（防止被盗凭据静默植入 CI 后窃取密钥），
 **我不会也没办法绕过它**——绕过它本身就是本项目 `SECURITY.md` 里定义的那类风险。
 
-#### 需要你做的一件事
+#### 关于解锁方式：我之前的说法过于乐观，此处更正
+
+我早先写的是"执行 `gh auth refresh -s workflow` 即可解锁"。**这句话对当前凭据很可能是错的**，
+我不应该在没有验证的情况下把它写成必然可行的方案。实测到的凭据形态是：
+
+| 项目 | 实测值 |
+| --- | --- |
+| 用户名 | `x-access-token` |
+| 口令形态 | 40 字符、无 `ghp_`/`github_pat_` 前缀 |
+| 归属账号 | `DUSKpy` ✅ |
+| 声明 scope | `gist, read:org, repo` |
+
+`x-access-token` + 40 字符是**环境注入的集成凭据**，不是 `gh` 自己保存的用户登录。
+`gh auth refresh` 只能扩展 *用户 OAuth token*，对一个不是 `gh` 签发的凭据大概率无效——
+事实上 `gh auth status` 显示"未登录"，因为它根本不认识这份凭据。
+
+**所以正确的说法是：需要由注入这份凭据的那一侧重新授权并勾选 `workflow` 权限。**
+请优先在 WorkBuddy 的 GitHub 集成授权页里检查/重新授权（找 `workflow` 或
+"Workflows" 权限项）。如果你手上有该账号的 PAT，另一条路是改用带 `workflow`
+scope 的 PAT：在 GitHub 生成 classic PAT 时勾上 `workflow` + `repo`，然后
+告诉我，我用它来推这两个文件。
+
+我怎么判断哪条路成功？成功的唯一标志是 `git push` 不再报
+`without 'workflow' scope`。你可以先自己跑这条探针命令确认：
 
 ```bash
-gh auth refresh -h github.com -s workflow
+git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 ```
-
-浏览器会打开一次授权页，同意后凭据即获得 `workflow` scope。然后告诉我，
-我会立刻推送那两个文件并触发一次真实采集，完成上线。
-
-> 注意：`gh auth refresh` 需要交互式授权，我无法代你完成。
-> 我也确认过 `gh auth status` 显示"未登录"——这个凭据是环境注入的，
-> 不是 `gh` 自己存的，所以更不能由我改它的 scope。
 
 #### 解锁后的步骤
 
-1. `gh auth refresh -h github.com -s workflow`（你来）
+1. 你重新授权（带 `workflow` 权限），或提供带 `workflow` scope 的 PAT
 2. 我推送 `.github/workflows/ci.yml` 与 `publish.yml`
 3. 我触发 publish，**勾 force**（不勾会拿到 304 → 空目录）
 4. 我从公网真实访问 `https://duskpy.github.io/FreeAI-Radar/` 验收

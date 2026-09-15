@@ -362,11 +362,15 @@ refusing to allow an OAuth App to create or update workflow
 同一凭据、同一套 API，**只有 workflow 路径失败**。GitHub 在三条写入路径上
 都强制拦截。这是有意的安全控制，我**不会绕过**。
 
-**解锁：** 你执行 `gh auth refresh -h github.com -s workflow`（需要浏览器授权一次），
-之后我推送工作流、触发采集、完成上线验收。
+**解锁：** 由**注入该凭据的一侧重新授权并勾选 `workflow` 权限**，或提供一份带
+`workflow` + `repo` scope 的 classic PAT。之后我推送工作流、触发采集、完成上线验收。
 
-> `gh auth refresh` 必须交互授权，我无法代做。而且 `gh auth status` 显示"未登录"——
-> 这个凭据是环境注入的，不是 `gh` 自己存的，所以更不能由我改它的 scope。
+> **更正：** 我早先写的 `gh auth refresh -h github.com -s workflow` 对当前凭据**大概率无效**，
+> 不应写成必然可行的方案。实测该凭据用户名是 `x-access-token`、口令 40 字符无前缀，
+> 属于**环境注入的集成凭据**，而非 `gh` 自己保存的用户登录（`gh auth status` 也因此显示"未登录"）。
+> `gh auth refresh` 只能扩展 *用户 OAuth token*，管不到这份凭据。
+>
+> 判断解锁是否成功的唯一标志：`git push` 不再报 `without 'workflow' scope`。
 
 ### 四种验收结果分开报告
 
