@@ -21,8 +21,14 @@
 
 .app__main {
   min-width: 0; /* critical: lets long model ids shrink instead of overflowing */
-  max-width: var(--content-max);
-  width: 100%;
+  /* No max-width. There used to be one (--content-max, 1360/1480px) and it
+     left the right-hand side of a wide window empty: 140px at 1920, 780px at
+     2560. The shell is a data browser, so it should use the width it is given.
+     Long-form reading is still constrained, but at the level that actually
+     needs it -- the prose blocks carry their own ch-based measure (see the
+     60-72ch max-widths in pages.css). Capping the whole shell was the wrong
+     tool: it also capped tables, cards and the facet rail, none of which have
+     a readability problem with width. */
 }
 
 /* ==========================================================================
@@ -894,17 +900,24 @@ select.field {
    Forms and filters
    ========================================================================== */
 
+/* The search control. The icon is absolutely positioned inside the field, so
+   the input's left padding has to clear it. Both numbers are derived from the
+   two custom properties below rather than written out twice -- the original
+   bug was a hardcoded 44px padding paired with a hardcoded 18px icon at a
+   hardcoded 16px inset, which nothing kept in agreement. */
 .search {
   position: relative;
   display: flex;
   align-items: center;
+  --search-icon-size: 18px;
+  --search-icon-inset: var(--space-4);
 }
 
 .search__icon {
   position: absolute;
-  left: var(--space-4);
-  width: 18px;
-  height: 18px;
+  left: var(--search-icon-inset);
+  width: var(--search-icon-size);
+  height: var(--search-icon-size);
   stroke: var(--text-subtle);
   fill: none;
   stroke-width: 1.8;
@@ -915,7 +928,10 @@ select.field {
 .search__input {
   width: 100%;
   height: 48px;
-  padding: 0 var(--space-4) 0 44px;
+  /* inset + icon + breathing room, so the first glyph always starts to the
+     right of the icon no matter which of the three values changes. */
+  padding: 0 var(--space-4) 0
+    calc(var(--search-icon-inset) + var(--search-icon-size) + var(--space-3));
   border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   background: var(--surface);
@@ -944,10 +960,28 @@ select.field {
   color: var(--text-muted);
 }
 
-select,
-input[type="text"],
-input[type="search"],
-textarea {
+/* Default styling for a bare form control -- one with no component class.
+
+   Wrapped in :where() so the whole rule carries ZERO specificity. That is the
+   point, not a stylistic preference: these are *defaults*, and a default must
+   never outrank a component that deliberately styles the same control.
+
+   Without :where() this selector was `input[type="search"]` at (0,1,1) -- a
+   type selector plus an attribute -- which beat `.search__input` at (0,1,0).
+   The `padding` shorthand here then overwrote the component's
+   `padding-left: 44px` with `var(--space-3)` = 12px, so the placeholder text
+   started at 12px while the search icon occupies 16-34px. The glyphs and the
+   icon drew on top of each other: a 22px collision, visible on every page
+   with a search box.
+
+   That is the same failure as the `.facets__toggle` dead button: a rule that
+   is *more* general winning over one that is *more* specific, purely because
+   of how the selectors happen to be weighted. Fixing the weight here fixes it
+   for every future component too, instead of one control at a time.
+
+   :where() is supported everywhere this site already requires (it uses dvh,
+   container queries and backdrop-filter), so this is not a new floor. */
+:where(select, input[type="text"], input[type="search"], textarea) {
   font: inherit;
   color: var(--text);
   background: var(--surface);
@@ -1071,6 +1105,13 @@ select {
 
 .segmented__option {
   position: relative;
+  /* Flex so an option can carry an icon and a label side by side. The theme
+     options use an icon plus an .sr-only name, and .sr-only is absolutely
+     positioned, so it drops out of this layout and those stay icon-only. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
   min-height: 32px;
   padding: 0 var(--space-3);
   border: none;

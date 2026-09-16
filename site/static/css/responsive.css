@@ -250,8 +250,6 @@
 
 .app__main {
   min-width: 0; /* critical: lets long model ids shrink instead of overflowing */
-  max-width: var(--content-max);
-  width: 100%;
 }
 
 /* Between 1024 and 1239 the sidebar is kept but narrowed, so the content
@@ -572,14 +570,34 @@
 /* ==========================================================================
    Wide screens
    --------------------------------------------------------------------------
-   Past about 1600px a single content column starts to look lost. The grid
-   gains a third track so the sidebar and content stay proportional instead of
-   the content stretching to an unreadable measure.
+   The previous version of this block raised --content-max to 1480px and its
+   comment claimed "the grid gains a third track". It did not: the shell stayed
+   a two-track grid, so everything past 1480px was simply left blank -- 140px
+   at 1920, 780px at 2560. A comment describing a layout the code does not
+   implement is worse than no comment, because it reads as intentional.
+
+   What actually uses the width now:
+
+   1. The shell fills the window (no max-width on .app__main).
+   2. The results list becomes a multi-column grid. Cards stay a readable
+      width and the screen shows more of them, which is what a catalog wants
+      from extra width -- the alternative, one 1900px-wide card, is just a
+      stretched version of the same list.
    ========================================================================== */
 @media (min-width: 1600px) {
   :root {
     --sidebar-width: 252px;
-    --content-max: 1480px;
+  }
+
+  .results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    align-items: start;
+  }
+
+  /* A loading / empty / error state is one message, not a column of them. */
+  .results > .state {
+    grid-column: 1 / -1;
   }
 }
 

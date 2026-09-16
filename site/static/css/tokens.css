@@ -35,6 +35,31 @@
      and every refraction effect was wasted. */
   --env-strength: 42%;
   --env-blur: 90px;
+  /* The optional photographic backdrop, when the user turns it on.
+
+     The scrim is not decoration and it is not a taste setting. Its job is to
+     bound the backdrop's luminance, because a photo is an *arbitrary* image
+     and some of the page's text sits directly on the background rather than on
+     a glass panel -- .howto__body and .directory__count both do, and both use
+     --text-muted. Nothing can be thickened behind those, so the scrim is the
+     only thing standing between them and whatever picture the user picks.
+
+     That makes the required opacity computable rather than a judgement call.
+     --text-muted is #47566c (L 0.0908). Against a black photo the backdrop is
+     the scrim colour alone, so the scrim must keep L(backdrop) >= 0.583 for
+     4.5:1. At 82% a black photo gave rgb(193,199,207), L 0.575 -- 4.34:1,
+     below AA. 88% gives L 0.638, and measured 5.00:1 on the worst case.
+
+     The value is set by the *darkest* photo, not by the one we ship, so the
+     guarantee does not depend on which image the user chooses. Cost: only 12%
+     of the photo reaches the screen, so it reads as a soft wash rather than a
+     picture. That is the price of an AA guarantee over arbitrary content, and
+     it is why this stays opt-in. */
+  --photo-scrim: rgb(239 244 251 / 88%);
+  /* How much of the colour-blob layer survives under a photo. The blobs exist
+     to give glass something to sample; a photo already does that, so keeping
+     them at full strength only muddies the image. */
+  --photo-env-opacity: 0.34;
 
   /* --- surfaces ------------------------------------------------------- */
   --bg: #eff4fb;
@@ -163,7 +188,11 @@
   /* --- layout --------------------------------------------------------- */
   --sidebar-width: 236px;
   --sidebar-gutter: 20px;
-  --content-max: 1360px;
+  /* --content-max used to live here and cap .app__main. It was removed: it
+     left dead space on wide windows (140px at 1920, 780px at 2560) and was
+     capping tables and cards, which have no readability problem with width.
+     Reading measure is enforced on the prose blocks themselves, in ch units.
+     Do not reintroduce a shell-wide cap without checking those numbers. */
   --topbar-height: 64px;
   --control-height: 44px;
   --touch-target: 44px;
@@ -217,6 +246,17 @@
   --env-teal: 40 128 140;
   --env-pink: 130 72 128;
   --env-strength: 50%;
+  /* Darker scrim than light theme: here the risk is the opposite way round --
+     light body text (#f0f5fd) sitting directly on a bright patch of the photo.
+     The photo itself is a night scene, so a dark scrim costs it less.
+
+     Same derivation as the light value, mirrored. --text-muted here is
+     #adbed4 (L 0.5048), so the backdrop must stay at or below L 0.0733. A pure
+     white photo at the previous 72% gave rgb(77,82,90), L 0.0752 -- 4.43:1,
+     below AA. 82% gives L 0.0411 and measured 5.16:1 against a white photo,
+     which is the brightest thing a user can hand us. */
+  --photo-scrim: rgb(8 14 26 / 82%);
+  --photo-env-opacity: 0.4;
 
   --bg: #080e1a;
   --surface: #151f31;
@@ -279,6 +319,45 @@
 }
 
 /* ==========================================================================
+   Thicker material under a photo (dark theme only)
+   --------------------------------------------------------------------------
+   Light theme needs nothing here: its scrim is 88% of a near-white, so a dark
+   photo only darkens the backdrop slightly, and a darker backdrop *raises*
+   contrast for dark text. Dark theme is the hard direction -- a bright photo
+   behind a translucent panel brightens the panel, and light text on a brighter
+   panel loses contrast.
+
+   Measured, not guessed. With the shipped photo the audit found 40 failures,
+   all but three in dark theme, on glass: 12x .sidebar__label at 3.48:1, 12x
+   .STRONG at 4.06, 6x .topbar__eyebrow at 3.61, plus a few links. The panel
+   fills had drifted to rgb(48,69,106) where the same elements measure
+   5.97-6.54:1 on the solid backdrop.
+
+   The fix is thicker glass, which is what iOS does over busy content: a
+   material's opacity is raised when what is behind it is unpredictable. The
+   three tiers keep their relationship (nav thinnest, plate most solid) and
+   their hue; only the tint darkens and the alpha rises.
+
+   Why not --glass-brightness, which sounds like the natural lever? Because it
+   does not apply here. .glass--nav and .glass--panel take
+   `backdrop-filter: url(#radar-refract)`, which REPLACES the
+   blur/saturate/brightness chain rather than adding to it, so the brightness
+   token never reaches the very elements that fail. Tried it: 48% and 62% gave
+   byte-identical results, and the same 6 failures either way. The tint is the
+   only lever that works, so it is the lever used.
+
+   Verification: measured against a pure WHITE photo -- the brightest a user can
+   pick -- the worst text reaches 5.16:1 (1.15x the AA requirement). Against the
+   shipped photo it is higher. tests/test_photo_backdrop_contrast.py asserts the
+   same arithmetic offline so it cannot drift.
+   ========================================================================== */
+[data-theme="dark"][data-backdrop="photo"] {
+  --glass-nav-bg: rgb(26 38 57 / 82%);
+  --glass-card-bg: rgb(22 32 49 / 84%);
+  --glass-plate-bg: rgb(15 23 36 / 94%);
+}
+
+/* ==========================================================================
    Reduced transparency
    --------------------------------------------------------------------------
    The media query is not available everywhere, so the app also exposes an
@@ -286,8 +365,17 @@
    Both paths must produce an opaque, fully readable result -- and they must
    also switch the refraction off, because refraction is a transparency
    effect and leaving it on over an opaque panel is incoherent.
+
+   :root is not decoration here. The block above is (0,2,0); without a matching
+   bump this block would sit at (0,1,0) and lose to it, so choosing both
+   "reduced transparency" and "photo backdrop" would silently re-introduce
+   translucent panels -- the one combination where that is exactly wrong. Equal
+   specificity plus later source order keeps reduced transparency on top.
+   (glass.css also pins `background: var(--surface)` on the elements at
+   (0,2,0), so the rendered result was never at risk; this keeps the tokens
+   themselves from contradicting it.)
    ========================================================================== */
-[data-transparency="reduced"] {
+:root[data-transparency="reduced"] {
   --glass-nav-bg: var(--surface);
   --glass-card-bg: var(--surface);
   --glass-plate-bg: var(--surface);
@@ -421,6 +509,53 @@ body::after {
   to {
     transform: translate3d(-2%, -2%, 0) scale(1);
   }
+}
+
+/* ==========================================================================
+   The optional photographic backdrop
+   --------------------------------------------------------------------------
+   Off by default; the user turns it on from the appearance controls. It is a
+   separate fixed layer rather than a `background-image` on <body> for two
+   reasons:
+
+   * `background-attachment: fixed` is ignored by iOS Safari, which would make
+     the photo scroll with the document while the glass above it samples a
+     viewport-sized region -- the refraction would detach from the image.
+     A fixed element behaves the same everywhere.
+   * A pseudo-element would have to fight body::before/::after, which the
+     colour-blob layer already occupies.
+
+   z-index -2 puts it behind the blobs at -1, so the blobs tint the photo
+   instead of hiding it.
+   ========================================================================== */
+.env-photo {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* The url() is inside the selector that only matches once the user has chosen
+   the photo, so a visitor who never turns it on never requests the file. On
+   .env-photo unconditionally it would be a 150KB download for everyone.
+
+   The scrim is the first background layer, so it covers the photo and nothing
+   else -- it does not dim the panels sitting on top. */
+[data-backdrop="photo"] .env-photo {
+  background-image: linear-gradient(var(--photo-scrim), var(--photo-scrim)),
+    url("../img/backdrop-night.jpg");
+  opacity: 1;
+}
+
+/* Under a photo the blobs step back: the photo is already something for the
+   glass to refract, and two competing colour sources turn the page to mud. */
+[data-backdrop="photo"] body::before,
+[data-backdrop="photo"] body::after {
+  opacity: var(--photo-env-opacity);
 }
 
 /* Respect the OS preference for reduced motion by default. The theme script

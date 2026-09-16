@@ -1,13 +1,19 @@
 {#
   themecontrols.html -- appearance switches.
 
-  Three independent choices, each persisted separately:
+  Four independent choices, each persisted separately:
     * theme          light / dark / follow system
+    * backdrop       solid colour / photo
     * transparency   full glass / reduced
     * motion         animated / reduced
 
   They are deliberately separate controls rather than one "accessibility"
   master switch, because a user may want the glass look but no motion.
+
+  The backdrop control carries visible text rather than the icon-only +
+  sr-only pattern the theme control uses. Three sun/moon glyphs are
+  self-explanatory; two abstract swatches are not, and the whole point of the
+  photo backdrop is that it is discoverable.
 #}
 <div class="themecontrols" data-theme-controls>
   <div class="segmented" role="group" aria-label="配色主题">
@@ -30,6 +36,23 @@
         <path d="M8.5 20h7M12 16.6V20"></path>
       </svg>
       <span class="sr-only">跟随系统</span>
+    </button>
+  </div>
+
+  <div class="segmented" role="group" aria-label="背景">
+    <button type="button" class="segmented__option" data-backdrop-choice="solid" aria-pressed="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <rect x="3.6" y="3.6" width="16.8" height="16.8" rx="3.2" fill="currentColor" opacity="0.9"></rect>
+      </svg>
+      <span>纯色</span>
+    </button>
+    <button type="button" class="segmented__option" data-backdrop-choice="photo" aria-pressed="false">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3.4" y="4.8" width="17.2" height="14.4" rx="2.4"></rect>
+        <circle cx="9" cy="10.1" r="1.6"></circle>
+        <path d="M4.2 17.2l4.3-3.9a1.8 1.8 0 012.4 0l4.6 4.2M14.6 15.4l1.3-1.2a1.8 1.8 0 012.4 0l1.9 1.7"></path>
+      </svg>
+      <span>图片</span>
     </button>
   </div>
 

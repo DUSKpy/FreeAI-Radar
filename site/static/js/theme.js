@@ -1,9 +1,10 @@
 /**
  * theme.js -- appearance preferences.
  *
- * Three independent preferences, each stored separately:
+ * Four independent preferences, each stored separately:
  *
  *   radar.theme          'light' | 'dark'        (absent means follow system)
+ *   radar.backdrop       'photo'                 (absent means solid colour)
  *   radar.transparency   'reduced'
  *   radar.motion         'reduced'
  *
@@ -13,10 +14,13 @@
  *
  * "Follow system" is the absence of the key rather than a third stored
  * value, so a user who never touches the control keeps tracking their OS
- * setting even if it changes at midnight.
+ * setting even if it changes at midnight. "Solid" is the absence of the
+ * backdrop key for the same reason: it is the default, and an absent key
+ * means a future change of default reaches everyone who never chose.
  */
 
 const THEME_KEY = 'radar.theme';
+const BACKDROP_KEY = 'radar.backdrop';
 const TRANSPARENCY_KEY = 'radar.transparency';
 const MOTION_KEY = 'radar.motion';
 
@@ -89,6 +93,37 @@ export function applyTransparency(reduced) {
   document.dispatchEvent(new CustomEvent('radar:transparency', { detail: { reduced } }));
 }
 
+export function currentBackdropChoice() {
+  return read(BACKDROP_KEY) === 'photo' ? 'photo' : 'solid';
+}
+
+/**
+ * Apply the backdrop choice.
+ *
+ * The attribute goes on <html> and CSS does the rest, including deciding
+ * whether to request the image at all -- the url() only appears in a rule
+ * guarded by [data-backdrop="photo"], so a visitor who never turns it on
+ * never downloads it.
+ */
+export function applyBackdrop(choice) {
+  const root = document.documentElement;
+  if (choice === 'photo') {
+    root.setAttribute('data-backdrop', 'photo');
+    store(BACKDROP_KEY, 'photo');
+  } else {
+    root.removeAttribute('data-backdrop');
+    store(BACKDROP_KEY, null);
+  }
+  syncBackdropControls(choice);
+  document.dispatchEvent(new CustomEvent('radar:backdrop', { detail: { choice } }));
+}
+
+function syncBackdropControls(choice) {
+  for (const button of document.querySelectorAll('[data-backdrop-choice]')) {
+    button.setAttribute('aria-pressed', button.dataset.backdropChoice === choice ? 'true' : 'false');
+  }
+}
+
 export function applyMotion(reduced) {
   const root = document.documentElement;
   if (reduced) {
@@ -136,6 +171,10 @@ export function initTheme() {
     button.addEventListener('click', () => applyTheme(button.dataset.themeChoice));
   }
 
+  for (const button of document.querySelectorAll('[data-backdrop-choice]')) {
+    button.addEventListener('click', () => applyBackdrop(button.dataset.backdropChoice));
+  }
+
   for (const input of document.querySelectorAll('[data-transparency-toggle]')) {
     input.checked = document.documentElement.hasAttribute('data-transparency');
     input.addEventListener('change', () => applyTransparency(input.checked));
@@ -149,6 +188,7 @@ export function initTheme() {
   initAppearanceSheet();
 
   syncThemeControls(currentThemeChoice());
+  syncBackdropControls(currentBackdropChoice());
   syncMetaThemeColor();
 
   // When the choice is "system", a live OS theme change must be reflected

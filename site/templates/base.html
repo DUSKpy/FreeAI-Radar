@@ -40,6 +40,9 @@
     if (localStorage.getItem('radar.motion') === 'reduced') {
       d.setAttribute('data-motion', 'reduced');
     }
+    if (localStorage.getItem('radar.backdrop') === 'photo') {
+      d.setAttribute('data-backdrop', 'photo');
+    }
   } catch (e) {
     d.setAttribute('data-theme', 'light');
   }
@@ -68,6 +71,12 @@
 </head>
 <body>
 <a class="skip-link" href="#main">跳到主要内容</a>
+
+{# The optional photographic backdrop. Empty and decorative; all of its styling
+   is driven by [data-backdrop] on <html>, and it carries no content a screen
+   reader or a text browser would miss. It sits behind the colour-blob layer so
+   the blobs tint the photo rather than cover it. #}
+<div class="env-photo" aria-hidden="true"></div>
 
 {#
   The refraction filter, referenced from glass.css by url(#radar-refract).
