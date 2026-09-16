@@ -518,8 +518,7 @@ def _load_previous(options: CollectOptions) -> tuple[RadarState | None, bool]:
     """
     if options.previous_path is None:  # pragma: no cover - CLI enforces this
         raise SystemExit(
-            "no previous state path given; pass --previous PATH "
-            "(with --init on the very first run)"
+            "no previous state path given; pass --previous PATH (with --init on the very first run)"
         )
 
     path = options.previous_path

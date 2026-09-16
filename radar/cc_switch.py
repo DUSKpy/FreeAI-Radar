@@ -426,7 +426,7 @@ def build_config(
             label="API Key",
             value=None,
             required=True,
-            hint=("请在你自己的 CC Switch 中填写。Radar 不收集、不传输、" "不记录任何上游密钥。"),
+            hint=("请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。"),
             secret=True,
             copiable=False,
         )

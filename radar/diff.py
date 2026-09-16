@@ -560,7 +560,7 @@ def build_daily_report(
         )
     lines.append("")
     lines.append(
-        "> 说明：来源不再列出某条目时只标记为“该来源不再列出”，" "不代表 API 下线或转为收费。"
+        "> 说明：来源不再列出某条目时只标记为“该来源不再列出”，不代表 API 下线或转为收费。"
     )
 
     payload = {

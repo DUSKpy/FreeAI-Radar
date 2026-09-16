@@ -126,7 +126,6 @@ def get_adapter(parser_name: str) -> type[BaseAdapter]:
     """
     if parser_name not in PARSER_REGISTRY:
         raise KeyError(
-            f"parser '{parser_name}' is not registered; "
-            f"known parsers: {sorted(PARSER_REGISTRY)}"
+            f"parser '{parser_name}' is not registered; known parsers: {sorted(PARSER_REGISTRY)}"
         )
     return PARSER_REGISTRY[parser_name]

@@ -20,7 +20,13 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "pytest>=8.0",
-  "ruff>=0.6",
+  # Pinned, not floated. Ruff ships new lint rules and new formatter behaviour
+  # in minor releases: 0.16 added UP042 (prefer `enum.StrEnum`) and began
+  # reformatting Python code blocks inside Markdown. With `ruff>=0.6` a green
+  # local run said nothing about CI, because CI resolved a much newer wheel and
+  # failed on code the local ruff had never heard of. Bump this deliberately
+  # and re-run the suite when you do.
+  "ruff==0.16.7",
   "jsonschema>=4.20",
 ]
 
@@ -39,6 +45,16 @@ target-version = "py311"
 # `dist` and `.work` are build output; `.work/public` in particular holds a copy
 # of the exported tree and would otherwise be linted as project source.
 extend-exclude = ["dist", ".work", "site/static/js"]
+# Lint and format only real Python files.
+#
+# Ruff >= 0.16 also rewrites Python code blocks embedded in Markdown. That
+# would reformat tests/fixtures/*.md, which are deliberate byte-faithful copies
+# of real upstream READMEs -- they exist so the parser is tested against the
+# shape a source actually publishes. Letting a formatter rewrite them would
+# quietly turn "parses real upstream content" into "parses content we edited
+# until the tool was happy", which is a weaker claim. The docs code blocks are
+# illustrative prose too. Scope ruff to *.py and leave the rest alone.
+include = ["*.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]

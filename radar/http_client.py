@@ -38,7 +38,7 @@ from .vocab import (
 )
 
 USER_AGENT = (
-    "FreeAI-Radar/0.1 (+https://github.com/; data collector; " "contact via repository issues)"
+    "FreeAI-Radar/0.1 (+https://github.com/; data collector; contact via repository issues)"
 )
 
 

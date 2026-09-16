@@ -227,9 +227,9 @@ class TestNoSecretsInTheBuild:
             text = path.read_text(encoding="utf-8")
             for match in re.finditer(r'"(?:apiKey|api_key)"\s*:\s*"([^"]*)"', text):
                 seen += 1
-                assert (
-                    match.group(1) == ""
-                ), f"{path.name} carries a key value: {match.group(1)[:8]}..."
+                assert match.group(1) == "", (
+                    f"{path.name} carries a key value: {match.group(1)[:8]}..."
+                )
         # A vacuous pass would mean the pattern never matched anything, which
         # could just as easily mean the scan is broken.
         assert seen >= 0

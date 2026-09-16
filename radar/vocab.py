@@ -13,7 +13,7 @@ Unknown is always representable and is never coerced into a negative answer.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from typing import Final
 
 STATE_SCHEMA_VERSION: Final[int] = 1
@@ -38,7 +38,7 @@ DEFAULT_PER_DOMAIN_CONCURRENCY: Final[int] = 1
 DEFAULT_GLOBAL_CONCURRENCY: Final[int] = 3
 
 
-class TriState(str, Enum):
+class TriState(StrEnum):
     """Three-valued logic for conditions.
 
     ``UNKNOWN`` must survive all the way to the UI. Reading a missing mention
@@ -50,7 +50,7 @@ class TriState(str, Enum):
     UNKNOWN = "unknown"
 
 
-class AccessType(str, Enum):
+class AccessType(StrEnum):
     """How a user reaches the service."""
 
     API = "api"
@@ -59,7 +59,7 @@ class AccessType(str, Enum):
     UNKNOWN = "unknown"
 
 
-class OfferType(str, Enum):
+class OfferType(StrEnum):
     """What kind of free thing this is.
 
     "Free forever" is never modelled. The closest honest value is
@@ -75,7 +75,7 @@ class OfferType(str, Enum):
     UNKNOWN = "unknown"
 
 
-class InfoStatus(str, Enum):
+class InfoStatus(StrEnum):
     """Where the information came from and how much it is trusted."""
 
     DIRECTORY_CLAIM = "directory_claim"
@@ -85,7 +85,7 @@ class InfoStatus(str, Enum):
     EXPIRED = "expired"
 
 
-class CallStatus(str, Enum):
+class CallStatus(StrEnum):
     """Result of an actual network call. Untested by default."""
 
     UNTESTED = "untested"
@@ -97,7 +97,7 @@ class CallStatus(str, Enum):
     SERVICE_ERROR = "service_error"
 
 
-class Protocol(str, Enum):
+class Protocol(StrEnum):
     """Wire protocols stored independently.
 
     A single "OpenAI compatible" boolean is not enough: only supporting Chat
@@ -110,7 +110,7 @@ class Protocol(str, Enum):
     GEMINI_NATIVE = "gemini_native"
 
 
-class CapabilityTag(str, Enum):
+class CapabilityTag(StrEnum):
     """Capability labels declared by a source.
 
     Never inferred from a model's name. If nothing is declared the model
@@ -129,7 +129,7 @@ class CapabilityTag(str, Enum):
     TEXT = "text"
 
 
-class QuotaUnit(str, Enum):
+class QuotaUnit(StrEnum):
     REQUESTS = "requests"
     TOKENS = "tokens"
     NEURONS = "neurons"
@@ -139,7 +139,7 @@ class QuotaUnit(str, Enum):
     UNKNOWN = "unknown"
 
 
-class QuotaPeriod(str, Enum):
+class QuotaPeriod(StrEnum):
     PER_SECOND = "per_second"
     PER_MINUTE = "per_minute"
     PER_HOUR = "per_hour"
@@ -151,7 +151,7 @@ class QuotaPeriod(str, Enum):
     UNKNOWN = "unknown"
 
 
-class CapabilityLevel(str, Enum):
+class CapabilityLevel(StrEnum):
     """Three-level agent compatibility ladder.
 
     These three must never be presented as one thing. Importing a config file
@@ -164,7 +164,7 @@ class CapabilityLevel(str, Enum):
     CALL_VERIFIED = "call_verified"
 
 
-class SourceType(str, Enum):
+class SourceType(StrEnum):
     MARKDOWN = "markdown"
     HTML = "html"
     JSON = "json"
@@ -172,7 +172,7 @@ class SourceType(str, Enum):
     RSS = "rss"
 
 
-class SourceStatus(str, Enum):
+class SourceStatus(StrEnum):
     OK = "ok"
     NOT_MODIFIED = "not_modified"
     FAILED = "failed"
@@ -181,7 +181,7 @@ class SourceStatus(str, Enum):
     STALE = "stale"
 
 
-class SourceLevel(str, Enum):
+class SourceLevel(StrEnum):
     """Evidence weight. Mirrors of the same upstream content are not独立 evidence."""
 
     OFFICIAL = "official"
@@ -189,14 +189,14 @@ class SourceLevel(str, Enum):
     MIRROR = "mirror"
 
 
-class ReviewDecision(str, Enum):
+class ReviewDecision(StrEnum):
     CONFIRM = "confirm"
     REJECT = "reject"
     SUPERSEDE = "supersede"
     NEEDS_REVIEW = "needs_review"
 
 
-class ReviewStatus(str, Enum):
+class ReviewStatus(StrEnum):
     DIRECTORY_CLAIM = "directory_claim"
     OFFICIAL_CONFIRMED = "official_confirmed"
     NEEDS_REVIEW = "needs_review"
@@ -204,7 +204,7 @@ class ReviewStatus(str, Enum):
     SUPERSEDED = "superseded"
 
 
-class ChangeType(str, Enum):
+class ChangeType(StrEnum):
     """Change taxonomy. A source dropping an entry is never reported as an API shutdown."""
 
     INITIAL_IMPORT = "initial_import"
@@ -220,28 +220,28 @@ class ChangeType(str, Enum):
     REVIEW_REJECTED = "review_rejected"
 
 
-class EntityStatus(str, Enum):
+class EntityStatus(StrEnum):
     ACTIVE = "active"
     STALE = "stale"
     CONFLICT = "conflict"
     REMOVED_FROM_SOURCE = "removed_from_source"
 
 
-class JobOutcome(str, Enum):
+class JobOutcome(StrEnum):
     SUCCESS = "success"
     PARTIAL = "partial"
     FAILED = "failed"
     SKIPPED = "skipped"
 
 
-class JobType(str, Enum):
+class JobType(StrEnum):
     COLLECT = "collect"
     BUILD_ONLY = "build_only"
     INITIAL_IMPORT = "initial_import"
     ROLLBACK = "rollback"
 
 
-class CCApp(str, Enum):
+class CCApp(StrEnum):
     """Target applications understood by the CC Switch ``app`` deep link param.
 
     Sourced from the official V1 protocol documentation, anchored in
@@ -255,14 +255,14 @@ class CCApp(str, Enum):
     OPENCLAW = "openclaw"
 
 
-class CCResource(str, Enum):
+class CCResource(StrEnum):
     PROVIDER = "provider"
     MCP = "mcp"
     PROMPT = "prompt"
     SKILL = "skill"
 
 
-class CCStatus(str, Enum):
+class CCStatus(StrEnum):
     """Outcome of building a CC Switch import payload."""
 
     READY = "ready"
