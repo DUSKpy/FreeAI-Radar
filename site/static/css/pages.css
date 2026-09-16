@@ -251,6 +251,7 @@
   border-radius: var(--radius-small);
   cursor: pointer;
   font-size: var(--text-small);
+  transition: background var(--motion-fast) var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -259,12 +260,37 @@
   }
 }
 
+/* The checkbox is the browser's own control, sized down and tinted with
+   accent-color, which is what keeps it native and keyboard-driven. The
+   44px tap target comes from the label around it, not from the box.
+
+   The focus ring has to be drawn on the ROW, not the input: a ring around
+   an 18px box is nearly invisible, and the thing the user is actually
+   focused on is the whole "持续免费额度  2" line. :has() keeps this tied to
+   the real focus state so it still works with the keyboard and with
+   assistive technology, unlike styling the label alone. */
+.facet:has(input:focus-visible) {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* A checked row gets a tinted background, so the set of active filters is
+   readable at a glance without hunting for ticked boxes. */
+.facet:has(input:checked) {
+  background: var(--accent-soft);
+}
+
 .facet input {
   flex: 0 0 auto;
   width: 18px;
   height: 18px;
   margin: 0;
   accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.facet input:focus-visible {
+  outline: none;
 }
 
 .facet__label {
@@ -402,6 +428,14 @@
   text-decoration: none;
   font-size: var(--text-small);
   font-variant-numeric: tabular-nums;
+}
+
+/* The date rail is the only way to move between days on a phone, and at
+   40px it is just under the comfortable thumb size. */
+@media (pointer: coarse) {
+  .report__index-link {
+    min-height: var(--touch-target);
+  }
 }
 
 .report__index-link:hover {
@@ -647,6 +681,19 @@
   margin: 0 0 var(--space-1);
   font-size: var(--text-body);
   font-weight: 650;
+}
+
+/* The provider name heading the card links to its detail page. Same inline
+   hit-area trick as the other prose links: the glyphs stay at their natural
+   size and the tappable region is grown behind them. */
+.checkitem__title a {
+  position: relative;
+}
+
+.checkitem__title a::after {
+  content: "";
+  position: absolute;
+  inset: -12px -8px;
 }
 
 .checkitem__detail {

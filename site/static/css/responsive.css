@@ -110,10 +110,20 @@
 }
 
 /* --- Directory -----------------------------------------------------------
-   Filter rail beside the results, or above them. */
+   Two columns: the results, then the filter rail.
+
+   The track order here MUST match the DOM order in pages/directory.html,
+   which is <div class="directory__main"> followed by <aside class="facets">.
+   Grid tracks are assigned in source order, so writing the rail's width
+   first put the 260px track on the results and gave the rail the whole 1fr
+   -- measured at 1440px as results=260px beside a 846px filter panel.
+
+   pages.css declares the same two columns the correct way round; this file
+   loads last and therefore has to repeat it correctly rather than reverse
+   it. */
 .directory {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) 260px;
   gap: clamp(16px, 2vw, 26px);
   align-items: start;
 }
@@ -144,10 +154,27 @@
 }
 
 /* --- Changes / report ----------------------------------------------------
-   A table of contents beside the report body, or above it. */
+   The date navigation, then the report body.
+
+   Grid tracks are handed out in source order, so these two columns have to
+   be written in the same order as the children of <div class="report"> in
+   pages/changes.html -- which is <nav class="report__index"> first, then
+   <div class="report__body">. The nav is the narrow one, so it takes the
+   fixed track.
+
+   Writing it the other way round (as pages.css does) put the body -- the
+   entire point of the page -- into 240px and gave the date list the
+   remaining 864px: a 2259px-tall ribbon of report text beside a mostly
+   empty column.
+
+   Note this is deliberately the reverse of pages.css. That file lists
+   `216px minmax(0, 1fr)`, which is correct for a nav-first grid, but it
+   also sets `gap: var(--space-6)`; this file loads later and restates the
+   whole rule so the fluid gap applies. Both files are right, in opposite
+   orders, and they must stay that way. */
 .report {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
+  grid-template-columns: 240px minmax(0, 1fr);
   gap: clamp(16px, 2vw, 28px);
   align-items: start;
 }

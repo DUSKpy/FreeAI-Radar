@@ -276,6 +276,99 @@ class TestEveryPageIsProduced:
         assert not missing, f"modules imported but not published: {missing}"
 
 
+class TestLayoutTracksMatchTheDomOrder:
+    """A CSS grid hands its tracks out in source order.
+
+    So a rule like ``grid-template-columns: 260px minmax(0, 1fr)`` puts the
+    *first* element in the markup into the 260px track. When the stylesheet
+    lists the tracks in a different order from the template's children, the
+    narrow track lands on the wrong element and the page silently renders
+    backwards -- the wide content is crushed into a sidebar-width column and
+    the sidebar gets the rest.
+
+    That is exactly what happened here, twice, and neither the test suite nor
+    a screenshot caught it:
+
+      * ``.directory`` put the 260px track on ``.directory__main``, so the
+        result cards rendered 260px wide beside an 846px filter rail.
+      * ``.report`` put the 240px track on ``.report__body``, so the daily
+        report became a 240px ribbon 2259px tall while the date list took
+        864px.
+
+    Both pages still "worked": every element was present, nothing overflowed,
+    and the HTML was valid. The only way to notice was to measure which
+    element ended up in which column.
+    """
+
+    #: container class -> (template file, first child class, second child class).
+    #: The file names and child order come from the templates, not the CSS --
+    #: note `.report` lives in changes.html, not a report.html of its own.
+    EXPECTED_ORDER: ClassVar[dict[str, tuple[str, str, str]]] = {
+        "directory": ("directory.html", "directory__main", "facets"),
+        "report": ("changes.html", "report__index", "report__body"),
+        "provider": ("provider.html", "provider__main", "provider__aside"),
+    }
+
+    def _responsive_css(self) -> str:
+        return (ROOT / "site" / "static" / "css" / "responsive.css").read_text(encoding="utf-8")
+
+    @pytest.mark.parametrize("container", sorted(EXPECTED_ORDER))
+    def test_the_template_children_are_in_the_order_the_test_assumes(self, container: str) -> None:
+        """Guard the guard: if a template is reordered, the assertions below
+        would silently stop describing the real page."""
+        filename, first, second = self.EXPECTED_ORDER[container]
+        html = (ROOT / "site" / "templates" / "pages" / filename).read_text(encoding="utf-8")
+        first_at = html.find(f'class="{first}')
+        second_at = html.find(f'class="{second}')
+        assert first_at != -1, f"{filename} has no .{first}"
+        assert second_at != -1, f"{filename} has no .{second}"
+        assert first_at < second_at, (
+            f"{filename}: .{second} now precedes .{first}; the CSS track "
+            f"order in responsive.css must be swapped to match"
+        )
+
+    def test_the_directory_gives_its_first_child_the_rail_width(self) -> None:
+        css = self._responsive_css()
+        block = re.search(r"\.directory\s*\{[^}]*grid-template-columns:\s*([^;]+);", css)
+        assert block, "no grid-template-columns for .directory in responsive.css"
+        declared = block.group(1).strip()
+        assert declared.startswith("minmax(0, 1fr)"), (
+            f".directory must put the fluid track first because .directory__main "
+            f"is the first child; found {declared!r}. Reversing this crushes "
+            f"every result card into the rail width -- measured once as "
+            f"results=260px beside facets=846px."
+        )
+
+    def test_the_report_gives_its_first_child_the_rail_width(self) -> None:
+        css = self._responsive_css()
+        block = re.search(r"\.report\s*\{[^}]*grid-template-columns:\s*([^;]+);", css)
+        assert block, "no grid-template-columns for .report in responsive.css"
+        declared = block.group(1).strip()
+        assert declared.startswith("240px"), (
+            f".report must put the fixed 240px track first because "
+            f".report__index is the first child; found {declared!r}. Reversing "
+            f"this gave the body 240px and the date list 864px."
+        )
+
+    def test_the_two_stylesheets_do_not_disagree_on_the_provider_layout(self) -> None:
+        """pages.css and responsive.css both declare .provider. They are
+        allowed to differ in gap but not in track order, because the later
+        file silently wins."""
+        pages = (ROOT / "site" / "static" / "css" / "pages.css").read_text(encoding="utf-8")
+        responsive = self._responsive_css()
+
+        def tracks(text: str) -> str:
+            match = re.search(r"\.provider\s*\{[^}]*grid-template-columns:\s*([^;]+);", text)
+            assert match, "no grid-template-columns for .provider"
+            return " ".join(match.group(1).split())
+
+        assert tracks(pages) == tracks(responsive), (
+            "pages.css and responsive.css disagree on the .provider columns; "
+            "responsive.css loads last and will win, so the intent in pages.css "
+            "is dead code"
+        )
+
+
 class TestNoSecretsInTheBuild:
     def test_no_api_key_field_is_populated_anywhere_in_the_published_data(
         self, built_site: Path

@@ -290,6 +290,31 @@ select.field {
 
 .sitefoot a {
   color: var(--text-muted);
+  /* Footer links are 18px-tall inline text. The list is a column of
+     single-line items, so the cheapest correct fix is to give each row a
+     comfortable height on a touch device rather than to expand the glyphs. */
+  display: inline-block;
+}
+
+@media (pointer: coarse) {
+  /* A footer link renders about 19px tall. Padding it to 38px still leaves a
+     dead band top and bottom -- and the dead band is where a thumb lands.
+     Making the row a flex column whose child stretches closes the gap: the
+     anchor itself becomes the full 44px, so every pixel of the row is
+     clickable. The footer is a vertical list, so the extra height costs
+     nothing and improves the rhythm if anything. */
+  .sitefoot li {
+    min-height: var(--touch-target);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sitefoot a {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    padding: var(--space-2) 0;
+  }
 }
 
 .sitefoot a:hover {
@@ -522,6 +547,18 @@ select.field {
   font-size: var(--text-helper);
 }
 
+/* A 34px control is right for a mouse and wrong for a thumb. Rather than
+   inflating every small button on desktop -- where it would make the dense
+   toolbars taller for no benefit -- the touch target is only raised where
+   the pointer is actually coarse. 44px is the documented minimum for a
+   finger, and .btn--small is used for real actions (查看详情, 导出, 清除),
+   not decoration, so they all have to be reliably tappable. */
+@media (pointer: coarse) {
+  .btn--small {
+    min-height: var(--touch-target);
+  }
+}
+
 .btn--icon {
   min-width: var(--control-height);
   min-height: var(--control-height);
@@ -732,6 +769,16 @@ select.field {
 .service__name a {
   color: inherit;
   text-decoration: none;
+  /* The card title is the primary way into the detail page, and it renders
+     about 21px tall. Same technique as the evidence links: extend the hit
+     area without disturbing the heading's line box. */
+  position: relative;
+}
+
+.service__name a::after {
+  content: "";
+  position: absolute;
+  inset: -13px -8px;
 }
 
 .service__name a:hover {
@@ -1028,8 +1075,18 @@ select {
     color var(--motion-fast) var(--ease-out);
 }
 
+/* Same reasoning as .btn--small: 32px is a comfortable mouse target and too
+   small for a thumb, and the theme picker lives inside the appearance sheet
+   where every hit is a finger. */
+@media (pointer: coarse) {
+  .segmented__option {
+    min-height: var(--touch-target);
+  }
+}
+
 .segmented__option[aria-pressed="true"] {
   background: var(--surface);
+
   color: var(--text);
   box-shadow: var(--shadow-soft);
 }
@@ -1517,6 +1574,48 @@ dialog.sheet--compact .themecontrols .segmented {
   font-size: var(--text-small);
 }
 
+/* The subject can be a link to the provider. It is a single line at the top
+   of a dense row, so the ::after box has to stop before the delta line
+   below it -- a symmetric -21px would swallow the neighbouring text and
+   steal its taps.
+
+   Instead the target grows upward, into the row's own 12px padding and the
+   space above the line, which belongs to nothing else. On a touch device
+   the line is also given a full 44px of its own so the whole subject reads
+   as one tappable bar rather than a word with a small hole around it. */
+.changeitem__subject a {
+  position: relative;
+}
+
+.changeitem__subject a::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  bottom: -5px;
+  left: -8px;
+  right: -8px;
+}
+
+@media (pointer: coarse) {
+  .changeitem__subject {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+  }
+
+  .changeitem__subject a {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    min-height: var(--touch-target);
+  }
+
+  /* Once the anchor fills the row, the extra ::after would only overflow. */
+  .changeitem__subject a::after {
+    content: none;
+  }
+}
+
 .changeitem__delta {
   display: flex;
   align-items: center;
@@ -1587,6 +1686,20 @@ dialog.sheet--compact .themecontrols .segmented {
   color: var(--accent-fg);
   overflow-wrap: anywhere;
   font-size: 12px;
+  /* A 12px inline link is a ~19px tall tap target. Growing the box would
+     break the line rhythm of the excerpt it sits under, so the hit area is
+     grown with an invisible pseudo-element instead -- the layout is
+     untouched and the finger still gets ~44px.
+
+     position: relative is required for this to anchor, and the ::after must
+     not sit above neighbouring links, so z-index is left at auto. */
+  position: relative;
+}
+
+.evidence__link::after {
+  content: "";
+  position: absolute;
+  inset: -13px -8px;
 }
 
 /* ==========================================================================
@@ -1651,6 +1764,16 @@ dialog.sheet--compact .themecontrols .segmented {
   font-weight: 600;
   color: var(--accent-fg);
   text-decoration: none;
+  /* "全部变化" sits at the end of a section heading. It is pushed to the
+     right edge by margin-left: auto, so the ::after hit area can extend
+     outward without colliding with the title on its left. */
+  position: relative;
+}
+
+.section__link::after {
+  content: "";
+  position: absolute;
+  inset: -12px -10px;
 }
 
 .section__link:hover {
