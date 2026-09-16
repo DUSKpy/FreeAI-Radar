@@ -2,16 +2,17 @@
 
 FreeAI Radar v0.1 —— 对照任务书第 32 节写的交付报告。
 
-> **一句话结论：全部 129 个源文件已真实推送到 `DUSKpy/FreeAI-Radar` 并逐文件核对一致；
-> 但站点尚未上线，因为 CI 工作流文件被凭据权限挡在仓库之外。**
+> **一句话结论：站点已真实上线。**
+> `https://duskpy.github.io/FreeAI-Radar/` 返回 **HTTP 200**，
+> 首页 25790 字节，8 个页面全部可访问，数据为一次真实的网络采集产物
+> （**56 providers / 173 models / 192 offers**），由 GitHub Actions 每日 `23:00 UTC` 更新。
 >
-> 具体阻塞不是"没有仓库"（仓库已存在，Pages 也已配置好 `build_type: workflow`），
-> 而是**推送用的 GitHub 凭据缺少 `workflow` scope**，GitHub 因此在所有写入路径上
-> 拒绝 `.github/workflows/*.yml`。这是一个有意的安全控制，我不会绕过它。
+> 曾有一个真实的阻塞：推送凭据缺少 `workflow` scope，GitHub 拒绝
+> `.github/workflows/*.yml`。该阻塞已由**用户提供带 `repo` + `workflow` 的凭据**解除，
+> 详见第 3.1 节。我没有绕过这个安全控制。
 >
-> 解锁需要**由注入该凭据的一侧重新授权并勾选 `workflow` 权限**（实测该凭据是环境注入的
-> `x-access-token` 形态，并非 `gh` 登录，所以 `gh auth refresh` 大概率无效——我早先
-> 写的那条命令过于乐观，详见第 3.1 节的更正）。
+> 上线后又发现并修复了一个**真实的解析器缺陷**（噪声剥离误删正文），
+> 详见第 3.2 节——这个问题在 fixture 上完全看不出来，只有真实页面才会暴露。
 
 报告按任务书要求分成三段：**已实现并验证** / **已实现未验证** / **未实现或受阻**。
 
@@ -210,7 +211,7 @@ sources   : 2
 | **`ailookup_markdown` 对真实页面** | 来源因无 LICENSE 被禁用 | 确认许可证 |
 | **`official_docs_generic` 的字段准确性** | 抽取是尽力而为；官方页面改版会退化 | 人工逐条核对（即填 `reviews.yaml`） |
 | **`persist` job 的 rebase-then-push** | 本地以等价命令验证过逻辑，没在真实并发下跑过 | 两次并发触发 |
-| **`dataset_version` 跨运行的稳定性** | 单次运行内验证过；跨运行需 CI | 连续跑两次 |
+| **`dataset_version` 跨运行的稳定性** | ✅ **已在 CI 上验证**：连续两次 publish 得到不同但各自自洽的哈希（`4695da5d…` → `0735fb72…`），说明它随内容变化 | 连续跑两次 |
 
 **关于 `official_docs_generic`：** 它被设计成"对不确定的字段不猜"——
 拿不准就保留一段摘录 + 链接，标成 `needs_review`，等人工通过 `reviews.yaml` 确认。
@@ -220,29 +221,70 @@ sources   : 2
 
 ## 3. 未实现或受阻
 
-### 3.1 ⛔ M6：站点上线 —— 部分完成，受阻于凭据 scope
+### 3.1 ✅ M6：站点上线 —— 已完成
 
-**已完成的部分：代码 100% 已真实推送。**
+**代码 100% 已真实推送，站点已真实上线。**
 
 | 项目 | 状态 |
 | --- | --- |
 | 目标仓库 | `https://github.com/DUSKpy/FreeAI-Radar` |
-| 已推送提交 | `main` 最新提交（`git ls-remote origin main` 可查） |
 | 远端文件数 | **129**，与本地 tree **逐文件核对一致** |
 | 远端可达性 | README / LICENSE / pyproject / radar / schemas / site / tests / docs 全部 HTTP 200 |
 | Issue 模板 | 4 个全部在线 |
-| Actions | **已启用**（`"enabled": true`） |
-| Pages | **已配置**：`build_type: workflow`、source `main`、`https_enforced: true` |
+| Actions | **已启用**，`ci` 与 `publish` 两个 workflow 均 `active` |
+| Pages | **已部署**：`build_type: workflow`、`source main`、`https_enforced: true` |
+| **公开地址** | **https://duskpy.github.io/FreeAI-Radar/** —— **HTTP 200** |
 
-Pages 的目标地址是已经确定的：
+**工作流运行记录（全部为真实执行）：**
+
+| 运行 | 结论 | 说明 |
+| --- | --- | --- |
+| CI #1 | ❌ | ruff `Found 22 errors`（CI 装到 0.16.7，本地 0.8.6，新增 `UP042`） |
+| CI #2 | ❌ | `ModuleNotFoundError: pydantic`（依赖未声明） |
+| CI #3 | ✅ | 修复后全绿：`214 passed, 2 skipped` |
+| publish #1 | ✅ | 首次部署成功，站点由 404 变 200 |
+| CI #4 | ✅ | 解析器修复后：`219 passed, 2 skipped` |
+| publish #2 | ✅ | 携带解析器修复重新采集部署 |
+
+
+Pages 的目标地址：
 
 ```
 https://duskpy.github.io/FreeAI-Radar/
 ```
 
-当前访问返回 **404**，因为还没有任何工作流运行过——正常，部署尚未发生。
+### ✅ 线上验收（实测，非推断）
 
-**受阻的部分：CI 工作流文件推不上去。**
+| 检查 | 结果 |
+| --- | --- |
+| 首页 | **HTTP 200**，`Content-Length: 25790`，`<title>FreeAI Radar · 免费 AI API 目录</title>` |
+| 8 个页面 | `index` / `directory` / `provider` / `changes` / `sources` / `reviews` / `favorites` / `404` —— **全部 200** |
+| 资源 | `assets/css/glass.css`、`assets/js/app.js`、`assets/favicon.svg` —— 全部 200 |
+| 数据 | `data/manifest.json` 200、`data/index.json` 200（31403 字节） |
+| `dataset_version` | `sha256:0735fb7289be2d9ebc759967ca22a0a8092ab1906f110ad5c58ad6241e2c8971`（修复后重采集） |
+| 规模 | **56 providers / 173 models / 192 offers** |
+| 日报 | `data/reports/2026-09-16.md` 200（3254 字节） |
+| 服务方 | `Server: GitHub.com`，`Last-Modified` 与部署时刻吻合 |
+
+**两个"看起来像 404"但其实是正确设计的现象，不要误判为故障：**
+
+| 现象 | 真相 |
+| --- | --- |
+| `data/catalog.json` → 404 | **正确**。文件名**内容寻址**：真名 `data/catalog.<sha8>.json`，指针写在 `data/manifest.json` 的 `catalog_url`。故意不提供裸名，避免浏览器取到陈旧缓存 |
+| `.nojekyll` → 404 | **正确**。它是 Pages 流水线消费的构建标记，不是从 artifact 提供的文件。测试套件另行断言它存在于 `dist/` |
+
+### 线上数据质量抽查（确认未违反任务书硬规则）
+
+| 规则 | 实测证据 |
+| --- | --- |
+| 不捏造"实测可用" | `call_status` **192/192 全为 `untested`** |
+| `unknown` 不得被压成 `not_need` | 三元值共存：`unknown=509` / `need=186` / `not_need=73` |
+| 不把目录声明当官方证据 | `info_status` 区分 `directory_claim`(166) / `official_confirmed`(26)；`source_level` 同样区分 `directory`(166) / `official`(26) |
+| 证据链完整 | **192/192** offer 都带 `evidence` |
+| 不猜测协议 | 模型层 `protocols` 全空——目录源未声明，**诚实留空** |
+| 不承诺"永久免费" | `offer_type` 用 `sustained_free_tier`(131) / `one_time_trial`(21) / `recurring_free_credit`(14) / `unknown`(26) 区分 |
+
+### 曾受阻的部分：CI 工作流文件推不上去
 
 报错原文（GitHub 返回，非我推断）：
 
@@ -252,6 +294,10 @@ https://duskpy.github.io/FreeAI-Radar/
 ```
 
 **具体阻塞点：推送用的凭据缺少 `workflow` scope。**
+
+**✅ 已解除**：用户提供了带 `repo` + `workflow` 的凭据。
+推送成功后远端 `860a96d` 加入 `.github/workflows/ci.yml` + `publish.yml`，
+两个 workflow 均为 `active`（id `359315728` / `359315730`）。
 
 已确认的事实（`X-OAuth-Scopes` 响应头，非推断）：
 
@@ -366,9 +412,19 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 | 6 | 文档命令参数写错 | `build_site` 输入是 `--data` 不是 `--public`；`export_public` 输出是 `--output` 不是 `--out`。照抄直接报错 | 修正并**逐字跑通** |
 | 7 | `favicon.ico` 每页 404 | 浏览器隐式请求 | 加 `favicon.svg` 并声明 |
 | 8 | `_prepare_output` 遇锁文件崩溃 | Windows 上文件被占用时构建失败 | `contextlib.suppress(OSError)` |
+| 9 | 噪声剥离误删正文 | **只有真实页面才暴露**：`_strip_noise()` 用子串匹配 class，而 OpenRouter 正文容器带 Tailwind 任意值 `pt-[calc(10rem+var(--banner-height,2.5rem))]`，`banner` 命中 CSS 变量名 → **整个正文（5107 字符）被删** → 报 `parse_error`，但 HTTP 是 **200**。"200 + 读不到文本"必须去查解析器，不能归因于网络 | class 改为按 token 匹配（`md:flex` / `pt-[calc(...)]` 归约成基础名）；并加"占文本 ≥50% 的节点永不删除"第二道保险 |
+| 10 | 依赖未声明（3 个包） | 本地测试一直绿，因为开发机**碰巧**装有它们。`pip install -e ".[dev]"` 不会带上未声明的包，CI 是循环里唯一的干净 checkout → `ModuleNotFoundError: pydantic` | 补 `pydantic` / `beautifulsoup4` / `lxml`；**用干净 venv 验证** |
+| 11 | `ruff>=0.6` 无上界 | CI 装到 0.16.7 而本地是 0.8.6，0.16 新增 `UP042` → CI 报 22 个错，本地全绿 | 钉 `ruff==0.16.7` + 22 个枚举迁 `StrEnum`；并用 `[tool.ruff] include = ["*.py"]` 阻止它重排 `tests/fixtures/*.md`（那些是真实上游 README 的逐字副本） |
+| 12 | `StrEnum` 迁移暴露的潜在 bug | 旧 `(str, Enum)` 让 `str(Protocol.OPENAI_CHAT)` 返回 `"Protocol.OPENAI_CHAT"`，而 `cc_switch.PROTOCOL_LABELS` 以**值字符串**为键 → 标签查询**静默落空** | 迁移到 `StrEnum` 后 `str()` 返回 `"openai_chat"`，标签恢复 |
 
-第 4、5、6 条有一个共同点：**它们都是"错得安静"**。
-第 1 条也是。这类缺陷不会报错，只会让结果悄悄变错。
+第 4、5、6、10 条有一个共同点：**它们都是"错得安静"**。
+第 1、9 条也是。这类缺陷不会报错，只会让结果悄悄变错。
+
+第 9 条还说明另一件事：**fixture 测试覆盖不到真实站点的 CSS 现实**。
+`tests/fixtures/*.md` 都是 Markdown，而 `_strip_noise` 只在 HTML 路径上跑，
+所以这个缺陷在 215 个测试全绿的情况下照样上线了。修完后补了 5 个回归测试，
+并且**用旧实现验证过它们确实会失败**（失败时 `main_text == ''`，与线上症状一致）——
+不是"恰好通过"的测试。
 
 ---
 
@@ -406,23 +462,29 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 
 诚实列出，不含糊：
 
-1. **站点未上线。** 没有公开 URL。这是最大的缺口，也是本报告最重要的结论。
-2. **"永远免费"从不被承诺。** 最接近的诚实话术是"当前公布的政策有持续免费档"，
-   而且它随时会变。
-3. **没有任何键被收集、存储、传输或展示。** 导出里的 `api_key` 始终是 `null`。
-4. **连通性从未被验证。** `call_status` 默认是 `untested`。本项目不测试 API 是否真的可用。
-5. **`official_docs_generic` 是尽力而为的。** 摘录 + 人工复核是兜底，不是保证。
-6. **三态逻辑里 `unknown` 会一路保留到界面。** 如果某个 provider 的条件是
-   `unknown`，界面就显示"无法判断"，**不会**说成"不需要"。这是刻意的。
+1. **没有任何键被收集、存储、传输或展示。** 导出里的 `api_key` 始终是 `null`。
+2. **连通性从未被验证。** `call_status` 默认是 `untested`（线上 192/192 全是这个值）。
+   本项目不测试 API 是否真的可用——**它绝不声称某个免费额度"能用"**。
+3. **`official_docs_generic` 是尽力而为的。** 摘录 + 人工复核是兜底，不是保证。
+   线上 5 个来源中，2 个官方页给出的是事实与摘录，而不是条目行
+   （它们的页面用散文写限速、没有模型表格），因此 `records=0` 是**正确结果**。
+4. **三态逻辑里 `unknown` 会一路保留到界面。** 线上保留 `unknown=509` 个值，
+   与 `need=186` / `not_need=73` 共存。界面显示"无法判断"，**不会**说成"不需要"。
+5. **`config/reviews.yaml` 为空。** 这是如实状态：还没有人工复核过任何字段。
+   线上 `needs_review=0` 与 `official_confirmed=26` 并存，前者表示没有待复核项。
+6. **"永远免费"从不被承诺。** 最接近的诚实话术是"当前公布的政策有持续免费档"，
+   而且它随时会变。且**本文不会说站点"永久免费可用"**。
 
 ---
 
 ## 7. 下一步
 
-1. **给一个目标仓库 → 完成 M6。** 这是唯一能把"可部署代码"变成"已上线站点"的做法。
-2. 在真实 iPad 上打开一次；在装了 CC Switch 的 Windows 上导入一次。
+1. 在真实 iPad 上打开一次（响应式断点只在模拟器里验证过）。
+2. 在装了 CC Switch 的 Windows 上真机导入一次（本环境无法执行 `ccswitch://`）。
 3. 逐步填充 `config/reviews.yaml`，每条都要有真实 `evidence_url` 和 `reviewed_at`。
-4. 确认 `free-llm-resources` 的许可证，决定是否启用那个适配器。
+   填完后 `official_confirmed` 会上升，`needs_review` 才真正有意义。
+4. 确认 `free-llm-resources` 的许可证后决定是否启用该适配器。
+5. **吊销本次用于推送工作流的 PAT**（已提醒用户）。
 
 ---
 
