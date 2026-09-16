@@ -67,7 +67,7 @@ FreeAI Radar v0.1 —— 对照任务书第 32 节写的交付报告。
 | `tests/` | 8 个测试模块 + 2 个 CI 闸门脚本 + 4 份 fixture |
 | `.github/` | 2 个工作流（**待推送**）+ 4 个 issue 模板（已在线） |
 | `config/` | `sources.yaml` / `reviews.yaml` / `aliases.yaml` |
-| `docs/` | 8 份文档 + 19 张截图 |
+| `docs/` | 7 份文档 + 102 张截图（8 页 × 6 档宽度 × 2 主题 = 96，外加 6 张线上/交互专项） |
 
 #### 行尾规范化（部署时修的）
 
@@ -87,13 +87,13 @@ Windows 上 `core.autocrlf=true` 会把 CRLF 写进仓库，Linux CI 随后会�
 
 ```bash
 python -m pytest -m "not network"
-# 231 passed, 1 skipped in 7.07s
+# 241 passed, 1 skipped in 6.66s
 
 python -m ruff check .
 # All checks passed!
 
 python -m ruff format --check .
-# 34 files already formatted
+# 35 files already formatted
 ```
 
 | 模块 | 测的什么 |
@@ -105,6 +105,7 @@ python -m ruff format --check .
 | `test_build.py` | `load_versioned` 四种情形回归、base_path、8 页 6 资源齐全、**遍历 JS import 图证明每个被导入的模块都已发布**、产物无填充密钥、`_prepare_output` 幂等且容忍锁文件、**网格轨道顺序与模板 DOM 顺序交叉核对**、**受工具类影响的隐藏规则必须靠特异度取胜而不是靠书写顺序** |
 | `test_collect_state.py` | `--previous` 必填、缺失/损坏/非法文件都必须报错而不是静默重置、空状态不伪造时间戳 |
 | `test_repo_hygiene.py` | 在真实 git 仓库里问 `.gitignore`：必需文件可提交、密钥与状态被忽略、seed 必须保持为空且与代码生成形状一致 |
+| `test_token_contrast.py` | 设计 token 层面的 WCAG AA：每个文字 token 对它实际所在表面的对比度（两套主题）、CTA 按钮深色主题反色、**配对本身必须能在样式表里找到依据**（防止对不存在的组合写绿色断言）、对比度算法用已知值自检 |
 | `tests/validate_fixtures.py` | fixture ↔ schema 校验 |
 | `tests/scan_secrets.py` | 13 种凭据形状扫描 36 个产物文件 |
 
@@ -174,14 +175,25 @@ sources   : 2
 
 ### 1.6 截图证据
 
-`docs/screens/` 19 张，尺寸为任务书指定的四档：
+`docs/screens/` 共 102 张：96 张是「8 页 × 6 档宽度 × 2 主题」的完整矩阵，
+另 6 张是线上部署与手机外观控件的专项截图：
 
 | 尺寸 | 说明 |
 | --- | --- |
-| 1440×900 | 桌面，目录/总览/详情/变更/来源/核验/收藏，亮 + 暗 + 减少透明 |
-| 1024×768 | 笔记本 |
-| 820×1180 | iPad |
-| 390×844 | 手机，亮 + 暗 |
+| 1440×1000 | 桌面 |
+| 1024×820 | 笔记本 |
+| 834×1112 | iPad |
+| 768×1024 | 平板竖屏 |
+| 430×932 | 大屏手机 |
+| 390×844 | 手机 |
+
+8 页：总览、目录、详情、变更、来源、核验、收藏、404。
+宽度档位是 6 档而不是任务书最初的 4 档（M4 时为 19 张）。
+多出的 834 有明确的实证价值：第 4 节第 15 条的页脚溢出
+**只在 768–1239px 这一带出现**，834 正好落在中间，
+而在更常见的 1440 与 390 上完全看不出来。
+430 与 390 同属手机档，差别在于大屏手机上底部胶囊与表格卡片的密度，
+两档都保留是为了让手机端的结论不只依赖一个宽度。
 
 `.work/capture.mjs` **在脚本内断言 `window.innerWidth` 真的等于目标宽度**。
 这条断言是必要的：早先用别的工具时它静默产出了 8 张字节完全相同的截图，
@@ -423,6 +435,7 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 | 17 | **rebased manifest 从未落盘** | **本版最隐蔽的一个**。`_rebase_urls()` 把 manifest 里的数据 URL 改写到本次构建的 base path，但 `_copy_data()` 用 `shutil.copy2` **逐字复制**源文件，改写**只存在于内存**。配合 `data-client.js` 里 `href.replace(basePath, '')`——**`String.replace` 区分大小写**，前缀不匹配时**静默不动**，留下绝对路径 `/freeai-radar/...`。结果：页面渲染正常、链接正常、**每个数据请求 404**。导出用 `/freeai-radar/`、构建用 `/FreeAI-Radar/` 时必现 | `_copy_data(data_dir, output_dir, manifest)`：manifest 改为**写入**而非复制。新增回归测试 `TestTheManifestIsRebasedNotJustCopied`，故意让 export 与 build 的 base path **不同**（旧测试用同一个值，所以陈旧副本与已 rebase 字节相同，看不见）——**已验证它在旧代码上失败** |
 | 18 | 两个网格被反向分配 | CSS Grid 的轨道按 **DOM 源码顺序**分配。`.directory` 写 `260px minmax(0, 1fr)` 而模板首个子元素是 `.directory__main` → 1440px 下结果卡片被压成 **260px**、筛选栏拿到 **846px**。`.report` 同理：日报正文被压成 240px × 高 2259px 的竖条，日期索引占 864px。**元素都在、HTML 合法、不溢出**，截图"看着有内容" | 两处轨道顺序改为与模板一致（`minmax(0, 1fr) 260px` / `240px minmax(0, 1fr)`）。新增 `TestLayoutTracksMatchTheDomOrder`，把 CSS 声明顺序与模板子元素顺序**交叉核对**，并加一条守卫测试防止模板被重排。发现手段是写脚本标记"靠前的子元素比靠后的兄弟窄 2.2 倍以上"的网格 |
 | 19 | 桌面端有**点了没反应**的"筛选"按钮 | `.facets__toggle { display: none }` 是单类选择器（`components.css` 第 215 行），而按钮类名是 `class="btn btn--small facets__toggle"`，`.btn { display: inline-flex }` 在**同文件第 473 行**。特异度都是 (0,1,0)，级联只能靠源码顺序分胜负 → **`.btn` 赢**。1440px / 1024px 下筛选栏本来就可见，却渲染出一个 53×34 的按钮，点击只改 `aria-expanded`，面板纹丝不动。**一个看起来可交互、实际什么都不做的控件** —— 而且第 213 行的注释写的是"桌面端隐藏"，代码做的正好相反 | 改成 `.btn.facets__toggle` 把特异度提到 (0,2,0)，胜负不再取决于书写顺序；`responsive.css` 中恢复显示的规则同步改成两个类。4 个回归测试，其中 3 个**已验证在改回缺陷后失败** |
+| 20 | 浅色 `--text-subtle` 在 `--surface-sunken` 上只有 **4.57:1** | 通过 WCAG AA 的 4.5 线，但**只多 0.07**，是整个设计系统里余量最小的一处。该 token 用在 11px 辅助文字上（`.navlink__count`、`.sidebar__label`、`.topbar__eyebrow`），适用的是 4.5:1 硬线。风险不在当下 —— 它现在是通过的 —— 而在于任何一个 token 的微调都会让它无声跌破 AA，且**不会有任何测试失败**（当时还没有 token 级测试） | `--text-subtle` 由 `#5c6c85` 改为 `#526073`：三个表面分别 4.57 → **5.49**（`--surface-sunken`，最差）、5.01 → 6.01、5.33 → 6.40。与 `--text-muted` 仍相差 28，两级灰阶肉眼可分（再深会塌成一级：`#4f5c6e` 差 16、`#4c5867` 差 12）。新增 `test_token_contrast.py` 10 个测试锁住结论；改后复测 930 个文本元素（6 页 × 2 主题 × 整页高度）全部通过 |
 
 第 4、5、6、10 条有一个共同点：**它们都是"错得安静"**。
 第 1、9 条也是。这类缺陷不会报错，只会让结果悄悄变错。
@@ -445,6 +458,27 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 因为断言匹配到了紧邻的注释，而注释里为了说明问题引用了
 `.btn.facets__toggle` 这个写法。剥掉 `/* ... */` 之后测试才真正有效。
 **会读散文的测试不是测试。**
+
+第 20 条是**第四种形态，也是最难归类的一种：它现在是对的**。
+对比度 4.57:1 确实通过了 WCAG AA，没有用户受到伤害，
+也没有任何渲染是错的。它的风险是**结构性的**：余量只有 0.07，
+而当时不存在任何 token 级测试，所以任何一次看似无害的调色
+都会让它无声地跌破 AA。
+
+引入 `test_token_contrast.py` 的过程又暴露了两个**我自己犯的**错误，
+都写进了 `docs/progress.md` 的 M9 一节，因为它们是同一个道理的两面：
+
+- **对不存在的组合写断言**：第一版 `PAIRINGS` 里断言了
+  `--text` on `--surface-sunken`，而 `--text` 从不落在下沉表面上。
+  这条断言在 14.49:1 通过 —— 它没覆盖任何东西，却占了位置，
+  同时真正会发生的配对（`--text-subtle`、`--text-muted` on `--surface-sunken`）
+  完全没有被检查。**看起来像覆盖的空断言比没有断言更危险。**
+- **把"grep 到"当成"量到了"**：用 `.navlink__count` 作为
+  `--text-subtle`/`--surface-sunken` 的证据，但该元素有激活/非激活两态，
+  页面上唯一带数字的恰好是激活态（走 `--accent-fg` on 半透明白）。
+  非激活态因为计数为 0 而 `0x0` **根本不渲染**。
+  注入计数强制它渲染后测得 `5.49:1`、背景 `rgb(232,238,247)`
+  （正是 `--surface-sunken`），与 token 计算吻合。
 
 排查第 19 条时另外踩了两个工具坑，一并记下，因为都很容易再犯：
 

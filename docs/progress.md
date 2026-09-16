@@ -205,9 +205,9 @@ sources   : 2
 
 ### 证据
 
-`docs/screens/` 下 **97 张截图**（M7 重做后；M4 当时是 19 张）：
+`docs/screens/` 下 **102 张截图**（M8 后；M7 重做时 97 张，M4 当时 19 张）：
 8 个页面 × 6 个宽度（1440 / 1024 / 834 / 768 / 430 / 390）× 亮暗两主题 = 96，
-外加外观面板 1 张。由 `.work/shot.mjs` 驱动 Playwright 生成，
+外加线上部署与交互专项 6 张。由 `.work/shot.mjs` 驱动 Playwright 生成，
 并且**在脚本内断言 `window.innerWidth` 真的等于目标宽度**——因为之前用别的工具
 踩过坑，它静默产出了 8 张字节完全相同的截图，视口根本没生效。
 
@@ -613,6 +613,105 @@ CSS Grid 的轨道按 **DOM 源码顺序**分配。`.directory` 写的是
 - **真机 Safari / Firefox** —— 降级路径是用原地改写 CSS 的方式模拟的，
   逻辑等价但不是真机。
 - **真机 iOS 的 `env(safe-area-inset-*)`** —— 桌面浏览器下这些值是 0。
+
+---
+
+## M9 — 对比度余量：一个"通过"但只多 0.07 的配色
+
+M8 之后，浏览器逐像素审计（930 个文本元素 × 6 页 × 2 主题 × 整页高度）
+结论是全部通过 WCAG AA。为了把这件事固化成毫秒级的离线测试，
+新增了 `tests/test_token_contrast.py`。**写这个测试的过程本身暴露了三个问题**，
+其中两个是我自己造成的。
+
+### 1. 我断言了一组根本不存在的配对
+
+第一版 `PAIRINGS` 里写了 `--text` on `--surface-sunken`。
+grep 完才发现：`--text` 从来没有落在下沉表面上，
+它只出现在 `--surface` 和 `--surface-soft` 上。
+
+这条断言在 14.49:1 通过，所以测试是绿的 —— 但它**什么都没覆盖**。
+更糟的是它占了一个位置：真正会发生的配对
+（`--text-subtle`、`--text-muted` on `--surface-sunken`）当时完全没有被断言。
+
+**对着不存在的组合写的绿色断言，比不写更坏，因为它看起来像覆盖。**
+
+### 2. 收紧之后，我的新守卫又抓到了我自己的两处臆造
+
+为了防止再犯，加了一个守卫：每一条被断言的配对，都必须在样式表里
+找得到对应声明。守卫第一次运行就红了，指出两条：
+
+```
+--text-subtle on --surface
+--text-subtle on --surface-soft
+```
+
+这两条其实是**真实的**，但形式不同：`.sidebar__label`、
+`.topbar__eyebrow`、`.sitefoot__disclaimer` 都设了 `color: var(--text-subtle)`
+而背景由祖先（或页面本身）决定，没有任何单条规则同时包含两者。
+
+所以配对有两种形态，守卫也必须分开处理：
+
+- **DECLARED** —— 同一条规则里同时有 `color:` 和 `background:`，
+  可以直接 grep（`--text-subtle`/`--surface-sunken` 等 4 组）。
+- **INHERITED** —— 文字色由元素设定、表面由祖先决定，单规则 grep 看不见。
+  对这类只能退到"两个 token 都确实在用"这个可证伪的主张。
+
+写一个假的 grep 去"证明"继承配对，等于把守卫变成摆设。
+
+### 3. 真正的发现：最紧的一处只多 0.07
+
+配对校准之后，数值摊开来看，整个体系里最紧的一处是：
+
+| 配对 | 改前 | 改后 |
+| --- | --- | --- |
+| 浅色 `--text-subtle` on `--surface` | 5.33 | 6.40 |
+| 浅色 `--text-subtle` on `--surface-soft` | 5.01 | 6.01 |
+| **浅色 `--text-subtle` on `--surface-sunken`** | **4.57** | **5.49** |
+| 浅色 `--text-muted` on `--surface-sunken` | 6.39 | 6.39 |
+
+`--text-subtle` 用在 11px 的辅助文字上（`.navlink__count`、`.sidebar__label`、
+`.topbar__eyebrow`），所以 4.5:1 是硬线。**4.57 通过，但只多 0.07**：
+只要有人微调任一 token，就会跌破 AA，而且不会有任何东西报警。
+
+`--text-subtle` 由 `#5c6c85` 改为 `#526073`，最差情况从 4.57 提到 5.49。
+同时与 `--text-muted`（`#47566c`）仍相差 28，两级灰阶肉眼可分；
+再深就会塌成同一级（`#4f5c6e` 只差 16，`#4c5867` 只差 12）。
+
+### 4. 一个关于"证据"的教训
+
+验证时我用 `.navlink__count` 作为 `--text-subtle`/`--surface-sunken`
+的证据。但逐像素测出来是 `10.06:1`、`text=rgb(13, 61, 120)` —— 那是
+`--accent-fg`，不是 `--text-subtle`。
+
+原因是这个元素有**两个状态**：
+
+- 非激活（`components.css:129`）：`--text-subtle` on `--surface-sunken`
+- 激活（`components.css:144`，`[aria-current="page"]`）：
+  `--accent-fg` on `rgba(255,255,255,0.66)`
+
+`directory.html` 上唯一带数字的 navlink 恰好是激活的那个，
+所以不特意构造的话，量到的永远是第二个状态。
+而且非激活的计数是 `0x0`（"我的收藏"没有数字），**根本不渲染**。
+
+我最初的 grep 只找到 129 行，却以为探针量到了它。修正做法：
+注入一个计数让非激活态真正渲染，再测 —— 得到
+`light 5.49:1 text=rgb(82,96,115) bg=rgb(232,238,247)`，
+和 token 计算完全吻合，背景正是 `--surface-sunken`。
+
+**"我 grep 到了这条规则"和"我量到了这条规则"是两件事。**
+
+### 5. 守卫本身也要证明会失败
+
+新增的守卫全部逐条注入缺陷验证过，避免"守卫不会失败"这种循环：
+
+- 重新加回 `--text`/`--surface-sunken` → 红
+- 在 `DECLARED_PAIRINGS` 里写一条没有规则支持的配对 → 红
+- 指向一个从不作为背景使用的 token（`--radius-pill`）→ 红，
+  报 `--radius-pill is never used as a background`
+
+最后一次注入很关键：第一次尝试用了不存在的 token 名（`--madeuptoken`），
+被"token 是否存在"那条先拦下了，**所以并没有真正验证到"用途检查"**。
+换成存在但从不作背景的 token 才真正证明了它。
 
 ---
 

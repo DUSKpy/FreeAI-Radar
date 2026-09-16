@@ -45,8 +45,23 @@
   /* --- text ----------------------------------------------------------- */
   --text: #101d31;
   --text-muted: #47566c;
-  /* 13px+ helper text still meets 4.5:1 against --surface after compositing */
-  --text-subtle: #5c6c85;
+  /* The lightest grey that still has real headroom on every surface it is
+     painted on. It is used at 11px -- .navlink__count (components.css:129),
+     .sidebar__label (:93), .topbar__eyebrow (:461) -- so the 4.5:1 normal-text
+     bar applies, and the tightest backdrop is --surface-sunken, where the
+     previous #5c6c85 measured 4.57:1. That passed, but with 0.07 of margin:
+     any nudge to either token would have dropped it below AA without anything
+     failing loudly.
+
+     #526073 raises the worst case (--surface-sunken) to 5.49:1, with
+     --surface-soft at 6.01 and --surface at 6.40, while staying 28 units away
+     from --text-muted so the two helper greys remain visibly distinct tiers.
+     Going darker collapses them: #4f5c6e is only 16 away and #4c5867 only 12,
+     at which point the distinction the design relies on is gone.
+
+     tests/test_token_contrast.py asserts every one of these pairings, and the
+     pairings themselves are checked against real usage in the stylesheets. */
+  --text-subtle: #526073;
 
   /* --- brand ---------------------------------------------------------- */
   --accent: #0a66e8;
