@@ -270,6 +270,39 @@ select.field {
   min-width: var(--touch-target);
 }
 
+/* A labelled slider needs more room than the icon buttons and the two
+   switches it sits beside, so it takes a full row of its own rather than
+   being squeezed into the wrap. */
+.themecontrols__field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.themecontrols__field .slider {
+  grid-column: 1 / -1;
+}
+
+/* The tint slider. accent-color does the theming in one line and, unlike a
+   hand-drawn track, keeps the native thumb -- which is the part users
+   already know how to grab, and the part that stays operable by keyboard. */
+.slider {
+  width: 100%;
+  min-height: var(--touch-target);
+  accent-color: var(--accent);
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-pill);
+}
+
 /* ==========================================================================
    Footer
    ========================================================================== */

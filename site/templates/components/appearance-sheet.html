@@ -3,12 +3,13 @@
 
   Why this exists
   ---------------
-  The theme, transparency and motion controls live in the sidebar and in the
+  The theme, glass-tint and motion controls live in the sidebar and in the
   tablet top navigation. On a phone neither of those renders -- the sidebar is
   hidden below 1024px and the topnav is hidden below 768px in favour of the
   bottom tab bar. The result was that a phone user had NO way to switch to
-  dark mode, reduce transparency, or reduce motion. That is a real defect, not
-  a cosmetic one: reduced transparency is an accessibility control.
+  dark mode, tint the glass, or reduce motion. That is a real defect, not
+  a cosmetic one: being able to make the glass opaque is an accessibility
+  control, not a preference.
 
   Rather than un-hiding a control somewhere it does not fit, this is a sheet
   opened from the tab bar. It reuses the same markup and the same data
@@ -29,8 +30,9 @@
   <div class="sheet__body">
     <p class="helper">
       这四项互相独立。背景可以切到图片——玻璃要有东西可折射才看得出效果，
-      纯色背景下的折射几乎看不见。「降低透明」关掉玻璃的透视与折射，
-      面板变成实色——在阳光下或对视力不友好时更易读。
+      纯色背景下的折射几乎看不见。「玻璃透过度」是一条无段滑杆：
+      最左端保持清透的玻璃质感，最右端是完全实色，
+      中间可以停在任意位置——不用为了"稍微太透"就彻底放弃玻璃。
     </p>
     {% include "components/themecontrols.html" %}
   </div>

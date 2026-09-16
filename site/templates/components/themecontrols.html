@@ -4,8 +4,13 @@
   Four independent choices, each persisted separately:
     * theme          light / dark / follow system
     * backdrop       solid colour / photo
-    * transparency   full glass / reduced
+    * glass tint     0 (ultra-clear) .. 100 (fully opaque), stepless
     * motion         animated / reduced
+
+  The tint is a slider rather than the old two-way switch. iOS 26.1 shipped
+  Clear/Tinted as two states and iOS 27 replaced it with a continuous slider,
+  because "how much glass is right" has no single answer: with two states,
+  anyone who finds the glass slightly too clear can only give it up entirely.
 
   They are deliberately separate controls rather than one "accessibility"
   master switch, because a user may want the glass look but no motion.
@@ -56,11 +61,31 @@
     </button>
   </div>
 
-  <label class="switch">
-    <input type="checkbox" data-transparency-toggle>
-    <span class="switch__track" aria-hidden="true"></span>
-    <span class="helper">降低透明</span>
-  </label>
+  {# Glass tint -- a continuous slider, not a two-way switch.
+
+     iOS 26.1 shipped Clear/Tinted as two states; iOS 27 replaced it with a
+     stepless slider from ultra-clear to fully tinted. The reason matters
+     more than the shape of the control: "how much glass is right" has no
+     single correct answer, so a binary switch forces anyone who finds the
+     glass slightly too clear to give up the material entirely.
+
+     range rather than checkbox: the value is a quantity and the control
+     should say so. aria-valuetext carries the named ends because "64" means
+     nothing to a screen-reader user while "偏实色" does. #}
+  <div class="themecontrols__field">
+    <label class="helper" for="glass-tint">玻璃透过度</label>
+    <input
+      type="range"
+      id="glass-tint"
+      class="slider"
+      data-tint-slider
+      min="0"
+      max="100"
+      step="1"
+      value="0"
+      aria-describedby="glass-tint-hint">
+    <span class="helper subtle" id="glass-tint-hint" data-tint-readout>清透</span>
+  </div>
 
   <label class="switch">
     <input type="checkbox" data-motion-toggle>

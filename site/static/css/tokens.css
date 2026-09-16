@@ -101,16 +101,12 @@
      ended up washed out.
 
      All three stay well under 100% so the environment layer reads through.  */
-  --glass-nav-bg: rgb(255 255 255 / 46%);
-  --glass-card-bg: rgb(255 255 255 / 62%);
-  --glass-plate-bg: rgb(255 255 255 / 88%);
-  /* A solid surface for modal sheets. dialog.sheet references --glass-bg, which
-     was used-but-undefined: in every browser that supports backdrop-filter
-     (i.e. every current browser), the rule set background: var(--glass-bg)
-     and the dialog rendered fully transparent, so its text sat directly on
-     the ::backdrop dimming and fell below AA in light theme. Aliasing to
-     the plate tier restores a usable surface without changing the design. */
-  --glass-bg: var(--glass-plate-bg);
+  /* The CLEAR end of each tier -- what the material looks like with the tint
+     slider at 0%. The tinted end is always --surface, so a single number can
+     interpolate the whole material. See "The tint slider" below. */
+  --glass-nav-clear: rgb(255 255 255 / 46%);
+  --glass-card-clear: rgb(255 255 255 / 62%);
+  --glass-plate-clear: rgb(255 255 255 / 88%);
 
   --glass-edge: rgb(255 255 255 / 70%);
   --glass-highlight: rgb(255 255 255 / 92%);
@@ -280,10 +276,9 @@
   --on-accent: #06203f;
 
   /* Lighter than the page, so the panel lifts off it. */
-  --glass-nav-bg: rgb(58 74 100 / 44%);
-  --glass-card-bg: rgb(44 58 82 / 52%);
-  --glass-plate-bg: rgb(26 38 57 / 88%);
-  --glass-bg: var(--glass-plate-bg);
+  --glass-nav-clear: rgb(58 74 100 / 44%);
+  --glass-card-clear: rgb(44 58 82 / 52%);
+  --glass-plate-clear: rgb(26 38 57 / 88%);
 
   --glass-edge: rgb(190 214 245 / 22%);
   --glass-highlight: rgb(226 238 255 / 20%);
@@ -360,40 +355,108 @@
    same arithmetic offline so it cannot drift.
    ========================================================================== */
 [data-theme="dark"][data-backdrop="photo"] {
-  --glass-nav-bg: rgb(26 38 57 / 82%);
-  --glass-card-bg: rgb(22 32 49 / 84%);
-  --glass-plate-bg: rgb(15 23 36 / 94%);
-  --glass-bg: var(--glass-plate-bg);
+  --glass-nav-clear: rgb(26 38 57 / 82%);
+  --glass-card-clear: rgb(22 32 49 / 84%);
+  --glass-plate-clear: rgb(15 23 36 / 94%);
 }
 
 /* ==========================================================================
-   Reduced transparency
+   Diffusion follows the complexity of what is behind the glass
    --------------------------------------------------------------------------
-   The media query is not available everywhere, so the app also exposes an
-   in-page switch that sets data-transparency="reduced" on the root element.
-   Both paths must produce an opaque, fully readable result -- and they must
-   also switch the refraction off, because refraction is a transparency
-   effect and leaving it on over an opaque panel is incoherent.
+   This is the specific thing iOS 27 fixed: the material now diffuses busy
+   content MORE, not less. The original shipped the opposite intuition -- the
+   glass kept its clarity and let a complicated backdrop come straight
+   through, which is what produced the readability complaints.
 
-   :root is not decoration here. The block above is (0,2,0); without a matching
-   bump this block would sit at (0,1,0) and lose to it, so choosing both
-   "reduced transparency" and "photo backdrop" would silently re-introduce
-   translucent panels -- the one combination where that is exactly wrong. Equal
-   specificity plus later source order keeps reduced transparency on top.
-   (glass.css also pins `background: var(--surface)` on the elements at
-   (0,2,0), so the rendered result was never at risk; this keeps the tokens
-   themselves from contradicting it.)
+   A photo is the definition of complex content, so the blur goes up with it.
+   Under the flat colour-blob backdrop there is little high-frequency detail
+   to suppress and the designed blur is right; under a photograph there is a
+   lot, and the same blur leaves the panel looking noisy.
+
+   :root keeps this at (0,2,0) so it wins over the per-theme blocks above
+   regardless of theme -- the rule is about the backdrop, not the palette.
+   ========================================================================== */
+:root[data-backdrop="photo"] {
+  --glass-blur: 34px;
+  --glass-blur-strong: 54px;
+}
+
+/* ==========================================================================
+   The tint slider: one number for the whole material
+   --------------------------------------------------------------------------
+   iOS 27 replaced the old two-way Clear/Tinted switch with a continuous
+   slider from ultra-clear to fully tinted, because "how much glass is
+   correct" turned out to have no single right answer. This is the same
+   decision, expressed as a token.
+
+     --glass-tint: 0%    the material is exactly its designed clear value
+     --glass-tint: 100%  the material is --surface, i.e. fully opaque
+
+   Everything in between is a straight interpolation, so one slider covers
+   what used to be a separate "reduced transparency" mode. That is the point:
+   the old model had two states and no way to sit between them, so anyone who
+   found the glass slightly too transparent had to give up the material
+   entirely.
+
+   The mixing is done with color-mix() over --surface. Because the clear end
+   and --surface are both per-theme (and per-backdrop), a single declaration
+   here picks up all of them -- light, dark, and the thicker photo material --
+   without repeating the rule in each block.
+
+   Fallback: without color-mix() the tiers fall back to their clear values,
+   which is the existing design. No browser that supports backdrop-filter
+   lacks color-mix(), so this only matters for the no-backdrop-filter path,
+   which already renders the opaque fallback.
+   ========================================================================== */
+:root,
+[data-theme="dark"] {
+  --glass-tint: 0%;
+
+  --glass-nav-bg: var(--glass-nav-clear);
+  --glass-card-bg: var(--glass-card-clear);
+  --glass-plate-bg: var(--glass-plate-clear);
+  --glass-bg: var(--glass-plate-bg);
+}
+
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+  :root,
+  [data-theme="dark"] {
+    --glass-nav-bg: color-mix(
+      in srgb,
+      var(--surface) var(--glass-tint),
+      var(--glass-nav-clear)
+    );
+    --glass-card-bg: color-mix(
+      in srgb,
+      var(--surface) var(--glass-tint),
+      var(--glass-card-clear)
+    );
+    --glass-plate-bg: color-mix(
+      in srgb,
+      var(--surface) var(--glass-tint),
+      var(--glass-plate-clear)
+    );
+    --glass-bg: var(--glass-plate-bg);
+  }
+}
+
+/* ==========================================================================
+   Reduced transparency -- now just the far end of the slider
+   --------------------------------------------------------------------------
+   The OS media query cannot be read from a stylesheet-only fallback, so the
+   in-page control still sets data-transparency="reduced". What it does is
+   pin --glass-tint to 100% and switch the refraction off: refraction is a
+   transparency effect, and leaving it running over an opaque panel is
+   incoherent.
+
+   :root is not decoration here. The dark+photo block above is (0,2,0); this
+   block at (0,1,0) would lose to it, so choosing both "reduced transparency"
+   and "photo backdrop" would silently keep the thicker-but-still-translucent
+   photo material. Equal specificity plus later source order keeps reduced
+   transparency on top.
    ========================================================================== */
 :root[data-transparency="reduced"] {
-  --glass-nav-bg: var(--surface);
-  --glass-card-bg: var(--surface);
-  --glass-plate-bg: var(--surface);
-  /* Spelled out even though --glass-bg: var(--glass-plate-bg) would already
-     resolve to --surface here via late binding. This block's contract is
-     "nothing is translucent", and relying on indirection through another
-     block to achieve that makes the guarantee invisible at the point where
-     someone would break it. */
-  --glass-bg: var(--surface);
+  --glass-tint: 100%;
   --glass-edge: var(--border);
   --glass-highlight: transparent;
   --glass-rim: transparent;

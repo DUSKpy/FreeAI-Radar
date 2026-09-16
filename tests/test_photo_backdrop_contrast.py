@@ -136,7 +136,11 @@ WORST_PHOTO: dict[str, tuple[int, int, int]] = {
 #: descriptions (--text, --text-muted) on the card tier.
 GLASS_TEXT_TOKENS = ("--text", "--text-muted", "--text-subtle")
 
-GLASS_TIERS = ("--glass-nav-bg", "--glass-card-bg", "--glass-plate-bg")
+#: The CLEAR end of each tier. The rendered tier (--glass-*-bg) is a
+#: color-mix() of this and --surface, driven by --glass-tint; at the default
+#: tint of 0% the mix is the clear value exactly, which is what this model
+#: assumes. TestTintDefaultsToClear pins that assumption.
+GLASS_TIERS = ("--glass-nav-clear", "--glass-card-clear", "--glass-plate-clear")
 
 
 def backdrop_under(theme: str, tokens: dict[str, str]) -> tuple[int, int, int]:
@@ -279,6 +283,42 @@ class TestTheFixIsActuallyWiredUp:
                 f"{selector.strip()!r}. It must be behind "
                 f'[data-backdrop="photo"] so the default page requests nothing.'
             )
+
+
+class TestTintDefaultsToClear:
+    """The slider must start at the clear end.
+
+    --glass-*-bg is a color-mix() of --surface and the clear value, so at
+    tint 0% the rendered material equals the clear value -- which is exactly
+    what every assertion in this file models. If the default tint ever moved,
+    the real material would be thicker than the model and these tests would
+    still be green while understating the fill. Pin the default so the model
+    and the stylesheet cannot drift apart.
+    """
+
+    def test_the_default_tint_is_zero(self) -> None:
+        css = re.sub(r"/\*.*?\*/", "", TOKENS.read_text(encoding="utf-8"), flags=re.DOTALL)
+        m = re.search(r"--glass-tint:\s*([^;]+);", css)
+        assert m, "--glass-tint is not defined; the tiers cannot be mixed"
+        value = m.group(1).strip().rstrip("%")
+        assert float(value) == 0, (
+            f"--glass-tint defaults to {value}%. Every ratio in this file is "
+            "computed from the CLEAR tier values, so a non-zero default means "
+            "the real panels are thicker than the model and the measured "
+            "headroom here is overstated."
+        )
+
+    def test_the_clear_end_is_defined_for_every_tier_and_theme(self) -> None:
+        css = re.sub(r"/\*.*?\*/", "", TOKENS.read_text(encoding="utf-8"), flags=re.DOTALL)
+        light = tokens_in_block(css, ":root")
+        dark = tokens_in_block(css, '[data-theme="dark"]')
+        for name, tokens in (("light", light), ("dark", dark)):
+            for tier in GLASS_TIERS:
+                assert tier in tokens, f"{name}: {tier} missing"
+                # Must be a real rgb() with an alpha, or the mix has nothing
+                # to interpolate toward.
+                _channels, alpha = parse_rgb_function(tokens[tier])
+                assert 0 < alpha <= 1, f"{name}: {tier} has alpha {alpha}"
 
 
 class TestTheModelIsSound:

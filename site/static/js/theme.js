@@ -22,9 +22,12 @@
 const THEME_KEY = 'radar.theme';
 const BACKDROP_KEY = 'radar.backdrop';
 const TRANSPARENCY_KEY = 'radar.transparency';
+const TINT_KEY = 'radar.glass-tint';
 const MOTION_KEY = 'radar.motion';
 
 const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const reduceTransparencyQuery = window.matchMedia('(prefers-reduced-transparency: reduce)');
+const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function store(key, value) {
   try {
@@ -80,17 +83,62 @@ export function applyTheme(choice) {
   document.dispatchEvent(new CustomEvent('radar:theme', { detail: { choice } }));
 }
 
-export function applyTransparency(reduced) {
+/**
+ * How much the material is tinted, as a percentage: 0 keeps the designed
+ * clear glass, 100 makes every tier opaque --surface.
+ *
+ * This replaces the old two-state "reduced transparency" switch. iOS 27 made
+ * the same change, and for the same reason: with two states, a user who finds
+ * the glass a little too clear has no way to say "a little less", only
+ * "none at all". Storing a number instead of a flag is what makes the
+ * in-between reachable.
+ */
+export function applyTint(percent) {
+  const clamped = Math.max(0, Math.min(100, Math.round(Number(percent) || 0)));
   const root = document.documentElement;
-  if (reduced) {
+
+  root.style.setProperty('--glass-tint', `${clamped}%`);
+
+  // The attribute is kept so the OS-level and in-page paths stay compatible
+  // with any CSS that still keys off it, and so "reduced" remains a single
+  // well-defined point on the slider rather than a parallel mode.
+  if (clamped >= 100) {
     root.setAttribute('data-transparency', 'reduced');
     store(TRANSPARENCY_KEY, 'reduced');
   } else {
     root.removeAttribute('data-transparency');
+    // The old flag MUST be cleared here, not just the attribute. Leaving it
+    // behind makes currentTint() keep returning 100 on the next load, so a
+    // user who slid to fully tinted and then back would find the setting
+    // silently snapped to opaque after a reload. Two keys, one concept --
+    // whichever is written, the other has to go.
     store(TRANSPARENCY_KEY, null);
+    store(TINT_KEY, String(clamped));
+    if (clamped === 0) store(TINT_KEY, null);
   }
-  syncSwitch('[data-transparency-toggle]', reduced);
-  document.dispatchEvent(new CustomEvent('radar:transparency', { detail: { reduced } }));
+
+  syncTintControls(clamped);
+  document.dispatchEvent(new CustomEvent('radar:tint', { detail: { percent: clamped } }));
+}
+
+export function currentTint() {
+  if (read(TRANSPARENCY_KEY) === 'reduced') return 100;
+  const stored = read(TINT_KEY);
+  const n = Number(stored);
+  return Number.isFinite(n) ? Math.max(0, Math.min(100, Math.round(n))) : 0;
+}
+
+/** Keep the slider and its text readout in step with the applied value. */
+function syncTintControls(percent) {
+  const label =
+    percent >= 100 ? '实色' : percent >= 66 ? '偏实色' : percent >= 33 ? '适中' : percent > 0 ? '略柔和' : '清透';
+  for (const slider of document.querySelectorAll('[data-tint-slider]')) {
+    if (document.activeElement !== slider) slider.value = String(percent);
+    slider.setAttribute('aria-valuetext', label);
+  }
+  for (const readout of document.querySelectorAll('[data-tint-readout]')) {
+    readout.textContent = label;
+  }
 }
 
 export function currentBackdropChoice() {
@@ -134,6 +182,26 @@ export function applyMotion(reduced) {
     store(MOTION_KEY, null);
   }
   syncSwitch('[data-motion-toggle]', reduced);
+  // The refraction drift is SMIL, which no CSS media query can reach, so it
+  // has to be paused from here. A user who asked for less motion should not
+  // be given a panel that never stops moving -- that is the specific thing
+  // the preference is asking us to stop doing.
+  setRefractionMotion(!reduced);
+}
+
+/**
+ * Pause or resume the <animate> inside the refraction filter.
+ *
+ * SMIL animation lives on the <svg> element, not on CSS, so
+ * prefers-reduced-motion cannot touch it declaratively. pauseAnimations() is
+ * the standard way in and costs nothing when the element is absent (Safari
+ * and Firefox never resolve url(#radar-refract) in the first place).
+ */
+function setRefractionMotion(enabled) {
+  const svg = document.getElementById('radar-refract-defs');
+  if (!svg || typeof svg.pauseAnimations !== 'function') return;
+  if (enabled) svg.unpauseAnimations();
+  else svg.pauseAnimations();
 }
 
 function syncSwitch(selector, checked) {
@@ -175,9 +243,8 @@ export function initTheme() {
     button.addEventListener('click', () => applyBackdrop(button.dataset.backdropChoice));
   }
 
-  for (const input of document.querySelectorAll('[data-transparency-toggle]')) {
-    input.checked = document.documentElement.hasAttribute('data-transparency');
-    input.addEventListener('change', () => applyTransparency(input.checked));
+  for (const slider of document.querySelectorAll('[data-tint-slider]')) {
+    slider.addEventListener('input', () => applyTint(slider.value));
   }
 
   for (const input of document.querySelectorAll('[data-motion-toggle]')) {
@@ -190,6 +257,21 @@ export function initTheme() {
   syncThemeControls(currentThemeChoice());
   syncBackdropControls(currentBackdropChoice());
   syncMetaThemeColor();
+
+  // The OS "reduce transparency" preference is an accessibility setting, not
+  // a taste setting, so it pins the slider to the opaque end and cannot be
+  // overridden by the stored value. Everything else comes from storage.
+  if (reduceTransparencyQuery.matches) applyTint(100);
+  else applyTint(currentTint());
+
+  // Refraction drift follows the motion preference even when the user never
+  // touches the switch, because the OS preference alone should be enough.
+  if (motionQuery.matches) applyMotion(true);
+
+  reduceTransparencyQuery.addEventListener?.('change', (event) => {
+    if (event.matches) applyTint(100);
+    else applyTint(currentTint());
+  });
 
   // When the choice is "system", a live OS theme change must be reflected
   // immediately. When the user picked explicitly, it must not be.

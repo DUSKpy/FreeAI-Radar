@@ -107,12 +107,39 @@
   back to the plain frosted material in glass.css, which is a complete design
   in its own right -- see the note at the top of that file.
 #}
-<svg class="refract-defs" width="0" height="0" aria-hidden="true" focusable="false">
+{#  id is read by theme.js so "reduce motion" can call pauseAnimations() on
+   this document. SMIL cannot be switched off from a CSS media query, and a
+   user who asked for less motion should not get a permanently drifting
+   refraction. #}
+<svg class="refract-defs" id="radar-refract-defs" width="0" height="0" aria-hidden="true" focusable="false">
   <filter id="radar-refract" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
     {# The displacement field. Two octaves at different frequencies give a
        slightly irregular edge, which is what stops the refraction from
-       looking like a uniform fisheye. #}
-    <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise"/>
+       looking like a uniform fisheye.
+
+       The field ANIMATES. This is the whole difference between "glass" and
+       "a texture": a static displacement map is a pattern stamped on the
+       panel once, and the eye reads it as a fixed decoration -- which is
+       exactly the complaint that the effect looked "custom-made rather than
+       liquid". Drifting the turbulence lets the refraction evolve, so the
+       panel looks like it is sampling something behind it that is moving.
+
+       Animating baseFrequency rather than the displacement scale is what
+       makes it flow instead of pulse: changing scale only breathes the same
+       field in and out, while changing frequency regenerates the field, so
+       the bent edges actually travel. The cost is real -- fractalNoise is
+       regenerated per frame -- so the cycle is deliberately slow (24s) and
+       this filter is only ever applied to the floating navigation surfaces,
+       never to a list of cards. #}
+    <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise">
+      <animate attributeName="baseFrequency"
+               dur="24s"
+               values="0.008 0.012; 0.0115 0.0092; 0.0092 0.0128; 0.008 0.012"
+               keyTimes="0; 0.34; 0.67; 1"
+               calcMode="spline"
+               keySplines="0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1"
+               repeatCount="indefinite"/>
+    </feTurbulence>
     <feGaussianBlur in="noise" stdDeviation="2.2" result="field"/>
 
     {# Diffuse pass: the whole panel gets a strong blur and a colour lift. #}
