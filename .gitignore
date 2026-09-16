@@ -41,3 +41,7 @@ Thumbs.db
 *.key
 .env
 .env.*
+
+# Ad-hoc captures from the Playwright flow/audit scripts. The delivery
+# screenshots in docs/screens/ ARE committed; these are diagnostics.
+shots-flow/
