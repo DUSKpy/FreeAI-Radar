@@ -183,11 +183,12 @@ Radar 只做信息汇总与核对，**不保证任何第三方服务的可用性
 | [docs/progress.md](docs/progress.md) | M0–M6 逐阶段进度与证据 |
 | [docs/delivery.md](docs/delivery.md) | 交付报告：已实现并验证 / 已实现未验证 / 未实现或受阻 |
 
-> **当前状态：** 代码完整、测试通过、可复现，**129 个源文件已推送到
-> [DUSKpy/FreeAI-Radar](https://github.com/DUSKpy/FreeAI-Radar) 并逐文件核对一致**；
-> 但**站点尚未上线**——`.github/workflows/` 需要 `workflow` scope 才能推送，
-> 而当前凭据没有。见 [docs/delivery.md](docs/delivery.md) 第 3.1 节。
+> **当前状态：已上线。**
+> **https://duskpy.github.io/FreeAI-Radar/** —— 实测 **HTTP 200**，
+> 8 个页面全部可访问，数据为一次真实网络采集的产物
+> （**56 providers / 173 models / 192 offers**，`dataset_version` 见页面底部），
+> 由 GitHub Actions 每日 `23:00 UTC` 自动更新。
 >
-> 解锁需要由注入凭据的一侧重新授权并勾选 `workflow` 权限
-> （实测该凭据是环境注入的 `x-access-token`，`gh auth refresh` 对它大概率无效）。
-> 见 [docs/delivery.md](docs/delivery.md) 第 3.1 节。
+> CI 与 publish 两条流水线均全绿，最近的测试基线是 `219 passed, 2 skipped`。
+> 上线过程中修掉的真实缺陷（含一个会静默删掉正文的解析器 bug）
+> 记录在 [docs/delivery.md](docs/delivery.md) 第 4 节。

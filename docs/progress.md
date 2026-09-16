@@ -5,10 +5,10 @@
 
 图例：**✅ 完成** · **🟡 部分完成** · **⛔ 受阻** · **⬜ 未开始**
 
-最后更新：2026-09-15
+最后更新：2026-09-16
 
 **目标仓库：** https://github.com/DUSKpy/FreeAI-Radar
-**Pages 地址：** https://duskpy.github.io/FreeAI-Radar/ （已配置，当前 404 —— 未部署）
+**Pages 地址：** https://duskpy.github.io/FreeAI-Radar/ —— ✅ **已上线，HTTP 200**
 
 ---
 
@@ -22,9 +22,10 @@
 | M3 CC Switch 预览、转换和复制回退 | ✅ | 固定版本契约测试 33 项 + 浏览器实测 |
 | M4 全页面玻璃 UI、主题、收藏、iPad 适配 | ✅ | `docs/screens/` 19 张截图 |
 | M5 CI、Actions、Pages、开源与 fork 教程 | ✅ | 工作流校验 + 离线全流程复现 |
-| M6 目标仓库部署和线上验收 | 🟡 | 129 文件已推送并逐文件核对一致；站点未上线 —— 凭据缺 `workflow` scope |
+| M6 目标仓库部署和线上验收 | ✅ | **站点 HTTP 200**，8 页全通，线上 56/173/192；CI 与 publish 均全绿 |
 
-**当前测试基线：** `215 passed, 1 skipped` · `ruff check` 全绿 · `ruff format --check` 全绿
+**当前测试基线：** `220 passed, 1 skipped` · `ruff check` 全绿 · `ruff format --check` 全绿
+（CI 上为 `219 passed, 2 skipped`；本地多 1 个因沙箱批量删除守卫而跳过）
 
 ---
 
@@ -317,20 +318,38 @@ python -m tests.scan_secrets dist-fixture
 
 ## M6 — 目标仓库部署与线上验收
 
-**状态：** 🟡 **部分完成 —— 代码已部署，站点未上线（凭据 scope 阻塞）**
+**状态：** ✅ **完成 —— 站点已上线并通过线上验收**
+
+### 线上验收（实测）
+
+| 项目 | 证据 |
+| --- | --- |
+| **公开地址** | **https://duskpy.github.io/FreeAI-Radar/** —— **HTTP 200**，25757 字节 |
+| 标题 | `<title>FreeAI Radar · 免费 AI API 目录</title>` |
+| 8 个页面 | index / directory / provider / changes / sources / reviews / favorites / 404 —— **全部 200** |
+| 资源 | `assets/css/glass.css`、`assets/js/app.js`、`assets/favicon.svg` —— 全部 200 |
+| 线上数据 | **56 providers / 173 models / 192 offers** |
+| `dataset_version` | `sha256:0735fb7289be2d9ebc759967ca22a0a8092ab1906f110ad5c58ad6241e2c8971` |
+| 数据源 | 5 个全部 `ok`（修复前 `official-openrouter` 是 `parse_error`） |
+| 日报 | `data/reports/2026-09-16.md` 200 |
+
+**两个"看起来像 404"但其实是正确设计的现象，不要误判为故障：**
+
+| 现象 | 真相 |
+| --- | --- |
+| `data/catalog.json` → 404 | **正确**。文件名内容寻址（真名 `catalog.<sha8>.json`），指针在 `data/manifest.json` 的 `catalog_url`。故意不给裸名，防止浏览器取到陈旧缓存 |
+| `.nojekyll` → 404 | **正确**。它是 Pages 流水线消费的构建标记，不是从 artifact 提供的文件 |
 
 ### 已经真实完成的
 
 | 项目 | 证据 |
 | --- | --- |
 | 目标仓库 | `https://github.com/DUSKpy/FreeAI-Radar` |
-| 推送提交 | main 最新提交（`git ls-remote origin main` 可查） |
 | 远端文件数 | **129**，与本地 `git ls-tree` **diff 为空** |
 | 远端可达性 | README / LICENSE / pyproject / radar / schemas / site / tests / docs 抽查全部 HTTP 200 |
 | Issue 模板 | 4 个全部在线（`bug-report` / `config` / `data-correction` / `new-source`） |
-| Actions | **已启用** —— `actions/permissions` 返回 `{"enabled": true}` |
-| Pages | **已配置** —— `build_type: workflow`、source `main`、`https_enforced: true` |
-| Pages 地址 | `https://duskpy.github.io/FreeAI-Radar/`（已确定，当前 404） |
+| Actions | **已启用** —— `ci` 与 `publish` 两个 workflow 均 `active` |
+| Pages | **已部署** —— `build_type: workflow`、source `main`、`https_enforced: true` |
 
 推送前修的问题：Windows 的 `core.autocrlf=true` 会把 CRLF 写进仓库，
 Linux CI 随后会看到每个文本文件被改动。加 `.gitattributes`（`* text=auto eol=lf`）
@@ -339,9 +358,25 @@ Linux CI 随后会看到每个文本文件被改动。加 `.gitattributes`（`* 
 推送时做了一次可撤销的写权限探针，确认后立即撤销；清除历史前**先验证两条提交的
 tree SHA 完全相同**（`2b830fb9…`），证明 `--force-with-lease` 不改变任何文件内容。
 
-### 阻塞点：凭据缺少 `workflow` scope
+### 曾经的阻塞点：凭据缺少 `workflow` scope（已解除）
 
-GitHub 原始报错：
+**解除方式：** 用户提供了带 `repo` + `workflow` 的凭据。推送成功后远端加入
+`.github/workflows/ci.yml` + `publish.yml`，两个 workflow 均 `active`
+（id `359315728` / `359315730`）。
+
+**工作流运行全记录：**
+
+| 运行 | 结论 | 说明 |
+| --- | --- | --- |
+| CI #1 | ❌ | ruff `Found 22 errors`（CI 装到 0.16.7、本地 0.8.6，新增 `UP042`） |
+| CI #2 | ❌ | `ModuleNotFoundError: pydantic`（三个依赖未声明） |
+| CI #3 | ✅ | 修复后全绿 `214 passed, 2 skipped` |
+| publish #1 | ✅ | 首次部署成功，站点 404 → **200** |
+| CI #4 | ✅ | 解析器修复后 `219 passed, 2 skipped` |
+| publish #2 | ✅ | 携带修复重新采集，`official-openrouter` 由 `parse_error` → **`ok`** |
+
+GitHub 原始报错（保留备查）：
+
 
 ```
 refusing to allow an OAuth App to create or update workflow
@@ -374,16 +409,20 @@ refusing to allow an OAuth App to create or update workflow
 
 #### 复核（本轮重新验证，非记忆）
 
-本轮重新跑了一遍对照实验并**从公网新鲜克隆独立验证**，结果与上述一致：
+本轮重新跑了一遍对照实验并**从公网新鲜克隆独立验证**，当时的阻塞情况如下
+（**下表是阻塞期的历史快照，现已全部解除**，保留是为了说明排查依据）：
 
-| 检查项 | 结果 |
+| 检查项 | 阻塞期结果 |
 | --- | --- |
-| `git push` 含 workflow | ⛔ 仍被拒：`without 'workflow' scope` |
+| `git push` 含 workflow | ⛔ 当时被拒：`without 'workflow' scope` |
 | Contents API 写普通新文件（同一 token、同一 API） | ✅ HTTP **201** |
 | Contents API 写 `.github/workflows/probe.yml` | ⛔ HTTP **404** |
-| 公网 `.github/` 目录内容 | 只有 `ISSUE_TEMPLATE`，**无 `workflows/`** |
-| Actions 运行次数 | **0**（从未运行过） |
-| `https://duskpy.github.io/FreeAI-Radar/` | **HTTP 404**（从未部署） |
+| 公网 `.github/` 目录内容 | 当时只有 `ISSUE_TEMPLATE`，**无 `workflows/`** |
+| Actions 运行次数 | 当时 **0** |
+| `https://duskpy.github.io/FreeAI-Radar/` | 当时 **HTTP 404** |
+
+**现已解除后的实测值：** `.github/workflows/` 含 `ci.yml` + `publish.yml`（均 `active`）；
+Actions 已运行 6 次（CI 4 次 + publish 2 次）；站点 **HTTP 200**。
 
 其中 404 而非 403 是 GitHub **有意的存在性混淆**：它不确认该路径存在，
 而不是在回答"你权限不够"。这一细节值得记下——它让"权限不足"和"路径不存在"
@@ -398,11 +437,9 @@ refusing to allow an OAuth App to create or update workflow
 | 验收项 | 结果 |
 | --- | --- |
 | 可部署代码 | ✅ **完成** —— 129 文件已推送，公网克隆逐文件核对一致 |
-| 真实 Pages 发布 | ⛔ **未开始** —— 工作流从未运行 |
+| 真实 Pages 发布 | ✅ **完成** —— `https://duskpy.github.io/FreeAI-Radar/` HTTP 200，8 页全通 |
 | 真实 CC Switch 导入 | ⛔ **未测试** —— 需实机 |
 | 真实 API 调用 | ⬜ 本版不要求（任务书：无用户 Key 时最后一项不作为强制门槛） |
-
-**源码在仓库里 ≠ 站点已上线。** 少了工作流，就没有东西去构建和部署它。
 
 ---
 
@@ -410,14 +447,16 @@ refusing to allow an OAuth App to create or update workflow
 
 按重要性排序，不掩饰：
 
-1. **站点未上线** —— 代码已部署，但工作流文件被 `workflow` scope 挡在仓库外。
-   解锁需要由注入凭据的一侧重新授权（或提供带 `workflow` scope 的 PAT）。
-2. **真实 iPad Safari 未测** —— 只有视口模拟。
-3. **真实 CC Switch 导入未测** —— Deep Link 的百分号编码有单元测试，
+1. **真实 iPad Safari 未测** —— 只有视口模拟。
+2. **真实 CC Switch 导入未测** —— Deep Link 的百分号编码有单元测试，
    但没有在真机上点过。
-4. **`ailookup_markdown` 未对真实页面跑过** —— 来源因许可证禁用。
+3. **`config/reviews.yaml` 为空** —— 还没有人工复核过任何字段，
+   所以线上 `needs_review=0` 是"没有待复核项"，不等于"已复核完"。
+4. **`ailookup_markdown` 未对真实页面跑过** —— 来源因许可证未确认而禁用。
 5. **`official_docs_generic` 是尽力而为的** —— 官方页面改版会退化，
-   摘录 + 人工复核是兜底，不是保证。
+   摘录 + 人工复核是兜底，不是保证。**已实测过一次退化**：噪声剥离误删正文，
+   详见 `docs/delivery.md` 第 4 节第 9 条。
+6. **连通性从未验证** —— `call_status` 线上 192/192 全是 `untested`。
 6. **`config/reviews.yaml` 为空** —— 意味着所有 provider 的 `info_status`
    都是 `directory_claim`，没有一个 `official_confirmed`。**这是如实状态，
    不是缺陷。** 填满它需要有人真的去逐条核对官方页面。
