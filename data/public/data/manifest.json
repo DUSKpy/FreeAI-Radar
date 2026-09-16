@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "dataset_version": "sha256:e14d4be0e5ae6abb38068616bb5923b694d53aaee811bbcc0e401555a7918d26",
+  "dataset_version": "sha256:20a3b08f070626585df1db0adeb960c7e234c426a2d1459793c6ccd5d8c46bbe",
   "changes_version": "sha256:164a4d951def55d07ca1de9529a505537e20fb7d48861f8fea2826b12378e047",
   "build_commit": "unknown-local-build",
-  "generated_at": "2026-09-16T16:10:02Z",
-  "last_successful_collection_at": "2026-09-16T16:10:00Z",
-  "last_complete_collection_at": "2026-09-16T16:10:00Z",
-  "catalog_url": "/FreeAI-Radar/data/catalog.e14d4be0e5ae6abb.json",
+  "generated_at": "2026-09-16T17:58:21Z",
+  "last_successful_collection_at": "2026-09-16T17:58:19Z",
+  "last_complete_collection_at": "2026-09-16T17:58:19Z",
+  "catalog_url": "/FreeAI-Radar/data/catalog.20a3b08f07062658.json",
   "changes_url": "/FreeAI-Radar/data/changes.164a4d951def55d0.json",
   "reports": [
     "/FreeAI-Radar/data/reports/2026-09-16.md"
@@ -18,8 +18,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T16:10:00Z",
-      "last_success_at": "2026-09-16T16:10:00Z",
+      "last_attempt_at": "2026-09-16T17:58:19Z",
+      "last_success_at": "2026-09-16T17:58:19Z",
       "record_count": 85,
       "error": null
     },
@@ -29,8 +29,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T16:10:00Z",
-      "last_success_at": "2026-09-16T16:10:00Z",
+      "last_attempt_at": "2026-09-16T17:58:19Z",
+      "last_success_at": "2026-09-16T17:58:19Z",
       "record_count": 81,
       "error": null
     },
@@ -40,8 +40,8 @@
       "source_family": "google",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T16:10:00Z",
-      "last_success_at": "2026-09-16T16:10:00Z",
+      "last_attempt_at": "2026-09-16T17:58:19Z",
+      "last_success_at": "2026-09-16T17:58:19Z",
       "record_count": 78,
       "error": null
     },
@@ -51,8 +51,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T16:10:00Z",
-      "last_success_at": "2026-09-16T16:10:00Z",
+      "last_attempt_at": "2026-09-16T17:58:19Z",
+      "last_success_at": "2026-09-16T17:58:19Z",
       "record_count": 0,
       "error": null
     },
@@ -62,8 +62,8 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T16:10:00Z",
-      "last_success_at": "2026-09-16T16:10:00Z",
+      "last_attempt_at": "2026-09-16T17:58:19Z",
+      "last_success_at": "2026-09-16T17:58:19Z",
       "record_count": 0,
       "error": null
     }
@@ -79,8 +79,8 @@
   "collection": {
     "job_type": "collect",
     "outcome": "success",
-    "started_at": "2026-09-16T16:10:00Z",
-    "finished_at": "2026-09-16T16:10:02Z",
+    "started_at": "2026-09-16T17:58:19Z",
+    "finished_at": "2026-09-16T17:58:20Z",
     "counts": {
       "candidates": 244,
       "providers": 56,
