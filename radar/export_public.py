@@ -23,6 +23,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from .cc_switch import build_all as build_cc_switch
 from .diff import build_daily_report
 from .ids import content_hash, iso_utc, shanghai_date
 from .models import (
@@ -30,6 +31,7 @@ from .models import (
     RadarState,
 )
 from .vocab import (
+    CCApp,
     InfoStatus,
     SourceStatus,
 )
@@ -38,6 +40,10 @@ from .vocab import (
 CATALOG_BASENAME = "catalog"
 CHANGES_BASENAME = "changes"
 MANIFEST_NAME = "manifest.json"
+#: Pre-computed CC Switch import payloads. The browser fetches this by name
+#: from data/, so it is a fixed filename rather than a versioned one -- unlike
+#: the catalog, nothing in the manifest resolves it.
+CC_SWITCH_NAME = "cc-switch.json"
 
 #: Entity fields published to the browser. Anything absent here never ships.
 PROVIDER_PUBLIC_FIELDS = (
@@ -414,6 +420,25 @@ def write_public(projection: dict[str, Any], output: Path) -> dict[str, str]:
     _write_json(changes_path, changes)
     _write_json(data_dir / MANIFEST_NAME, manifest)
 
+    # The CC Switch payload is derived from the catalog we just wrote, so it is
+    # emitted here rather than left to a separate manual step.
+    #
+    # It used to be produced only by `python -m radar.cc_switch`, a step
+    # documented in docs/cc-switch.md that NO workflow ever ran. The result was
+    # a shipped site where data/cc-switch.json was 404 on every page: the
+    # provider page's click handler awaits loadCCSwitch(), which rejects on 404,
+    # so the catch showed a toast and the "生成配置" dialog never opened. The
+    # site's headline conversion path was dead in production while every test
+    # stayed green, because nothing in the offline suite ever fetched that URL.
+    #
+    # Deriving it here means the file cannot be forgotten: any export -- CI,
+    # local, or a fork -- produces it. The standalone CLI stays available for
+    # regenerating it from an existing catalog.
+    _write_json(
+        data_dir / CC_SWITCH_NAME,
+        build_cc_switch(catalog, apps=tuple(app.value for app in CCApp)),
+    )
+
     report_paths: list[str] = []
     for report in projection["reports"]:
         markdown_path = reports_dir / f"{report['date']}.md"
@@ -443,6 +468,7 @@ def write_public(projection: dict[str, Any], output: Path) -> dict[str, str]:
         "manifest": str(data_dir / MANIFEST_NAME),
         "catalog": str(catalog_path),
         "changes": str(changes_path),
+        "cc_switch": str(data_dir / CC_SWITCH_NAME),
         "reports": report_paths,
     }
 

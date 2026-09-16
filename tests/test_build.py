@@ -583,3 +583,228 @@ class TestPrepareOutputIsSafeToRerun:
         monkeypatch.setattr(Path, "unlink", stubborn)
         build_site._prepare_output(out)  # must not raise
         assert out.is_dir()
+
+
+class TestTheCcSwitchPayloadIsExported:
+    """The CC Switch dialog fetches ``data/cc-switch.json`` by name.
+
+    Nothing in the manifest resolves it and no workflow ever produced it, so
+    it shipped as a 404 on every page: the provider page awaits
+    ``loadCCSwitch()``, which rejected on 404, the catch showed a toast, and
+    the 生成配置 dialog never opened. The site's headline path was dead in
+    production while every test stayed green, because no offline test ever
+    asked whether that URL existed.
+
+    ``export_public`` now derives the payload from the catalog it just wrote,
+    so no caller can forget the step. These tests pin that: the file must
+    exist after export, must survive the build into ``dist/data/``, and must
+    carry every provider the catalog contains.
+    """
+
+    @pytest.fixture(scope="module")
+    def exported_data(self, tmp_path_factory: pytest.TempPathFactory) -> Path:
+        from radar import export_public
+
+        public = tmp_path_factory.mktemp("radar-export-cc") / "public"
+        rc = export_public.main(
+            [
+                "--state",
+                str(ROOT / "tests" / "fixtures" / "state.minimal.json"),
+                "--output",
+                str(public),
+                "--base-path",
+                "/freeai-radar/",
+            ]
+        )
+        assert rc == 0, "export_public failed"
+        return build_site.resolve_data_dir(public)
+
+    @staticmethod
+    def _catalog(data_dir: Path) -> dict:
+        for path in data_dir.glob("catalog.*.json"):
+            return json.loads(path.read_text(encoding="utf-8"))
+        raise AssertionError("no catalog written")
+
+    def test_export_emits_the_file_the_client_fetches(self, exported_data: Path) -> None:
+        path = exported_data / "cc-switch.json"
+        assert path.is_file(), (
+            "data/cc-switch.json was not written by export_public. The provider "
+            "page fetches this by name, so its absence makes the CC Switch "
+            "dialog unreachable -- it fails with a 404 before it can open."
+        )
+
+    def test_the_payload_has_the_shape_the_client_expects(self, exported_data: Path) -> None:
+        payload = json.loads((exported_data / "cc-switch.json").read_text(encoding="utf-8"))
+        # ccswitch-dialog.js reads entries[providerId].apps and falls back to a
+        # default app list only when entries is missing for that provider.
+        assert isinstance(payload.get("entries"), dict)
+        assert payload.get("schema_version") == 1
+        assert payload.get("supported_version"), "the UI shows this as the pinned version"
+        assert payload.get("protocol"), "the deep-link scheme the app must understand"
+
+    def test_every_catalog_provider_has_an_entry(self, exported_data: Path) -> None:
+        catalog = self._catalog(exported_data)
+        payload = json.loads((exported_data / "cc-switch.json").read_text(encoding="utf-8"))
+        wanted = {provider["id"] for provider in catalog.get("providers", [])}
+        missing = sorted(wanted - set(payload["entries"]))
+        assert not missing, (
+            f"cc-switch.json is missing entries for: {missing}. A provider with "
+            "no entry still renders, but only via the fallback app list, so a "
+            "partial payload would silently degrade some providers and not others."
+        )
+
+    def test_every_entry_covers_every_target_app(self, exported_data: Path) -> None:
+        # pickInitialApp() picks from entry.apps; if an app is absent the user
+        # simply cannot choose it, with no explanation.
+        from radar.vocab import CCApp
+
+        payload = json.loads((exported_data / "cc-switch.json").read_text(encoding="utf-8"))
+        expected = {app.value for app in CCApp}
+        for provider_id, entry in payload["entries"].items():
+            missing = sorted(expected - set(entry.get("apps", {})))
+            assert not missing, f"{provider_id} is missing app entries: {missing}"
+
+    def test_the_build_copies_it_into_dist(self, built_site: Path) -> None:
+        # The file existing in the export is not enough: the site is served
+        # from dist, and _copy_data is what decides what reaches it.
+        path = built_site / "data" / "cc-switch.json"
+        assert path.is_file(), (
+            "data/cc-switch.json was not copied into dist. build_site._copy_data "
+            "must carry it through, or the deployed site 404s."
+        )
+
+    def test_no_secret_shaped_value_reaches_the_payload(self, exported_data: Path) -> None:
+        # apiKey is always emitted empty by design; a filled one anywhere is a
+        # leak of the worst kind because this file is public and unauthenticated.
+        text = (exported_data / "cc-switch.json").read_text(encoding="utf-8")
+        payload = json.loads(text)
+        for provider_id, entry in payload["entries"].items():
+            for app, config in entry.get("apps", {}).items():
+                for field in config.get("fields", []):
+                    if field.get("secret"):
+                        assert not (field.get("value") or ""), (
+                            f"{provider_id}/{app}: secret field {field.get('key')} carries a value"
+                        )
+
+
+class TestEveryVarReferencedInCssIsDefined:
+    """Catch ``var(--foo)`` whose ``--foo`` was never defined.
+
+    When such a reference slips in, the used property falls back to its
+    *initial* value -- which for ``background-color``, ``color`` and similar
+    surface properties is ``transparent`` or ``inherit`` -- and the rule
+    silently fails. There is no warning, no console message, no failed
+    assertion: the page just renders wrong, in a way that's easy to mistake
+    for an inherited-from-parent look.
+
+    The dialog.sheet rule that triggered this test used ``background:
+    var(--glass-bg)`` where ``--glass-bg`` was never defined. In every browser
+    that supports backdrop-filter (i.e. every current browser), the modal
+    rendered fully transparent, the text sat on the ::backdrop dimming, and
+    light-theme contrast dropped to 2.11:1 in the CC Switch dialog. The
+    rule had shipped green, the page worked in the happy path, and the bug
+    only became visible once someone actually opened the dialog.
+    """
+
+    CSS_DIR = ROOT / "site" / "static" / "css"
+
+    @staticmethod
+    def _strip_comments(css: str) -> str:
+        return re.sub(r"/\*.*?\*/", "", css, flags=re.DOTALL)
+
+    @staticmethod
+    def _bodies(css: str) -> list[str]:
+        # Depth-1 only: a deeper parse would mistake a property block inside a
+        # nested at-rule for a definition body. For "is this var() reference
+        # present", first-level is enough.
+        return [m.group(1) for m in re.finditer(r"\{([^{}]*)\}", css)]
+
+    def test_every_var_referenced_anywhere_is_defined_somewhere(self) -> None:
+        # A token can be defined in tokens.css (the common case) or scoped to
+        # a parent element (e.g. --search-icon-size on .search, inherited by
+        # .search__icon). The check has to look at every stylesheet.
+        defined: set[str] = set()
+        seen: dict[str, list[str]] = {}
+
+        for css_path in sorted(self.CSS_DIR.glob("*.css")):
+            css = self._strip_comments(css_path.read_text(encoding="utf-8"))
+            for body in self._bodies(css):
+                for match in re.finditer(r"(--[\w-]+)\s*:", body):
+                    defined.add(match.group(1))
+
+        for css_path in sorted(self.CSS_DIR.glob("*.css")):
+            css = self._strip_comments(css_path.read_text(encoding="utf-8"))
+            for body in self._bodies(css):
+                for match in re.finditer(r"var\(\s*(--[\w-]+)\s*[,)]", body):
+                    # url(#radar-refract) is a fragment, not a custom prop.
+                    name = match.group(1)
+                    seen.setdefault(name, []).append(body.strip()[:80])
+
+        missing = sorted(name for name in seen if name not in defined)
+        assert not missing, (
+            "components.css (or another stylesheet) references custom "
+            "properties that are not defined anywhere:\n  "
+            + "\n  ".join(missing)
+            + "\nA var() whose property is never defined falls back to its "
+            "initial value (transparent for backgrounds), so the rule does "
+            "nothing and the page renders wrong silently. Add the token to "
+            "tokens.css, or scope it to a parent element that wraps every "
+            "consumer."
+        )
+
+    def test_every_block_that_defines_glass_plate_also_defines_glass_bg(self) -> None:
+        # --glass-bg is the modal-sheet surface and dialog.sheet resolves it
+        # from whichever tokens block is currently active (light / dark /
+        # dark+photo). A missing definition in *one* block means the dialog
+        # is transparent under that theme, which is exactly the bug this test
+        # exists to prevent -- and a block-level scan catches it, which a
+        # file-level "any definition exists" check does not.
+        css = self._strip_comments((self.CSS_DIR / "tokens.css").read_text(encoding="utf-8"))
+
+        block_re = re.compile(r"([^{}]+)\{([^{}]*)\}")
+        broken: list[str] = []
+        for selector, body in block_re.findall(css):
+            if "--glass-plate-bg" not in body:
+                continue
+            if "--glass-bg" not in body:
+                broken.append(selector.strip())
+
+        assert not broken, (
+            "These tokens blocks define --glass-plate-bg but not --glass-bg, "
+            "so dialog.sheet renders transparent under those conditions:\n  "
+            + "\n  ".join(broken)
+            + "\nA modal dialog that is transparent looks like a rendering "
+            "fault and its text falls onto the ::backdrop dimming. Add "
+            "`--glass-bg: var(--glass-plate-bg);` to each block that defines "
+            "--glass-plate-bg."
+        )
+        # The specific rule whose missing token left every modal transparent.
+        css = self._strip_comments((self.CSS_DIR / "components.css").read_text(encoding="utf-8"))
+        tokens_css = self._strip_comments((self.CSS_DIR / "tokens.css").read_text(encoding="utf-8"))
+        defined_in_tokens = set(re.findall(r"(--[\w-]+)\s*:", tokens_css))
+
+        # Walk from `dialog.sheet {` and match braces to find the rule body.
+        # A bare regex can't handle nesting, and the body is short enough that
+        # scanning the surrounding text is reliable.
+        for m in re.finditer(r"dialog\.sheet\s*\{", css):
+            depth = 1
+            i = m.end()
+            while i < len(css) and depth:
+                if css[i] == "{":
+                    depth += 1
+                elif css[i] == "}":
+                    depth -= 1
+                i += 1
+            body = css[m.end() : i - 1]
+            referenced = re.findall(r"var\(\s*(--[\w-]+)\s*[,)]", body)
+            if not referenced:
+                continue
+            for token in referenced:
+                assert token in defined_in_tokens, (
+                    f"dialog.sheet references --{token}, which is not defined "
+                    "in tokens.css. Every modal dialog on the site uses this "
+                    "rule and would render transparent -- which is the exact "
+                    "bug this test exists to prevent."
+                )
+            return  # one passing rule is enough
+        raise AssertionError("dialog.sheet rule not found in components.css")

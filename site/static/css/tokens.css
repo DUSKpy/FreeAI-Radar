@@ -104,6 +104,13 @@
   --glass-nav-bg: rgb(255 255 255 / 46%);
   --glass-card-bg: rgb(255 255 255 / 62%);
   --glass-plate-bg: rgb(255 255 255 / 88%);
+  /* A solid surface for modal sheets. dialog.sheet references --glass-bg, which
+     was used-but-undefined: in every browser that supports backdrop-filter
+     (i.e. every current browser), the rule set background: var(--glass-bg)
+     and the dialog rendered fully transparent, so its text sat directly on
+     the ::backdrop dimming and fell below AA in light theme. Aliasing to
+     the plate tier restores a usable surface without changing the design. */
+  --glass-bg: var(--glass-plate-bg);
 
   --glass-edge: rgb(255 255 255 / 70%);
   --glass-highlight: rgb(255 255 255 / 92%);
@@ -276,6 +283,7 @@
   --glass-nav-bg: rgb(58 74 100 / 44%);
   --glass-card-bg: rgb(44 58 82 / 52%);
   --glass-plate-bg: rgb(26 38 57 / 88%);
+  --glass-bg: var(--glass-plate-bg);
 
   --glass-edge: rgb(190 214 245 / 22%);
   --glass-highlight: rgb(226 238 255 / 20%);
@@ -355,6 +363,7 @@
   --glass-nav-bg: rgb(26 38 57 / 82%);
   --glass-card-bg: rgb(22 32 49 / 84%);
   --glass-plate-bg: rgb(15 23 36 / 94%);
+  --glass-bg: var(--glass-plate-bg);
 }
 
 /* ==========================================================================
@@ -379,6 +388,12 @@
   --glass-nav-bg: var(--surface);
   --glass-card-bg: var(--surface);
   --glass-plate-bg: var(--surface);
+  /* Spelled out even though --glass-bg: var(--glass-plate-bg) would already
+     resolve to --surface here via late binding. This block's contract is
+     "nothing is translucent", and relying on indirection through another
+     block to achieve that makes the guarantee invisible at the point where
+     someone would break it. */
+  --glass-bg: var(--surface);
   --glass-edge: var(--border);
   --glass-highlight: transparent;
   --glass-rim: transparent;

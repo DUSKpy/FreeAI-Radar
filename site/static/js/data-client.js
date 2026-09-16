@@ -130,9 +130,25 @@ export async function loadChanges(options) {
  *
  * This file is large and only needed on the detail page, so it is loaded
  * lazily and never as part of first paint.
+ *
+ * A MISSING file is not fatal, and treating it as one is what broke this
+ * feature in production: the file was never emitted by the pipeline, so the
+ * fetch 404'd, the provider page's catch showed a toast, and the 生成配置
+ * dialog never opened at all. The dialog is written to handle a provider with
+ * no entry -- it falls back to the full app list with no verdict chips -- but
+ * it could never reach that path while the fetch itself threw.
+ *
+ * So: 404 degrades to "no precomputed entries", which is an honest state the
+ * UI already renders. Anything else (500, malformed JSON, a version mismatch)
+ * still throws, because those are real failures and must surface.
  */
 export async function loadCCSwitch(options) {
-  return fetchJson('data/cc-switch.json', options);
+  try {
+    return await fetchJson('data/cc-switch.json', options);
+  } catch (error) {
+    if (error?.kind !== 'missing') throw error;
+    return { entries: {} };
+  }
 }
 
 export async function loadIndex(options) {

@@ -145,16 +145,37 @@ Deep Link 好用的时候很好用，但它是否可用**不取决于我们**。
 
 ## 自己构建
 
+**正常情况不需要手动跑** —— `export_public` 会从刚写出的 catalog 直接推导出
+`data/cc-switch.json`，和 catalog 一起落盘。下面这条命令只用于
+"手头已有一份 catalog、想单独重算一次"：
+
 ```bash
 python -m radar.cc_switch \
-  --state .work/state.json \
+  --catalog .work/public/data/catalog.<version>.json \
   --output .work/public/data/cc-switch.json \
-  --base-path /
+  --apps claude codex gemini opencode openclaw
 ```
 
-产物是 `.work/public/data/cc-switch.json`，
-被 `export_public` → `build_site` 复制进 `dist/data/`，
+> 参数是 `--catalog` 不是 `--state`（早期文档写错过），
+> 且 `--apps` 默认只有 claude/codex/gemini 三个。
+> `export_public` 内部调用的是**全部五个**应用，所以手动重算时
+> 记得显式传 `--apps`，否则会丢掉 opencode / openclaw。
+
+产物被 `build_site` 复制进 `dist/data/`，
 页面上由 `site/static/js/cc-switch.js` 在用户点击时读取并实时生成配置。
+
+### 为什么改成自动产出
+
+这个文件以前**只在文档里存在**：`.github/workflows` 里没有任何一步执行
+`radar.cc_switch`，所以 `data/cc-switch.json` 从未被生成，线上每个页面
+请求它都是 **404**。而 provider 页的点击处理是 `await loadCCSwitch()`，
+404 会 reject，catch 里只弹一个 toast —— 结果「生成配置」对话框**永远打不开**。
+
+更糟的是全绿：没有任何离线测试问过"这个 URL 存不存在"。
+现在由 `export_public` 派生，任何一次导出（CI / 本地 / fork）都必然带上它，
+`tests/test_build.py::TestTheCcSwitchPayloadIsExported` 有 6 条断言锁住这条链路。
+客户端另有兜底：文件**缺失**（404）时降级成空条目而不是抛错，
+因为对话框本来就能处理"该 provider 没有预置配置"的情况。
 
 ## 升级到新的 CC Switch 版本
 

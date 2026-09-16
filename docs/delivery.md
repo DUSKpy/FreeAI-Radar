@@ -87,7 +87,7 @@ Windows 上 `core.autocrlf=true` 会把 CRLF 写进仓库，Linux CI 随后会�
 
 ```bash
 python -m pytest -m "not network"
-# 253 passed, 1 skipped in 8.75s
+# 262 passed in 7.78s
 
 python -m ruff check .
 # All checks passed!
@@ -445,6 +445,8 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 | 21 | 搜索图标与占位文字**重叠 22px** | 用户第一眼就会看到的排版事故。根因是 `input[type="search"]` 处于 **(0,1,1)** —— 一个类型选择器加一个属性选择器 —— 压过了 `.search__input` 的 **(0,1,0)**。通用表单默认样式里的 `padding` 简写因此把组件的 `padding-left: 44px` 覆盖成 `var(--space-3)` = 12px，而图标占据 16–34px。**和第 19 条同族：更"通用"的规则赢了更"具体"的规则**，但机制不同 —— 第 19 条是特异度**打平**后靠源码顺序分胜负，这条是特异度**真的输了**，改书写顺序救不了 | 把整条默认样式包进 `:where(select, input[type="search"], …)`，权重归零 —— **默认样式永远不可能压过刻意给它上样式的组件**，一次修好所有未来的控件，而不是一个控件改一次。同时把图标的尺寸、位置与输入框左内边距改为由同一组自定义属性推导（`--search-icon-size` / `--search-icon-inset`），三者不会再各走各的。实测 `padding-left` 12px → **46px**，文字从图标 34px 右缘之后开始 |
 | 22 | 宽屏下页面**不铺满窗口**（1920px 右留 140px，2560px 留 780px） | `.app__main` 上的 `--content-max`（1360px，≥1600px 时覆写为 1480px）把整个外壳封住。一个**数据浏览器**在大屏上只用掉 71% 的宽度。更糟的是 `responsive.css` 里那段注释写着"网格因此获得第三条轨道"，而代码只改了 `--content-max` —— **注释描述了一个代码从未实现的布局**，比没有注释更坏，因为读起来像是刻意的 | 删掉外壳上限。正文可读性下沉到真正需要它的层级：`pages.css` 里各 prose 块自带的 60–72ch 度量 —— 用外壳封顶是错的工具，它顺带把表格、卡片、筛选栏一起封了，而这三者都没有"太宽读不动"的问题。≥1600px 时 `.results` 改为 `repeat(auto-fill, minmax(400px, 1fr))` 多列网格（额外宽度用来多显示几张卡，而不是把一张卡拉成 1900px）。死区在每个宽度统一为 24px 的栏间距 |
 | 23 | 新增的图片背景让 **40 个文本元素跌破 AA** | 纯色基线是 **1944/1944 全通过**；加上照片后变成 37 个深色 + 3 个浅色失败，`.sidebar__label` 从 5.97:1 掉到 **3.48:1**。这不是审美问题：功能把"可读"变成了**取决于用户选哪张图**。而且两个主题的失败方向相反 —— 深色怕亮图（亮图透过半透明面板把面板提亮，浅色文字失去对比）、浅色怕暗图 —— 所以**只对着我们自带的那张夜景调参，等于把 bug 藏起来**，换一张图就复发 | 见下一节 |
+| 24 | **CC Switch 配置预览在生产环境完全不可用**：`data/cc-switch.json` 从未被产出，线上每个页面请求它都是 **404** | `docs/cc-switch.md` 写着该文件由 `python -m radar.cc_switch` 单独一步产出，但 **`.github/workflows` 里没有任何一步执行它**（grep 无结果），所以 `export_public`/`build_site` 无文件可拷。provider 页的点击处理是 `await loadCCSwitch()`，404 会 reject，catch 里只弹一个 toast —— 结果「生成配置」对话框**永远打不开**。任务书 §14 的核心功能、§31 点名要求的「目录→详情→配置预览→复制」流程，在生产环境是死的。**最危险的是全绿**：没有任何离线测试问过"这个 URL 存不存在"，而截图只拍静态页，对话框没打开过也就没被看见 | 让 `export_public` 从刚写出的 catalog 直接派生该文件（根因修复，也让任何 CI/本地/fork 都无法忘记这一步）；客户端对"文件缺失(404)"降级为空条目而不是抛错，让对话框里本就存在的 `entry == null` 回退真正生效（其他错误仍抛出）。新增 `TestTheCcSwitchPayloadIsExported` 6 条断言，**已验证移除产出后全部变红**。端到端流程从 10/12 变 **16/16** |
+| 25 | **所有模态对话框背景全透明**：`dialog.sheet` 写的是 `background: var(--glass-bg)`，而 `--glass-bg` **从未定义** | `var()` 指向未定义的自定义属性时，该属性回退到**初始值** —— 对 `background` 就是 `transparent`。由于这条规则在 `@supports (backdrop-filter)` 里，而**所有现代浏览器都支持**，所以每个模态框（CC Switch、外观面板）都是完全透明的：页面内容直接透过来，文字落在 `::backdrop` 的 46% 深色遮罩上，浅色主题下 `.field__label` 只有 **2.11:1**。**这个是第 24 条的"下游"**：对话框以前从没打开过，所以从来没人看见。修好 404 之后它才暴露出来 —— 修一个 bug 往往只是让下一个 bug 变得可见 | 定义 `--glass-bg: var(--glass-plate-bg)`（三档各一份，reduced 块显式写 `var(--surface)`）。对话框内 82 个元素全部通过 AA（最差 2.11 → **5.15**）。新增 `TestEveryVarReferencedInCssIsDefined`：`var()` 引用的每个 token 都必须在某处定义，且**每个定义 `--glass-plate-bg` 的块都必须同时定义 `--glass-bg`**（逐块检查而非逐文件，否则删掉某一个主题块的定义不会被发现） |
 
 第 4、5、6、10 条有一个共同点：**它们都是"错得安静"**。
 第 1、9 条也是。这类缺陷不会报错，只会让结果悄悄变错。

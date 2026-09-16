@@ -28,7 +28,7 @@
 | M9 对比度余量：一个"通过"但只多 0.07 的配色 | ✅ | `test_token_contrast.py` 10 项 |
 | M10 图片背景、搜索图标重叠、宽屏不铺满 | ✅ | 逐像素审计 1944 元素全通过；`test_photo_backdrop_contrast.py` 12 项，5 处注入全捕获 |
 
-**当前测试基线：** `253 passed, 1 skipped` · `ruff check` 全绿 · `ruff format --check` 全绿
+**当前测试基线：** `262 passed` · `ruff check` 全绿 · `ruff format --check` 全绿
 （CI 上会少 1 个因沙箱批量删除守卫而跳过的用例）
 
 ---
