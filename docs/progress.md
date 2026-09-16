@@ -28,8 +28,9 @@
 | M9 对比度余量：一个"通过"但只多 0.07 的配色 | ✅ | `test_token_contrast.py` 10 项 |
 | M10 图片背景、搜索图标重叠、宽屏不铺满 | ✅ | 逐像素审计 1944 元素全通过；`test_photo_backdrop_contrast.py` 14 项，5 处注入全捕获 |
 | M11 液态玻璃：折射流动 + 无段透过度滑杆 | ✅ | `.work/glass-verify.mjs` 16/16；照片模式 1944 元素全通过 |
+| M12 逐面板自适应：玻璃对背后亮度响应 | ✅ | `.work/glass-adaptive-verify.mjs` 7/7；topbar 17.1% / sidebar 19.3%；照片模式 1944 元素全通过 |
 
-**当前测试基线：** `264 passed` · `ruff check` 全绿 · `ruff format --check` 全绿
+**当前测试基线：** `267 passed` · `ruff check` 全绿 · `ruff format --check` 全绿
 （CI 上会少 1 个因沙箱批量删除守卫而跳过的用例）
 
 ---
