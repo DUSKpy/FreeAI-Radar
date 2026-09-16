@@ -444,10 +444,34 @@ Actions 已运行 6 次（CI 4 次 + publish 2 次）；站点 **HTTP 200**。
 
 ## M7 — 液态玻璃重做与移动端重构
 
-**状态：** ✅ 完成（Safari 真机仍需实测）
+**状态：** ✅ 完成并**已上线**（Safari 真机仍需实测）
 
 **触发：** 用户反馈"前端设计实在是太难看了，还不能自动适配屏幕"，
 并要求做出 iOS 风格的液态玻璃。
+
+### 线上验收（实测，2026-09-16）
+
+推送 `69de18a` → CI `success` → 触发 `publish` → `success` → Pages 已更新。
+**在真实部署上**（不是本地构建）实测：
+
+| 检查 | 结果 |
+| --- | --- |
+| 8 页 HTTP | ✅ 全部 **200** |
+| 新资源 | ✅ `responsive.css` / `table-cards.js` 均 **200** |
+| 生效的材质 | ✅ `backdrop-filter: url("#radar-refract")`（真折射） |
+| 环境层 | ✅ `body::before` **6 层**渐变 |
+| 横向溢出 | ✅ 1440px / 390px 均 **0** |
+| 目录页 facet | ✅ 7 项免费类型 / 5 项注册条件，**无载入中残留** |
+| 手机表格→卡片 | ✅ `tr` 计算值为 `block`；**21/21** 单元格带 `data-label`；去重标签 `上下文窗口 / 声明能力 / 协议` |
+| 伪元素真的渲染 | ✅ `getComputedStyle(td,'::before').content` == `"上下文窗口"` |
+| 底部胶囊 | ✅ `display:block`、`border-radius:999px`、带折射 |
+| manifest 大小写 | ✅ `catalog_url` = `/FreeAI-Radar/...`，**200 可解析** |
+
+线上截图（真实部署，含完整 56 个 provider 的数据）：
+
+- `docs/screens/live-1440-deployed.png`
+- `docs/screens/live-390-deployed.png`
+- `docs/screens/live-provider-390-deployed.png`
 
 ### 诊断（先量后改）
 
@@ -458,6 +482,10 @@ Actions 已运行 6 次（CI 4 次 + publish 2 次）；站点 **HTTP 200**。
 3. 只有 4 个断点、**0 个容器查询**，且 1024–1199px 区间**完全没有规则**。
 4. 背景环境光是 22% 透明度叠在 `#eef3f9` 上，**根本看不见** ——
    玻璃没有东西可折射，所有折射效果都白做。
+
+另有一条**只在验证过程中才暴露的产品缺陷**，影响比 UI 更大：
+`_rebase_urls()` 改了内存里的 manifest，但 `_copy_data()` 逐字复制源文件，
+**改写从未落盘** —— 见 `docs/delivery.md` 第 4 节第 17 条。
 
 ### 做了什么
 

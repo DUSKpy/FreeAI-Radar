@@ -39,11 +39,12 @@
 
 | 桌面 | 手机 |
 | --- | --- |
-| ![桌面](docs/screens/index-1440-light.png) | ![手机](docs/screens/index-390-light.png) |
+| ![桌面](docs/screens/live-1440-deployed.png) | ![手机](docs/screens/live-390-deployed.png) |
 
-手机上数据表会变成卡片流，列名印在每个字段上方，不需要横向滚动：
+手机上数据表会变成卡片流，列名印在每个字段上方，不需要横向滚动。
+下面这张是**线上真实部署**的服务详情页：
 
-![提供商详情（手机）](docs/screens/provider-390-light.png)
+![提供商详情（手机，线上）](docs/screens/live-provider-390-deployed.png)
 
 > **一个必须说清楚的限制：折射效果只有 Chromium 系浏览器有。**
 > iOS 26 的 Liquid Glass 是三层 —— 折射（`backdrop-filter: url()` +
@@ -53,8 +54,8 @@
 > Safari 用户看到的是一块有意的厚玻璃，不是坏掉的玻璃。
 > 详见 [`docs/delivery.md`](docs/delivery.md) 第 6.1 节。
 
-截图共 97 张，覆盖 8 个页面 × 6 个宽度（1440 / 1024 / 834 / 768 / 430 / 390）
-× 亮暗两主题，全部在 `docs/screens/`。
+截图共 100 张，覆盖 8 个页面 × 6 个宽度（1440 / 1024 / 834 / 768 / 430 / 390）
+× 亮暗两主题，外加外观面板和线上部署验证，全部在 `docs/screens/`。
 
 ## 五个维度，分开记
 

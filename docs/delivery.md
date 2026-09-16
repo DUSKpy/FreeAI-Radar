@@ -420,6 +420,7 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 | 14 | 评审页 390px 横向溢出 **+153px** | `.checkitem__detail` 是一串原始字段转储 `context_window_tokens：1000000；capabilities：["audio","embedding","vision"]`，其中没有空格。默认 `overflow-wrap: normal` 下最长的 token 决定了整个列表的宽度 | `overflow-wrap: anywhere` |
 | 15 | 页脚构建标识 834/1024px 溢出 | **只在 768–1239px 出现**，手机上反而正常（窄屏本来就换行）。`footer.html` 里数据版本那行写了 `.wrap-anywhere`，紧挨着的构建标识那行**漏了** → 40 字符 SHA 撑宽页面 27–42px | 把换行行为**下沉到 `.mono` 本身**：等宽字体承载的正是 SHA、模型 id、域名这类无断点字符串，不该依赖每个调用点记得加 helper |
 | 16 | 短面板被拉满全屏 | 手机上面板固定 `height: 100dvh`（为长的 CC Switch 配置面板而设），但外观面板只有三个控件，footer 下方留下约 450px 空白玻璃，**看起来像渲染错误**。改成 `height: auto` 后**仍**是 776px | 真正原因是 UA 样式表给模态 `dialog` 同时设了 `top: 0` 和 `bottom: 0`——绝对定位元素在 `height: auto` 且两端 inset 都设时会拉伸填满包含块。加 `top: auto; bottom: 0` 后才落到 418px（= 头部 67 + 主体 274 + 底部 77，与内容一致） |
+| 17 | **rebased manifest 从未落盘** | **本版最隐蔽的一个**。`_rebase_urls()` 把 manifest 里的数据 URL 改写到本次构建的 base path，但 `_copy_data()` 用 `shutil.copy2` **逐字复制**源文件，改写**只存在于内存**。配合 `data-client.js` 里 `href.replace(basePath, '')`——**`String.replace` 区分大小写**，前缀不匹配时**静默不动**，留下绝对路径 `/freeai-radar/...`。结果：页面渲染正常、链接正常、**每个数据请求 404**。导出用 `/freeai-radar/`、构建用 `/FreeAI-Radar/` 时必现 | `_copy_data(data_dir, output_dir, manifest)`：manifest 改为**写入**而非复制。新增回归测试 `TestTheManifestIsRebasedNotJustCopied`，故意让 export 与 build 的 base path **不同**（旧测试用同一个值，所以陈旧副本与已 rebase 字节相同，看不见）——**已验证它在旧代码上失败** |
 
 第 4、5、6、10 条有一个共同点：**它们都是"错得安静"**。
 第 1、9 条也是。这类缺陷不会报错，只会让结果悄悄变错。
@@ -427,6 +428,9 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 布局都在，但一个手机用户实际够不到、读不下、或者页面被撑宽了。
 第 15 条尤其典型：同一份清单里相邻两行，一行写了 helper 一行没写。
 **只靠看截图发现不了这类问题**——它是靠"每页 × 每个宽度"的机械扫描找出来的。
+第 17 条更极端：**它连截图都骗过了**——页面渲染完全正常，
+只有一条不起眼的 404 出现在控制台里。它是靠"就绪条件断言 + 单点探针"
+（`dir-diag.mjs` 打印出 `数据文件不存在：/freeai-radar/...`）才暴露的。
 
 第 9 条还说明另一件事：**fixture 测试覆盖不到真实站点的 CSS 现实**。
 `tests/fixtures/*.md` 都是 Markdown，而 `_strip_noise` 只在 HTML 路径上跑，
