@@ -23,6 +23,7 @@ from typing import ClassVar
 import pytest
 
 from radar import build_site
+from tests.test_token_contrast import tokens_in_block
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -780,7 +781,85 @@ class TestEveryVarReferencedInCssIsDefined:
         )
 
 
-class TestAdaptiveGlassIsWired:
+class TestGlassFallbackChainIsWired:
+    """Safari and Firefox do not support ``backdrop-filter: url()``. The
+    fallback they get is the plain blur/saturate/brightness chain inside
+    glass.css's ``@supports (backdrop-filter: blur(1px))`` block, and that
+    chain is what contrast-fullpage.mjs injects when RADAR_FALLBACK=1.
+
+    A regression here means either: the fallback blur/saturate/brightness
+    tokens are misconfigured, or glass.css stopped consuming them on the
+    right selectors. Either way, Safari and Firefox users get a degraded
+    rendering while Chromium still shows the right one.
+    """
+
+    def test_each_theme_defines_the_fallback_chain(self) -> None:
+        css = self._strip_comments((self.CSS_DIR / "tokens.css").read_text(encoding="utf-8"))
+        # The :root block defines every fallback token. Dark typically only
+        # overrides the per-theme ones (saturate, brightness); the blur is
+        # inherited from light. This test reflects that: it requires every
+        # token at :root and the per-theme overrides at dark.
+        root = tokens_in_block(css, ":root")
+        for token in (
+            "--glass-blur",
+            "--glass-blur-strong",
+            "--glass-saturate",
+            "--glass-brightness",
+        ):
+            assert token in root, (
+                f":root must define {token}; Safari and Firefox consume "
+                "this directly via the @supports blur chain."
+            )
+            assert (
+                "px" in root[token] if token.startswith("--glass-blur") else "%" in root[token]
+            ), f":root: {token} = {root[token]!r}; must be a px length or %"
+
+        dark = tokens_in_block(css, '[data-theme="dark"]')
+        for token in ("--glass-saturate", "--glass-brightness"):
+            assert token in dark, (
+                f"[data-theme=dark] must override {token}; without the "
+                "per-theme value the fallback's colours are off."
+            )
+
+    def test_fallback_selectors_actually_consume_those_tokens(self) -> None:
+        css = self._strip_comments((self.CSS_DIR / "glass.css").read_text(encoding="utf-8"))
+        # The @supports blur block must reference the same tokens, so the
+        # browser's effective fallback matches the tokens the test expects.
+        # The condition itself contains nested parens ("(backdrop-filter: blur(1px))
+        # or (-webkit-backdrop-filter: blur(1px))"), so a naive [^)]* stops at
+        # the first close paren. Find @supports + the blur sentinel and walk
+        # forward to its opening brace, then track braces to get the body.
+        anchor = re.search(
+            r"@supports[^{]*?backdrop-filter\s*:\s*blur\(1px\)",
+            css,
+        )
+        assert anchor, (
+            "glass.css's @supports blur block is gone. Safari and Firefox "
+            "now have no fallback, which is the exact failure mode we are "
+            "guarding against."
+        )
+        brace = css.find("{", anchor.end())
+        assert brace != -1, "@supports blur block opens an unexpected token"
+        depth = 1
+        i = brace + 1
+        while i < len(css) and depth:
+            if css[i] == "{":
+                depth += 1
+            elif css[i] == "}":
+                depth -= 1
+            i += 1
+        body = css[brace + 1 : i - 1]
+        for token in (
+            "--glass-blur",
+            "--glass-blur-strong",
+            "--glass-saturate",
+            "--glass-brightness",
+        ):
+            assert token in body, (
+                f"The @supports blur block must reference {token}; otherwise "
+                "the fallback's value comes from somewhere unrelated."
+            )
+
     """The "glass responds to what's behind" feature has three moving parts.
 
     1. glass-adaptive.js must exist and export initInitableGlass.
