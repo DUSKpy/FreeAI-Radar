@@ -87,7 +87,7 @@ Windows 上 `core.autocrlf=true` 会把 CRLF 写进仓库，Linux CI 随后会�
 
 ```bash
 python -m pytest -m "not network"
-# 269 passed in 6.81s
+# 274 passed in 7.18s
 
 python -m ruff check .
 # All checks passed!
