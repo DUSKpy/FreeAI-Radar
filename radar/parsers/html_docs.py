@@ -61,6 +61,14 @@ _NOISE_PATTERNS = (
     "announcement",
 )
 
+#: Attributes whose *whole value* may be matched loosely (substring).
+#:
+#: ``id`` and ``aria-label`` are written by people as prose-ish identifiers, so
+#: a substring test is a reasonable read of intent: ``id="site-sidebar"`` is a
+#: sidebar. They are safe to match loosely because they are short and authored
+#: deliberately.
+_LOOSE_MATCH_ATTRS = ("id", "aria-label", "data-testid", "role")
+
 
 @dataclass
 class HtmlTable:
@@ -115,30 +123,105 @@ def _find_main(soup: BeautifulSoup) -> Tag:
     return body if isinstance(body, Tag) else soup
 
 
+def _class_tokens(class_value: object) -> list[str]:
+    """Split a ``class`` attribute into whole tokens, discarding CSS internals.
+
+    This exists because a plain substring test over the raw class string is
+    actively dangerous on modern utility-CSS sites. Observed in the wild:
+
+        class="flex w-full pt-[calc(10rem+var(--banner-height,2.5rem))] lg:pt-10"
+
+    The substring ``banner`` appears inside an arbitrary-value utility, and the
+    element carrying it held the entire article body. A substring test deleted
+    5107 characters of real content and the page was reported as unparseable.
+
+    So: split on whitespace, and only consider the leading token name before any
+    ``:``/``[``/``/`` modifier, lowercased. ``banner`` in a class therefore has
+    to be an actual class named ``banner`` (or ``banner-*``), never a fragment
+    of a bracketed arbitrary value.
+    """
+    if not class_value:
+        return []
+    if isinstance(class_value, str):
+        raw = class_value.split()
+    elif isinstance(class_value, (list, tuple)):
+        raw = [str(part) for item in class_value for part in str(item).split()]
+    else:
+        return []
+
+    tokens: list[str] = []
+    for item in raw:
+        # Drop any utility modifier/suffix: `md:flex`, `pt-[calc(...)]`,
+        # `hover:bg-red-500/50` all reduce to their base name.
+        head = item.split(":", 1)[-1]
+        head = head.split("[", 1)[0]
+        head = head.split("/", 1)[0]
+        # A trailing modifier separator can survive the splits above
+        # (`pt-[calc(...)]` -> `pt-`). Trim it so tokens are plain names.
+        head = head.strip().strip("-").lower()
+        if not head:
+            continue
+        tokens.append(head)
+        # Also offer the first hyphen-delimited word so that `banner-ad` still
+        # matches the `banner` pattern.
+        if "-" in head:
+            tokens.append(head.split("-", 1)[0])
+    return tokens
+
+
+def _is_noise(node: Tag) -> bool:
+    """True when a node is identifiable as chrome rather than content."""
+    # Class names are matched token-wise: a class is only noise if the token
+    # *equals* (or begins with) a known noise word. Substrings inside bracketed
+    # utility values must never count.
+    for token in _class_tokens(node.get("class")):
+        if any(token == pattern or token.startswith(f"{pattern}-") for pattern in _NOISE_PATTERNS):
+            return True
+
+    # Authored attributes may still be matched loosely.
+    for attr in _LOOSE_MATCH_ATTRS:
+        value = node.get(attr)
+        if isinstance(value, (list, tuple)):
+            value = " ".join(str(v) for v in value)
+        if not isinstance(value, str) or not value:
+            continue
+        lowered = value.lower()
+        if any(pattern in lowered for pattern in _NOISE_PATTERNS):
+            return True
+    return False
+
+
 def _strip_noise(root: Tag) -> None:
     """Remove promotional, navigational and consent chrome.
 
     This is what the task book means by cleaning ads, footers, navigation and
     promotional link parameters before anything is stored.
+
+    A deliberate safety rule: never decompose a node that holds most of the
+    document's text. If a match would remove the bulk of the content, the match
+    is wrong, and keeping slightly too much is far better than publishing an
+    empty page.
     """
-    for node in root.find_all(True):
-        try:
-            marker = " ".join(
-                filter(
-                    None,
-                    [
-                        " ".join(node.get("class") or []) if node.has_attr("class") else "",
-                        node.get("id") or "",
-                        node.get("aria-label") or "",
-                    ],
-                )
-            ).lower()
-        except (AttributeError, TypeError):
+    total_text = len(root.get_text(strip=True))
+    # A single node holding this share of the text is content, not chrome.
+    protected_share = 0.5
+
+    for node in list(root.find_all(True)):
+        if node.parent is None:  # already decomposed via an ancestor
             continue
-        if marker and any(pattern in marker for pattern in _NOISE_PATTERNS):
-            node.decompose()
+        if not _is_noise(node):
             continue
-        if node.name == "a" and not node.get_text(strip=True) and not node.find("img"):
+        node_text = len(node.get_text(strip=True))
+        if total_text and node_text / total_text >= protected_share:
+            # Refuse to delete what is evidently the page body. The class/id
+            # matched a noise word, but the size says it is the content.
+            continue
+        node.decompose()
+
+    for node in list(root.find_all("a")):
+        if node.parent is None:
+            continue
+        if not node.get_text(strip=True) and not node.find("img"):
             node.decompose()
 
 

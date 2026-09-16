@@ -216,6 +216,88 @@ class TestHtmlParser:
         assert parse_html("") is not None
 
 
+class TestNoiseStrippingDoesNotEatThePage:
+    """Regression tests for a bug that silently emptied real pages.
+
+    ``_strip_noise`` used to test each noise word as a plain substring of the
+    joined class/id/aria-label string. On a utility-CSS site that is unsafe:
+    OpenRouter's article container carried
+
+        class="flex flex-row-reverse ... pt-[calc(10rem+var(--banner-height,2.5rem))]"
+
+    and ``banner`` matched inside the arbitrary-value utility. The whole article
+    (5107 characters) was decomposed, ``main_text`` came back empty, and the
+    source was reported as ``parse_error: no readable text extracted`` while the
+    HTTP status was a perfectly healthy 200.
+
+    Two independent guards now exist, so a match has to be wrong twice over to
+    do damage again.
+    """
+
+    def test_a_noise_word_inside_a_utility_value_is_not_a_class(self) -> None:
+        """The exact class string that caused the incident."""
+        html = (
+            "<html><body><main>"
+            '<div class="flex flex-row-reverse gap-12 box-border w-full '
+            'pt-[calc(10rem+var(--banner-height,2.5rem))] lg:pt-10">'
+            "<p>Rate limits act as control measures for API access.</p>"
+            "</div></main></body></html>"
+        )
+        doc = parse_html(html)
+        assert "Rate limits" in doc.main_text, (
+            "a noise word appearing only inside a bracketed CSS utility must not "
+            "mark the element as chrome"
+        )
+
+    def test_a_node_holding_the_page_body_is_never_deleted(self) -> None:
+        """Even a genuine class match must not delete the whole document."""
+        html = (
+            '<html><body><div class="banner">'
+            + ("<p>Free tier details and rate limits.</p>" * 40)
+            + "</div></body></html>"
+        )
+        doc = parse_html(html)
+        assert doc.main_text.strip(), (
+            "refusing to delete the page body matters more than removing chrome"
+        )
+
+    def test_real_chrome_is_still_removed(self) -> None:
+        """The safety guards must not defeat the original purpose."""
+        html = (
+            "<html><body>"
+            '<div class="cookie-consent">We use cookies.</div>'
+            '<div class="sidebar">Nav</div>'
+            "<p>" + ("Free tier and rate limits are documented here. " * 20) + "</p>"
+            "</body></html>"
+        )
+        doc = parse_html(html)
+        assert "We use cookies" not in doc.main_text
+        assert "Free tier" in doc.main_text
+
+    def test_hyphenated_and_modifier_class_names_still_match(self) -> None:
+        """`banner-ad` and `md:sidebar` should still read as chrome."""
+        html = (
+            "<html><body>"
+            '<div class="banner-ad">Buy now</div>'
+            '<div class="md:sidebar">Links</div>'
+            "<p>" + ("Free tier with documented rate limits. " * 20) + "</p>"
+            "</body></html>"
+        )
+        doc = parse_html(html)
+        assert "Buy now" not in doc.main_text
+        assert "Free tier" in doc.main_text
+
+    def test_id_style_attributes_are_still_matched_loosely(self) -> None:
+        html = (
+            "<html><body>"
+            '<div id="site-cookie-banner">Accept all cookies</div>'
+            "<p>" + ("Free tier and rate limits. " * 20) + "</p>"
+            "</body></html>"
+        )
+        doc = parse_html(html)
+        assert "Accept all cookies" not in doc.main_text
+
+
 class TestEvidenceExtraction:
     """Evidence excerpts are what make a claim checkable. They must be short
     quotations from the page, not the whole page."""
