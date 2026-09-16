@@ -208,7 +208,7 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
     # The browser reads these files at runtime. They are copied verbatim so the
     # site works from any static host, including a sub-path deployment.
     _prepare_output(output_dir)
-    _copy_data(data_dir, output_dir)
+    _copy_data(data_dir, output_dir, manifest)
 
     env = _environment(template_dir, base_path)
 
@@ -301,11 +301,28 @@ def _prepare_output(output_dir: Path) -> None:
     (output_dir / "data").mkdir(parents=True, exist_ok=True)
 
 
-def _copy_data(data_dir: Path, output_dir: Path) -> None:
+def _copy_data(
+    data_dir: Path,
+    output_dir: Path,
+    manifest: dict[str, Any] | None = None,
+) -> None:
     """Copy the public data tree into ``dist/data``.
 
     ``export_public`` has already applied the field allowlist, so this is a
-    straight copy of an already-sanitised tree.
+    straight copy of an already-sanitised tree -- with one exception.
+
+    ``manifest.json`` is *written* from the passed-in value rather than copied,
+    because the caller has already run it through :func:`_rebase_urls`. Copying
+    the file verbatim published the export's original base path while the HTML
+    and the server-rendered links used the build's base path. When the two
+    differ only by case -- ``/freeai-radar/`` from an earlier export against
+    ``/FreeAI-Radar/`` on Pages -- the result is a page that renders, links that
+    look right, and a ``fetch`` that 404s, because ``data-client`` strips the
+    prefix with a case-sensitive ``String.replace`` that quietly does nothing.
+
+    Reproduced by building with ``--base-path /FreeAI-Radar/`` over data
+    exported with ``--base-path /freeai-radar/``: ``dist/data/manifest.json``
+    was byte-identical to the input and every data request failed.
     """
     for source in data_dir.rglob("*"):
         if source.is_dir():
@@ -313,6 +330,14 @@ def _copy_data(data_dir: Path, output_dir: Path) -> None:
         relative = source.relative_to(data_dir)
         destination = output_dir / "data" / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
+
+        if manifest is not None and relative.as_posix() == "manifest.json":
+            destination.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            continue
+
         shutil.copy2(source, destination)
 
 

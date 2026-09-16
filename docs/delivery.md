@@ -416,9 +416,17 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 | 10 | 依赖未声明（3 个包） | 本地测试一直绿，因为开发机**碰巧**装有它们。`pip install -e ".[dev]"` 不会带上未声明的包，CI 是循环里唯一的干净 checkout → `ModuleNotFoundError: pydantic` | 补 `pydantic` / `beautifulsoup4` / `lxml`；**用干净 venv 验证** |
 | 11 | `ruff>=0.6` 无上界 | CI 装到 0.16.7 而本地是 0.8.6，0.16 新增 `UP042` → CI 报 22 个错，本地全绿 | 钉 `ruff==0.16.7` + 22 个枚举迁 `StrEnum`；并用 `[tool.ruff] include = ["*.py"]` 阻止它重排 `tests/fixtures/*.md`（那些是真实上游 README 的逐字副本） |
 | 12 | `StrEnum` 迁移暴露的潜在 bug | 旧 `(str, Enum)` 让 `str(Protocol.OPENAI_CHAT)` 返回 `"Protocol.OPENAI_CHAT"`，而 `cc_switch.PROTOCOL_LABELS` 以**值字符串**为键 → 标签查询**静默落空** | 迁移到 `StrEnum` 后 `str()` 返回 `"openai_chat"`，标签恢复 |
+| 13 | 手机上**没有任何外观控件可达** | 侧栏（放主题控件）<1024px 隐藏，顶部导航 <768px 隐藏 → 手机上暗色模式、降低透明、减弱动效**全部无法触达**。这是无障碍缺陷，不是审美问题 | 底部胶囊加第五项「外观」，打开原生 `<dialog>` 面板；复用同一份 `themecontrols.html`，`theme.js` 按属性选择器自动接线 |
+| 14 | 评审页 390px 横向溢出 **+153px** | `.checkitem__detail` 是一串原始字段转储 `context_window_tokens：1000000；capabilities：["audio","embedding","vision"]`，其中没有空格。默认 `overflow-wrap: normal` 下最长的 token 决定了整个列表的宽度 | `overflow-wrap: anywhere` |
+| 15 | 页脚构建标识 834/1024px 溢出 | **只在 768–1239px 出现**，手机上反而正常（窄屏本来就换行）。`footer.html` 里数据版本那行写了 `.wrap-anywhere`，紧挨着的构建标识那行**漏了** → 40 字符 SHA 撑宽页面 27–42px | 把换行行为**下沉到 `.mono` 本身**：等宽字体承载的正是 SHA、模型 id、域名这类无断点字符串，不该依赖每个调用点记得加 helper |
+| 16 | 短面板被拉满全屏 | 手机上面板固定 `height: 100dvh`（为长的 CC Switch 配置面板而设），但外观面板只有三个控件，footer 下方留下约 450px 空白玻璃，**看起来像渲染错误**。改成 `height: auto` 后**仍**是 776px | 真正原因是 UA 样式表给模态 `dialog` 同时设了 `top: 0` 和 `bottom: 0`——绝对定位元素在 `height: auto` 且两端 inset 都设时会拉伸填满包含块。加 `top: auto; bottom: 0` 后才落到 418px（= 头部 67 + 主体 274 + 底部 77，与内容一致） |
 
 第 4、5、6、10 条有一个共同点：**它们都是"错得安静"**。
 第 1、9 条也是。这类缺陷不会报错，只会让结果悄悄变错。
+第 13–15 条是同一个模式的另一种形态：**界面看起来是对的**，控件、表格、
+布局都在，但一个手机用户实际够不到、读不下、或者页面被撑宽了。
+第 15 条尤其典型：同一份清单里相邻两行，一行写了 helper 一行没写。
+**只靠看截图发现不了这类问题**——它是靠"每页 × 每个宽度"的机械扫描找出来的。
 
 第 9 条还说明另一件事：**fixture 测试覆盖不到真实站点的 CSS 现实**。
 `tests/fixtures/*.md` 都是 Markdown，而 `_strip_noise` 只在 HTML 路径上跑，
@@ -474,6 +482,68 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
    线上 `needs_review=0` 与 `official_confirmed=26` 并存，前者表示没有待复核项。
 6. **"永远免费"从不被承诺。** 最接近的诚实话术是"当前公布的政策有持续免费档"，
    而且它随时会变。且**本文不会说站点"永久免费可用"**。
+7. **液态玻璃的折射只有 Chromium 系浏览器能看到。** 见下节，这不是实现偷懒，
+   而是平台边界。
+
+---
+
+## 6.1 液态玻璃：能做的和做不到的
+
+需求是"iOS 风格的液态玻璃"。查过 GitHub 上的实现（`rizzytoday/liquid-glass`、
+`nikdelvin/liquid-glass` 等）后，结论必须说清楚：
+
+iOS 26 的 Liquid Glass 是**三层叠加**：
+
+| 层 | 手段 | 浏览器支持 |
+| --- | --- | --- |
+| 折射 | `backdrop-filter: url(#svgfilter)` + `feDisplacementMap` | **只有 Chromium 系** |
+| 扩散 | `backdrop-filter: blur() saturate() brightness()` | 全部现代浏览器 |
+| 高光 | inset 亮边 + 外沿暗边 | 全部现代浏览器 |
+
+**`backdrop-filter: url()` 没有 Safari 和 Firefox 实现。**
+GitHub 上所有"网页版液态玻璃"库都卡在同一处。所以本项目的做法是：
+
+- **基础层是一套完整的毛玻璃设计**，所有浏览器都拿到（第 2、3 层）。
+- **折射只在对的引擎上叠加**（第 1 层），用 `@supports (backdrop-filter: url(#radar-refract))` 分流。
+- 降到毛玻璃时**加厚模糊**（`blur(40px) saturate(180%) brightness(108%)`），
+  让它是一块**有意的厚玻璃**，而不是"效果失效的残骸"。
+
+这意味着：**Safari 用户看到的是一个好看但不同的东西**，不是坏掉的东西。
+本文不声称"在 Safari 上也有折射"。
+
+SVG 滤镜有两个必须记住的约束，踩过：
+
+1. 滤镜必须在**同一文档内**——跨文档引用和 Shadow DOM 都不解析。
+2. 滤镜元素**不能是 `display: none`**（要用 `width="0" height="0"`），
+   否则 `backdrop-filter: url()` 会**静默失效**。
+
+另外，`@supports` 由 **CSS 引擎**求值，**无法从 JavaScript 伪装**。
+验证降级路径时试过三种办法，前两种都不诚实：删掉 `<svg>` 元素
+（Chromium 仍认为声明合法）、覆写 `CSS.supports`（JS 返回 `false` 但计算样式仍是 `url()`）、
+把构建产物复制到另一个目录（资源是绝对路径，加载的还是原 CSS）。
+**最终用原地改写 `glass.css`、跑完再还原的办法验证**，结果才可信：
+Chromium 下 `url("#radar-refract")`，模拟降级下
+`blur(40px) saturate(1.8) brightness(1.08)`，7/7 卡片正常渲染，0 横向溢出。
+
+---
+
+## 6.2 响应式与移动端
+
+原来的实现只有 4 个断点、**0 个容器查询**、**1 处 `rem`**、字号全部写死 px，
+且 1024–1199px 这个区间**完全没有规则**（一台被挤扁的桌面浏览器）。
+现在：
+
+- 字号全部改为 `clamp()` 流式，不再在断点处跳变。
+- 数据表在 <768px 变成**卡片流**：`thead` 视觉隐藏，`td::before { content: attr(data-label) }`
+  把列名印到每个单元格上。列名由 `table-cards.js` 从 `thead` 抄到每个 `td`，
+  并用 `MutationObserver` 处理**异步渲染的行**（四张表里三张是 JS 填的）。
+- 底部导航改成 iOS 浮动胶囊，`repeat(5, ...)`，含安全区 `env(safe-area-inset-bottom)`。
+- 补了横屏手机、`prefers-contrast: more`、`@media print`
+  （打印时**把卡片还原成真表格**）。
+
+验证方式是机械扫描而不是肉眼看图：**8 页 × 6 个宽度**
+（320/390/430/768/834/1024），断言无横向溢出；手机上表格变卡片、桌面上仍是表格；
+96 张截图覆盖 6 宽度 × 2 主题。
 
 ---
 
@@ -509,7 +579,7 @@ python -m radar.export_public \
   --state tests/fixtures/state.minimal.json \
   --output .work/public-fixture --base-path /
 python -m radar.build_site \
-  --data .work/public-fixture --out dist-fixture --base-path /
+  --data .work/public-fixture --output dist-fixture --base-path /
 
 # 5. 密钥扫描
 python -m tests.scan_secrets dist-fixture
@@ -519,7 +589,7 @@ python -m http.server 8000 --directory dist-fixture
 # 打开 http://localhost:8000
 ```
 
-**预期结果：** 第 2 步 `215 passed, 1 skipped`；第 4 步 `provider_count: 3`；
+**预期结果：** 第 2 步 `220 passed, 1 skipped`；第 4 步 `provider_count: 3`；
 第 5 步无密钥形状字符串。
 
 第 6 步看到的是**基于 fixture** 的站点。它证明流水线是通的，

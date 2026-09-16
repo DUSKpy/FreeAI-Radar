@@ -55,6 +55,9 @@
 <link rel="stylesheet" href="{{ static('css/glass.css') }}">
 <link rel="stylesheet" href="{{ static('css/components.css') }}">
 <link rel="stylesheet" href="{{ static('css/pages.css') }}">
+{# responsive.css is last on purpose: it adapts what the other three define,
+   and a later file can override an earlier one without !important. #}
+<link rel="stylesheet" href="{{ static('css/responsive.css') }}">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% block og_title %}{{ site.name }}{% endblock %}">
@@ -65,6 +68,72 @@
 </head>
 <body>
 <a class="skip-link" href="#main">跳到主要内容</a>
+
+{#
+  The refraction filter, referenced from glass.css by url(#radar-refract).
+
+  Why it is inline and not a separate .svg file: a filter referenced across
+  documents is not honoured by any current browser, and one referenced from
+  shadow DOM is not either. It has to be in this document.
+
+  Why width/height are 0 and not display:none: a filter whose element is
+  display:none is never resolved, so backdrop-filter: url() would silently
+  do nothing.
+
+  The filter is built as a real optical chain rather than a single blur:
+    feTurbulence at a low baseFrequency + feGaussianBlur  -> a smooth,
+      non-repeating displacement field. A PNG would have to be downloaded
+      and would visibly tile; this costs nothing and never repeats.
+    feDisplacementMap                                      -> bends the
+      backdrop along that field. --glass-refract caps it at 8 because past
+      about 12 the edge stops reading as glass and starts reading as a bug.
+    three feColorMatrix + feDisplacementMap + feBlend      -> splits the
+      channels by a fraction of a pixel and recombines them, which is where
+      the faint red/cyan fringe along a hard edge comes from.
+
+  Every filter primitive reads the SourceGraphic, so nothing accumulates and
+  the result is deterministic rather than depending on evaluation order.
+
+  Safari and Firefox do not support backdrop-filter: url() at all. They fall
+  back to the plain frosted material in glass.css, which is a complete design
+  in its own right -- see the note at the top of that file.
+#}
+<svg class="refract-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="radar-refract" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+    {# The displacement field. Two octaves at different frequencies give a
+       slightly irregular edge, which is what stops the refraction from
+       looking like a uniform fisheye. #}
+    <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise"/>
+    <feGaussianBlur in="noise" stdDeviation="2.2" result="field"/>
+
+    {# Diffuse pass: the whole panel gets a strong blur and a colour lift. #}
+    <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blurred"/>
+
+    {# Refracted pass: the blurred backdrop pushed along the field. #}
+    <feDisplacementMap in="blurred" in2="field" scale="14" xChannelSelector="R" yChannelSelector="G" result="bent"/>
+
+    {# Channel split for the chromatic fringe. Each channel is isolated, then
+       displaced by a slightly different amount, then recombined additively. #}
+    <feColorMatrix in="bent" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="ch-r"/>
+    <feColorMatrix in="bent" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="ch-g"/>
+    <feColorMatrix in="bent" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="ch-b"/>
+
+    <feOffset in="ch-r" dx="-1.6" dy="-1.1" result="off-r"/>
+    <feOffset in="ch-b" dx="1.6" dy="1.1" result="off-b"/>
+
+    <feBlend in="off-r" in2="ch-g" mode="screen" result="rg"/>
+    <feBlend in="rg" in2="off-b" mode="screen" result="rgb"/>
+
+    {# Saturation and brightness lift, so the sampled backdrop reads as vivid
+       colour rather than a grey smear. #}
+    <feColorMatrix in="rgb" type="saturate" values="1.5" result="saturated"/>
+    <feComponentTransfer in="saturated" result="brightened">
+      <feFuncR type="linear" slope="1.06" intercept="0.01"/>
+      <feFuncG type="linear" slope="1.06" intercept="0.01"/>
+      <feFuncB type="linear" slope="1.06" intercept="0.015"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
 
 <div class="app" data-page="{{ page }}">
   {% include "components/sidebar.html" %}
@@ -82,6 +151,7 @@
 </div>
 
 {% include "components/bottomnav.html" %}
+{% include "components/appearance-sheet.html" %}
 {% include "components/toast.html" %}
 
 {# Shared client state is exposed to the ES modules through data attributes

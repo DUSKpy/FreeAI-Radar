@@ -308,24 +308,43 @@ select.field {
 
 /* ==========================================================================
    Bottom navigation (narrow screens < 768px)
+   --------------------------------------------------------------------------
+   A floating capsule inset from the edges, not a bar welded to the bottom of
+   the window. This is the iOS pattern and it is not only cosmetic: a bar
+   flush with the edge competes with the system gesture area, and a floating
+   one lets the page background continue underneath it, which is what makes
+   the glass material read as glass.
    ========================================================================== */
 
 .bottomnav {
   display: none;
   position: fixed;
-  inset: auto 0 0 0;
+  inset: auto auto calc(var(--bottomnav-gap) + env(safe-area-inset-bottom, 0px))
+    var(--bottomnav-gap);
+  /* Half the viewport minus the gap on each side, so the capsule is centred
+     regardless of scrollbar width. */
+  width: calc(100vw - var(--bottomnav-gap) * 2);
+  max-width: 460px;
   z-index: 40;
-  padding: var(--space-2) var(--space-2)
-    calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
+  padding: var(--space-2);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Centre it on a wide-but-short viewport, where a phone-width capsule would
+   otherwise sit against the left edge. */
+@media (min-width: 480px) {
+  .bottomnav {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 .bottomnav__items {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* Five items: four destinations plus the appearance sheet trigger. */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--space-1);
   list-style: none;
   margin: 0;
@@ -338,18 +357,45 @@ select.field {
   align-items: center;
   justify-content: center;
   gap: 3px;
-  min-height: var(--touch-target);
-  padding: var(--space-1);
-  border-radius: var(--radius-control);
+  /* A tab is the one control a thumb hits without looking, so it gets more
+     than the 44px minimum. */
+  min-height: 48px;
+  padding: var(--space-1) 2px;
+  border-radius: var(--radius-pill);
   color: var(--text-muted);
   text-decoration: none;
   font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.01em;
+  /* The appearance trigger is a <button>; without this reset it would inherit
+     the browser's button chrome and look nothing like the four links beside
+     it. */
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    color var(--motion-fast) var(--ease-out),
+    background var(--motion-fast) var(--ease-out);
 }
 
 .bottomnav__link[aria-current="page"] {
   color: var(--accent-fg);
   background: var(--accent-soft);
+}
+
+/* In the dark theme the accent tint is dark enough that the icon needs the
+   brighter accent to stay legible. */
+[data-theme="dark"] .bottomnav__link[aria-current="page"] {
+  color: var(--accent);
+}
+
+/* Reduced transparency must also make the capsule opaque, or it will sit
+   unreadably over the page text scrolling beneath it. */
+[data-transparency="reduced"] .bottomnav {
+  background: var(--surface);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 /* ==========================================================================
@@ -1212,8 +1258,39 @@ dialog.sheet[open] {
   margin-left: auto;
 }
 
-/* On a phone the sheet is effectively full screen, and the body must remain
-   scrollable when the soft keyboard opens. */
+/* A sheet with only a few controls in it. The full-width sheet is sized for
+   the CC Switch configuration preview, which is long; the appearance sheet
+   holds three switches and looks lost at that width. */
+dialog.sheet--compact {
+  width: min(420px, calc(100vw - 2 * var(--space-4)));
+  max-height: min(76vh, 620px);
+}
+
+dialog.sheet--compact .sheet__body {
+  max-height: none;
+}
+
+/* The appearance controls already carry their own labels; inside a sheet they
+   stack vertically rather than sitting in a row. */
+dialog.sheet--compact .themecontrols {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-3);
+}
+
+dialog.sheet--compact .themecontrols .segmented {
+  align-self: flex-start;
+}
+
+/* On a phone a long sheet is effectively full screen, and the body must
+   remain scrollable when the soft keyboard opens.
+
+   `height: 100dvh` is right for the CC Switch panel, whose configuration
+   preview is longer than any phone screen, but wrong for a short sheet: the
+   appearance sheet holds three controls, and stretching it to the full height
+   leaves roughly 500px of empty glass below the footer, which reads as a
+   rendering fault rather than as a design. It grows from the bottom instead
+   and stops when the content stops. */
 @media (max-width: 767px) {
   dialog.sheet {
     width: 100vw;
@@ -1223,6 +1300,34 @@ dialog.sheet[open] {
     margin: 0;
     border-radius: 0;
     border: none;
+  }
+
+  /* Short sheet: anchor to the bottom edge and let the height follow the
+     content, capped so it can never grow past the screen.
+
+     `bottom: auto` is the load-bearing line. The UA stylesheet positions a
+     modal dialog with both `top: 0` and `bottom: 0`, and an absolutely
+     positioned box with `height: auto` and both insets set stretches to fill
+     its containing block. Without releasing the bottom inset the dialog
+     stayed 776px tall -- the full viewport -- no matter what `height` said. */
+  dialog.sheet--compact {
+    top: auto;
+    bottom: 0;
+    height: auto;
+    max-height: min(92dvh, 100vh);
+    margin: 0;
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The generic rule below makes the body grow to fill the dialog, which is
+     what a full-screen sheet wants. Here it is the opposite: `flex: 0 1 auto`
+     lets the body sit at its natural height so the dialog is only as tall as
+     its three controls. Without this the sheet was still 776px tall with
+     ~450px of empty glass under the footer. */
+  dialog.sheet--compact .sheet__body {
+    flex: 0 1 auto;
   }
 
   .sheet__body {
@@ -1660,8 +1765,12 @@ dialog.sheet[open] {
 }
 
 @media (max-width: 767px) {
+  /* The toast must clear the floating tab bar, not sit under it. The bar is
+     positioned with a gap from the bottom edge, so the offset is its height
+     plus that gap plus the device safe area. */
   .toast {
-    inset: auto var(--space-4) calc(72px + env(safe-area-inset-bottom, 0px))
+    inset: auto var(--space-4)
+      calc(var(--bottomnav-height) + var(--bottomnav-gap) * 2 + env(safe-area-inset-bottom, 0px))
       var(--space-4);
     max-width: none;
   }

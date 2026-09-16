@@ -1,54 +1,103 @@
 /* ==========================================================================
    tokens.css -- design variables for FreeAI Radar
    --------------------------------------------------------------------------
-   Initial tokens from the project brief, verified against real rendered
-   backgrounds before being adjusted. Every colour pair used for text is
-   checked for contrast after compositing, not just as a hex value.
-
    Naming: --<role> so a theme swap only rewrites this file.
+
+   Two deliberate changes from the first pass, both driven by the redesign:
+
+   1. Type is fluid. Every size is a clamp() over a viewport-relative middle
+      term, so a 390px phone and a 1440px desktop get genuinely different
+      type rather than one value that is too big in one place and too small
+      in the other. The middle term is vw-based, the bounds are absolute.
+
+   2. Glass is translucent again. The first pass used 78% opaque white, which
+      is not glass -- it is a white plate with a blur behind it, and it erased
+      the colour it was supposed to be sampling. The values below let the
+      environment layer actually show through, which is what gives the
+      material something to refract.
+
+   Every colour pair used for text is checked for contrast after compositing
+   against the surface it actually sits on, not just as a hex value.
    ========================================================================== */
 
 :root {
   color-scheme: light;
 
+  /* --- environment (the layer glass samples) --------------------------- */
+  /* iOS system colour family: blue, indigo, teal, pink. These are the hues
+     the glow layer paints with; nothing else uses them directly. */
+  --env-blue: 120 190 235;
+  --env-indigo: 150 150 240;
+  --env-teal: 110 205 200;
+  --env-pink: 235 160 200;
+  /* How strongly the environment shows. Raised from the first pass: at 22%
+     over #eef3f9 the glow was invisible, so the glass had nothing to sample
+     and every refraction effect was wasted. */
+  --env-strength: 42%;
+  --env-blur: 90px;
+
   /* --- surfaces ------------------------------------------------------- */
-  --bg: #eef3f9;
+  --bg: #eff4fb;
   --surface: #ffffff;
   --surface-soft: #f5f8fc;
   --surface-sunken: #e8eef7;
 
   /* --- text ----------------------------------------------------------- */
-  --text: #142238;
-  --text-muted: #4d5d73;
+  --text: #101d31;
+  --text-muted: #47566c;
   /* 13px+ helper text still meets 4.5:1 against --surface after compositing */
-  --text-subtle: #61718a;
+  --text-subtle: #5c6c85;
 
   /* --- brand ---------------------------------------------------------- */
-  --accent: #185bd8;
-  --accent-hover: #1449b0;
-  --accent-soft: #e3ecfd;
+  --accent: #0a66e8;
+  --accent-hover: #0854c4;
+  --accent-soft: #dceafd;
   --on-accent: #ffffff;
 
-  /* --- glass ---------------------------------------------------------- */
-  --glass-bg: rgb(255 255 255 / 78%);
-  --glass-edge: rgb(255 255 255 / 88%);
-  --glass-highlight: rgb(255 255 255 / 80%);
-  --glass-blur: 18px;
-  --glass-saturate: 125%;
+  /* --- glass ----------------------------------------------------------
+     Three strengths of the same material. A navigation bar sitting over a
+     busy hero needs a different opacity from a paragraph card that must stay
+     readable, and pretending one value serves both is how the first pass
+     ended up washed out.
+
+     All three stay well under 100% so the environment layer reads through.  */
+  --glass-nav-bg: rgb(255 255 255 / 46%);
+  --glass-card-bg: rgb(255 255 255 / 62%);
+  --glass-plate-bg: rgb(255 255 255 / 88%);
+
+  --glass-edge: rgb(255 255 255 / 70%);
+  --glass-highlight: rgb(255 255 255 / 92%);
+  /* The rim shadow is what stops a translucent panel from looking flat: a
+     dark hairline under the top edge reads as thickness. */
+  --glass-rim: rgb(16 29 49 / 8%);
+
+  --glass-blur: 24px;
+  --glass-blur-strong: 40px;
+  --glass-saturate: 180%;
+  --glass-brightness: 108%;
+
+  /* Refraction strength, in displacement-map units. Above ~12 the edge
+     starts to look glitchy rather than glassy, so this is deliberately small. */
+  --glass-refract: 8;
 
   /* --- lines & shadows ------------------------------------------------ */
   --border: #ccd6e3;
   --border-strong: #b3c1d2;
-  --shadow: 0 12px 36px rgb(30 55 90 / 12%);
-  --shadow-soft: 0 4px 16px rgb(30 55 90 / 8%);
-  --shadow-lift: 0 18px 48px rgb(30 55 90 / 16%);
+  /* Layered shadows: a tight contact shadow plus a wide soft one. A single
+     large blur reads as a grey halo; two read as a real object above a page. */
+  --shadow: 0 1px 2px rgb(16 29 49 / 6%), 0 12px 36px rgb(30 55 90 / 13%);
+  --shadow-soft: 0 1px 2px rgb(16 29 49 / 5%), 0 4px 16px rgb(30 55 90 / 9%);
+  --shadow-lift: 0 2px 4px rgb(16 29 49 / 7%), 0 18px 48px rgb(30 55 90 / 18%);
 
   /* --- radii (nested groups: inner never exceeds outer) --------------- */
-  --radius-card: 20px;
-  --radius-panel: 24px;
-  --radius-control: 14px;
-  --radius-small: 10px;
-  --radius-tile: 8px;
+  /* Larger than the first pass, because the glass reads as thicker when its
+     corners are softer. iOS uses a continuous curve; a plain border-radius
+     approximates it well enough at these sizes. */
+  --radius-card: 22px;
+  --radius-panel: 28px;
+  --radius-control: 16px;
+  --radius-small: 11px;
+  --radius-tile: 9px;
   --radius-pill: 999px;
 
   /* --- spacing -------------------------------------------------------- */
@@ -62,57 +111,75 @@
   --space-10: 40px;
   --space-12: 48px;
 
-  /* --- motion --------------------------------------------------------- */
-  --motion-fast: 140ms;
-  --motion-normal: 220ms;
-  --motion-slow: 320ms;
-  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* --- motion --------------------------------------------------------
+     iOS-like easing: a fast start that settles slowly. The old curve was
+     symmetric and made everything feel mechanical. */
+  --motion-fast: 160ms;
+  --motion-normal: 260ms;
+  --motion-slow: 380ms;
+  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
 
   /* --- status: every status has a foreground AND a tinted background -- */
-  --ok-fg: #10643c;
-  --ok-bg: #dff5e8;
-  --ok-border: #9ed8ba;
+  --ok-fg: #0c5f39;
+  --ok-bg: #d9f5e6;
+  --ok-border: #8ed3b0;
 
-  --warn-fg: #8a4b00;
-  --warn-bg: #fdf0d9;
-  --warn-border: #f0c67f;
+  --warn-fg: #7d4400;
+  --warn-bg: #fdeed4;
+  --warn-border: #eec178;
 
-  --danger-fg: #a01f2e;
-  --danger-bg: #fde7ea;
-  --danger-border: #f0a6b0;
+  --danger-fg: #97192a;
+  --danger-bg: #fde4e8;
+  --danger-border: #efa0ab;
 
-  --info-fg: #14498f;
-  --info-bg: #e2edfd;
-  --info-border: #a8c6f0;
+  --info-fg: #0f4386;
+  --info-bg: #dcebfd;
+  --info-border: #a2c2ef;
 
-  --neutral-fg: #46566d;
-  --neutral-bg: #eaeff6;
-  --neutral-border: #c3cede;
+  --neutral-fg: #405066;
+  --neutral-bg: #e8eef6;
+  --neutral-border: #c0ccdd;
 
-  --accent-fg: #14417f;
-  --accent-bg: #e0ebfd;
-  --accent-border: #a5c2f2;
+  --accent-fg: #0d3d78;
+  --accent-bg: #d9e8fd;
+  --accent-border: #9fbdf0;
 
   /* --- layout --------------------------------------------------------- */
-  --sidebar-width: 224px;
+  --sidebar-width: 236px;
   --sidebar-gutter: 20px;
-  --content-max: 1320px;
+  --content-max: 1360px;
   --topbar-height: 64px;
   --control-height: 44px;
   --touch-target: 44px;
+  /* Height of the floating mobile tab bar, plus its gap from the edge.
+     Used by the page padding so the last card is never trapped under it. */
+  --bottomnav-height: 62px;
+  --bottomnav-gap: 14px;
 
-  /* --- typography ----------------------------------------------------- */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", sans-serif;
+  /* --- typography ------------------------------------------------------
+     Fluid sizes. Read each clamp as: never smaller than the first value,
+     never larger than the last, and scale with the viewport between them.
+
+     The vw coefficients are chosen so that at 390px the page renders near the
+     lower bound and at 1440px it reaches the upper bound -- the type grows
+     with the screen instead of switching abruptly at a breakpoint.        */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC",
+    system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono",
     Consolas, "Liberation Mono", monospace;
 
-  --text-display: 30px;
-  --text-title: 20px;
-  --text-section: 18px;
-  --text-body: 15px;
-  --text-small: 14px;
-  --text-helper: 13px;
+  --text-display: clamp(24px, 1.4rem + 1.5vw, 34px);
+  --text-title: clamp(18px, 0.95rem + 0.7vw, 23px);
+  --text-section: clamp(16px, 0.9rem + 0.35vw, 19px);
+  --text-body: clamp(15px, 0.9rem + 0.15vw, 16px);
+  --text-small: clamp(13.5px, 0.83rem + 0.1vw, 14.5px);
+  --text-helper: clamp(12.5px, 0.78rem + 0.1vw, 13.5px);
+
+  /* Fluid spacing for the page gutters, so a phone is not wasting width on
+     margins and a desktop is not cramped against the edges. */
+  --gutter-page: clamp(14px, 0.6rem + 1.2vw, 24px);
 
   /* --- chart / data --------------------------------------------------- */
   --data-grid: #dbe4ef;
@@ -120,35 +187,53 @@
 }
 
 /* ==========================================================================
-   Dark theme: deep blue-black with cold grey-blue glass.
-   Applied via data-theme so the choice can be made before first paint.
+   Dark theme
+   --------------------------------------------------------------------------
+   Not an inversion. Glass over a dark background reads best when the panel is
+   *lighter* than the page and slightly desaturated, which is why the nav glass
+   here is a warm grey rather than a blue tint: a blue panel over a blue page
+   had no separation, and the whole layout turned to mud.
    ========================================================================== */
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: #0b1220;
-  --surface: #162235;
-  --surface-soft: #1b2b40;
-  --surface-sunken: #101a2b;
+  --env-blue: 56 118 178;
+  --env-indigo: 82 96 190;
+  --env-teal: 40 128 140;
+  --env-pink: 130 72 128;
+  --env-strength: 50%;
 
-  --text: #edf3fc;
-  --text-muted: #b0bfd3;
-  --text-subtle: #93a3ba;
+  --bg: #080e1a;
+  --surface: #151f31;
+  --surface-soft: #1a2639;
+  --surface-sunken: #0e1626;
 
-  --accent: #aac9ff;
-  --accent-hover: #c6daff;
-  --accent-soft: #1d3352;
-  --on-accent: #102b50;
+  --text: #f0f5fd;
+  --text-muted: #adbed4;
+  --text-subtle: #8b9db6;
 
-  --glass-bg: rgb(20 32 51 / 86%);
-  --glass-edge: rgb(184 211 245 / 20%);
-  --glass-highlight: rgb(217 233 255 / 14%);
+  --accent: #7fb0ff;
+  --accent-hover: #a3c8ff;
+  --accent-soft: #1a3050;
+  --on-accent: #06203f;
 
-  --border: #40536d;
-  --border-strong: #56698a;
-  --shadow: 0 16px 42px rgb(0 0 0 / 30%);
-  --shadow-soft: 0 6px 20px rgb(0 0 0 / 24%);
-  --shadow-lift: 0 22px 56px rgb(0 0 0 / 40%);
+  /* Lighter than the page, so the panel lifts off it. */
+  --glass-nav-bg: rgb(58 74 100 / 44%);
+  --glass-card-bg: rgb(44 58 82 / 52%);
+  --glass-plate-bg: rgb(26 38 57 / 88%);
+
+  --glass-edge: rgb(190 214 245 / 22%);
+  --glass-highlight: rgb(226 238 255 / 20%);
+  --glass-rim: rgb(0 0 0 / 30%);
+
+  --glass-saturate: 150%;
+  --glass-brightness: 96%;
+
+  --border: #38485f;
+  --border-strong: #4d5f7a;
+  --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 16px 42px rgb(0 0 0 / 34%);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 32%), 0 6px 20px rgb(0 0 0 / 26%);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 44%), 0 22px 56px rgb(0 0 0 / 44%);
 
   --ok-fg: #7ee2ac;
   --ok-bg: #123527;
@@ -166,30 +251,39 @@
   --info-bg: #16294a;
   --info-border: #33548c;
 
-  --neutral-fg: #b3c2d8;
-  --neutral-bg: #1e2c42;
-  --neutral-border: #40536d;
+  --neutral-fg: #aebdd3;
+  --neutral-bg: #1c2a3f;
+  --neutral-border: #38485f;
 
-  --accent-fg: #aac9ff;
-  --accent-bg: #1b3253;
-  --accent-border: #3c5f9c;
+  --accent-fg: #a3c8ff;
+  --accent-bg: #1a3050;
+  --accent-border: #3a5d96;
 
-  --data-grid: #2b3d55;
-  --data-track: #1f2e44;
+  --data-grid: #26374d;
+  --data-track: #1c2839;
 }
 
 /* ==========================================================================
-   Reduced transparency.
+   Reduced transparency
+   --------------------------------------------------------------------------
    The media query is not available everywhere, so the app also exposes an
    in-page switch that sets data-transparency="reduced" on the root element.
-   Both paths must produce an opaque, fully readable result.
+   Both paths must produce an opaque, fully readable result -- and they must
+   also switch the refraction off, because refraction is a transparency
+   effect and leaving it on over an opaque panel is incoherent.
    ========================================================================== */
 [data-transparency="reduced"] {
-  --glass-bg: var(--surface);
+  --glass-nav-bg: var(--surface);
+  --glass-card-bg: var(--surface);
+  --glass-plate-bg: var(--surface);
   --glass-edge: var(--border);
   --glass-highlight: transparent;
+  --glass-rim: transparent;
   --glass-blur: 0px;
+  --glass-blur-strong: 0px;
   --glass-saturate: 100%;
+  --glass-brightness: 100%;
+  --glass-refract: 0;
 }
 
 /* ==========================================================================
@@ -205,11 +299,22 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* The mobile tab bar and the sticky toolbar both measure themselves against
+     this, so a deep-linked anchor must not land underneath them. */
+  scroll-padding-top: 90px;
+}
+
+/* Anchors jump instantly by default; this makes a table-of-contents link glide
+   instead of teleporting. Disabled again under reduced-motion below. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
@@ -217,29 +322,90 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* A translucent panel samples what is behind it. Without this, a long page
+     scrolls its own text under the glass and the panel becomes unreadable at
+     the bottom of the document, where there is nothing but page background. */
+  overflow-x: hidden;
 }
 
-/* The environment layer: two or three static radial gradients, low-contrast
-   glow confined to the corners. It never animates.
+/* ==========================================================================
+   The environment layer
+   --------------------------------------------------------------------------
+   This is the most important part of the redesign and the easiest to get
+   wrong. Glass can only look like glass if there is something behind it worth
+   refracting. The first version painted 22%-opacity glows on a near-white
+   page, which is invisible -- so every blur and displacement had nothing to
+   act on and the result looked like flat grey plastic.
+
+   Six overlapping blobs in the iOS system colour family, three of them
+   drifting slowly. They are static in position but animated in place, so the
+   glass has moving colour to sample without the page ever being busy.
+
    NOTE: no filter or transform is applied to <body> or the app root, because
-   that would create a containing block and clip position:fixed navigation. */
+   that would create a containing block and clip position:fixed navigation.
+   The blobs live on a fixed pseudo-element instead.
+   ========================================================================== */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -20%;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(58% 42% at 6% 4%, rgb(120 190 235 / 22%), transparent 68%),
-    radial-gradient(52% 38% at 96% 6%, rgb(150 170 240 / 18%), transparent 66%),
-    radial-gradient(46% 40% at 50% 102%, rgb(110 200 215 / 14%), transparent 70%);
+    radial-gradient(38% 32% at 14% 12%, rgb(var(--env-blue) / var(--env-strength)), transparent 70%),
+    radial-gradient(34% 30% at 86% 8%, rgb(var(--env-indigo) / var(--env-strength)), transparent 68%),
+    radial-gradient(40% 34% at 78% 88%, rgb(var(--env-teal) / var(--env-strength)), transparent 70%),
+    radial-gradient(30% 28% at 8% 84%, rgb(var(--env-pink) / calc(var(--env-strength) * 0.7)), transparent 68%),
+    radial-gradient(46% 40% at 50% 50%, rgb(var(--env-blue) / calc(var(--env-strength) * 0.45)), transparent 72%);
+  filter: blur(var(--env-blur));
 }
 
-[data-theme="dark"] body::before {
+/* A second, slower layer of drifting colour. Two layers at different speeds
+   read as depth; one layer reads as a moving wallpaper. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
   background:
-    radial-gradient(58% 42% at 6% 4%, rgb(48 96 150 / 34%), transparent 68%),
-    radial-gradient(52% 38% at 96% 6%, rgb(60 76 150 / 28%), transparent 66%),
-    radial-gradient(46% 40% at 50% 102%, rgb(30 92 110 / 22%), transparent 70%);
+    radial-gradient(30% 26% at 40% 70%, rgb(var(--env-teal) / calc(var(--env-strength) * 0.5)), transparent 70%),
+    radial-gradient(26% 24% at 66% 30%, rgb(var(--env-indigo) / calc(var(--env-strength) * 0.5)), transparent 70%);
+  filter: blur(calc(var(--env-blur) * 1.4));
+  opacity: 0.9;
+}
+
+/* The drift. Deliberately very slow (28-40s) and very small: the eye should
+   register that the background is alive, never catch it moving. Only
+   transform and opacity animate, so this stays on the compositor. */
+@media (prefers-reduced-motion: no-preference) {
+  body::before {
+    animation: env-drift-a 38s ease-in-out infinite alternate;
+  }
+
+  body::after {
+    animation: env-drift-b 29s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes env-drift-a {
+  from {
+    transform: translate3d(-2.5%, -1.5%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(2.5%, 2%, 0) scale(1.06);
+  }
+}
+
+@keyframes env-drift-b {
+  from {
+    transform: translate3d(2%, 2.5%, 0) scale(1.04);
+  }
+
+  to {
+    transform: translate3d(-2%, -2%, 0) scale(1);
+  }
 }
 
 /* Respect the OS preference for reduced motion by default. The theme script
@@ -261,6 +427,14 @@ body::before {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
+}
+
+/* Blur is the single most expensive thing on this page. When the user has
+   asked for less motion, the drifting layer is the least valuable part of it
+   and goes first. */
+[data-motion="reduced"] body::before,
+[data-motion="reduced"] body::after {
+  animation: none;
 }
 
 /* Focus ring: visible on every background, never hidden by the glass
@@ -288,13 +462,43 @@ svg {
   font-feature-settings: "tnum" 1;
 }
 
+/* Monospace spans hold exactly the strings that have no break opportunity in
+   them: commit SHAs, dataset hashes, model ids, official domains. Any of
+   those can be longer than the column it sits in, and with the default
+   `overflow-wrap: normal` the longest one sets the width of the whole list
+   and pushes the page wider than the screen.
+
+   Measured: the 40-character build identifier in the footer overflowed by
+   27px at 834px and 42px at 1024px. The dataset version beside it was fine
+   only because that one call site already carried `.wrap-anywhere`; the
+   build identifier had been missed. Rather than depend on every future
+   `.mono` remembering the helper, the wrap behaviour belongs on `.mono`
+   itself -- there is no such thing as a monospace token that should stay
+   unbroken. `.wrap-anywhere` is kept for non-monospace strings. */
 .mono {
   font-family: var(--font-mono);
   font-size: 0.92em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* Long model ids and Base URLs must never break the grid layout. */
 .wrap-anywhere {
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+/* ==========================================================================
+   Accessibility helper
+   ========================================================================== */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

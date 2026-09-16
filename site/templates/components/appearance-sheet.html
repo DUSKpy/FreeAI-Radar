@@ -1,0 +1,40 @@
+{#
+  appearance-sheet.html -- the appearance controls, reachable on a phone.
+
+  Why this exists
+  ---------------
+  The theme, transparency and motion controls live in the sidebar and in the
+  tablet top navigation. On a phone neither of those renders -- the sidebar is
+  hidden below 1024px and the topnav is hidden below 768px in favour of the
+  bottom tab bar. The result was that a phone user had NO way to switch to
+  dark mode, reduce transparency, or reduce motion. That is a real defect, not
+  a cosmetic one: reduced transparency is an accessibility control.
+
+  Rather than un-hiding a control somewhere it does not fit, this is a sheet
+  opened from the tab bar. It reuses the same markup and the same data
+  attributes as the sidebar copy, so theme.js wires it up automatically --
+  it selects by attribute, not by position.
+
+  It is always in the DOM but only reachable from the phone tab bar, which is
+  the only place it is needed.
+#}
+<dialog class="sheet sheet--compact glass glass--panel" id="appearance-sheet" aria-labelledby="appearance-title">
+  <div class="sheet__head">
+    <h2 class="sheet__title" id="appearance-title">外观</h2>
+    <button type="button" class="btn btn--ghost btn--small sheet__close" data-close-appearance>
+      关闭
+    </button>
+  </div>
+
+  <div class="sheet__body">
+    <p class="helper">
+      这三项互相独立。「降低透明」关掉玻璃的透视与折射，面板变成实色——
+      在阳光下或对视力不友好时更易读。
+    </p>
+    {% include "components/themecontrols.html" %}
+  </div>
+
+  <div class="sheet__foot">
+    <button type="button" class="btn btn--primary" data-close-appearance>完成</button>
+  </div>
+</dialog>

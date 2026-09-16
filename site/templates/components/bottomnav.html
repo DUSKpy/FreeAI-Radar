@@ -4,6 +4,12 @@
   Four destinations, not six: at 390px six tabs give 65px each, which is
   too narrow for a Chinese two-character label plus an icon. Overview stays
   reachable from the brand link.
+
+  The appearance button is the fifth item and is not a destination -- it opens
+  a sheet. It is here because this is the ONLY navigation a phone user has:
+  the sidebar (which holds the theme controls) is hidden below 1024px and the
+  top navigation below 768px. Without this, dark mode and reduced
+  transparency were simply unreachable on a phone.
 #}
 <nav class="bottomnav glass glass--nav" aria-label="底部导航">
   <div class="bottomnav__items">
@@ -36,5 +42,13 @@
       </svg>
       <span>收藏</span>
     </a>
+    <button type="button" class="bottomnav__link" data-open-appearance
+            aria-haspopup="dialog" aria-controls="appearance-sheet">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M18.5 5.5l-1.6 1.6M7.1 16.9l-1.6 1.6"></path>
+      </svg>
+      <span>外观</span>
+    </button>
   </div>
 </nav>

@@ -1,0 +1,701 @@
+/* ==========================================================================
+   responsive.css -- layout adaptation
+   --------------------------------------------------------------------------
+   Loaded last, so it can override both components.css and pages.css without
+   either of them needing an !important.
+
+   The previous responsive approach had four hard breakpoints and nothing in
+   between, which produced visible cliffs: between 1199px and 1024px the
+   metric cards went from four columns to two with no transition, and an iPad
+   in landscape got a layout designed for a laptop. Two techniques fix this
+   properly:
+
+     * Fluid values (clamp) in tokens.css, which are now the default and need
+       no media query at all.
+     * Container queries here, so a card adapts to the width of its own
+       column rather than the width of the window. This is the only correct
+       way to handle a component that appears both in a narrow sidebar and a
+       wide main column on the SAME page.
+
+   Breakpoints are still used, but only where the *structure* genuinely
+   changes -- which navigation is shown, whether a table becomes cards -- not
+   for gradual sizing.
+
+     >= 1240px   floating sidebar + fluid content
+     1024-1239   floating sidebar, tighter (this band was previously
+                 unhandled and rendered as a squeezed desktop)
+     768-1023    sidebar replaced by scrolling top navigation
+     < 768       bottom tab bar, tables become cards
+     < 430       single-column metrics, reduced gutters
+   ========================================================================== */
+
+/* ==========================================================================
+   Container queries
+   --------------------------------------------------------------------------
+   Any element marked .cq becomes its own container, so its children can
+   respond to it.
+   ========================================================================== */
+.app__main,
+.card,
+.glass--card,
+.provider__grid,
+.overview__columns {
+  container-type: inline-size;
+  container-name: panel;
+}
+
+/* --- Metric cards --------------------------------------------------------
+   Four across on a wide panel, two on a narrow one, one on a very narrow one.
+   Because this keys off the panel width rather than the viewport, the same
+   rule produces the right answer in the main column, in an aside, and on a
+   phone -- without a single media query. */
+.overview__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: clamp(10px, 1.2vw, 16px);
+}
+
+@container panel (max-width: 560px) {
+  .overview__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container panel (max-width: 330px) {
+  .overview__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- Two-column prose ----------------------------------------------------
+   The overview explains itself in two columns on a desktop. Below ~720px of
+   panel width that becomes a 40-character measure, which is worse than one
+   column. */
+.overview__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 32px);
+}
+
+@container panel (max-width: 720px) {
+  .overview__columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- Provider page -------------------------------------------------------
+   Rail beside the content on a wide panel, stacked on a narrow one.
+   The class is .provider (not .provider__grid) -- it is the grid container
+   itself, and the rail is .provider__aside. */
+.provider {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: clamp(16px, 2vw, 28px);
+  align-items: start;
+}
+
+@container panel (max-width: 900px) {
+  .provider {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The aside is sticky against the top of the window while its column has
+   room beside it. Once it is stacked underneath, sticking it would pin it
+   over the content it is supposed to follow. */
+@container panel (max-width: 900px) {
+  .provider__aside {
+    position: static;
+  }
+}
+
+/* --- Directory -----------------------------------------------------------
+   Filter rail beside the results, or above them. */
+.directory {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 26px);
+  align-items: start;
+}
+
+@container panel (max-width: 1040px) {
+  .directory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The rail becomes a horizontal group of facet blocks. It is not hidden
+     here -- on a tablet there is room for both, and hiding the filters
+     behind a toggle would make them invisible to anyone who does not notice
+     the toggle. The phone breakpoint below is where it collapses. */
+  .facets {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .facets__group {
+    flex: 1 1 200px;
+    min-width: 180px;
+  }
+}
+
+/* --- Changes / report ----------------------------------------------------
+   A table of contents beside the report body, or above it. */
+.report {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: clamp(16px, 2vw, 28px);
+  align-items: start;
+}
+
+@container panel (max-width: 1040px) {
+  .report {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .report__index {
+    position: static;
+    max-height: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* --- Source cards -------------------------------------------------------- */
+.sources__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+}
+
+@container panel (max-width: 420px) {
+  .sources__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- Favorites ----------------------------------------------------------- */
+.favorites__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+}
+
+@container panel (max-width: 420px) {
+  .favorites__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- Comparison rows -----------------------------------------------------
+   A label column and a value column. At phone width the label column would
+   eat half the row, so it stacks. */
+@container panel (max-width: 480px) {
+  .compare__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+}
+
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  gap: var(--space-6);
+  min-height: 100dvh;
+  padding: var(--gutter-page);
+  /* Room for the fixed mobile tab bar, applied unconditionally so the layout
+     does not jump when the bar appears. */
+  padding-bottom: calc(var(--bottomnav-height) + var(--bottomnav-gap) * 2);
+}
+
+@media (min-width: 768px) {
+  .app {
+    padding-bottom: var(--gutter-page);
+  }
+}
+
+.app__main {
+  min-width: 0; /* critical: lets long model ids shrink instead of overflowing */
+  max-width: var(--content-max);
+  width: 100%;
+}
+
+/* Between 1024 and 1239 the sidebar is kept but narrowed, so the content
+   column is not squeezed. Previously this band had no rule at all. */
+@media (min-width: 1024px) and (max-width: 1239px) {
+  :root {
+    --sidebar-width: 208px;
+    --sidebar-gutter: 16px;
+  }
+
+  .app {
+    gap: var(--space-4);
+  }
+}
+
+/* ==========================================================================
+   Sidebar -> top navigation
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  /* The contract: below 1024 the sidebar is *replaced* by the topnav.
+     Hiding it here is what enforces that. Without this rule the desktop
+     sidebar keeps its --sidebar-width track and the content column is
+     squeezed into whatever is left, which is how an 820px iPad once ended up
+     rendering a desktop layout with a 40-character text column. */
+  .sidebar {
+    display: none;
+  }
+
+  .topnav {
+    display: flex;
+  }
+}
+
+/* ==========================================================================
+   Phone
+   ========================================================================== */
+@media (max-width: 767px) {
+  .bottomnav {
+    display: block;
+  }
+
+  /* Explore gets the bottom tab bar on a phone, so the scrolling tablet nav
+     would be a second, redundant navigation. */
+  .topnav--has-bottomnav {
+    display: none;
+  }
+
+  .overview__hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .provider__identity {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .provider__links .btn {
+    flex: 1 1 auto;
+  }
+
+  /* A sticky toolbar on a phone costs more vertical space than it saves. */
+  .directory__toolbar {
+    position: static;
+    padding: var(--space-3);
+  }
+
+  .directory__toolbar .search {
+    flex-basis: 100%;
+  }
+
+  /* Sort and the facet toggle share one row rather than wrapping to two. */
+  .directory__controls {
+    display: flex;
+    gap: var(--space-2);
+    width: 100%;
+  }
+
+  .directory__controls > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* The filter rail turns into a disclosure panel: it starts collapsed so the
+     first screenful is results, not controls. The toggle is the only way to
+     reach the filters below this width, so it must stay visible -- hiding the
+     rail without a working toggle would make filtering impossible on a phone. */
+  .facets {
+    display: none;
+  }
+
+  .facets[data-open="true"] {
+    display: flex;
+  }
+
+  .facets__toggle {
+    display: inline-flex;
+  }
+
+  .report__index {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .report__index-link {
+    flex: 0 0 auto;
+  }
+
+  .compare__row {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .checkitem {
+    padding: var(--space-3);
+  }
+
+  .notfound {
+    padding: var(--space-6) 0;
+  }
+}
+
+/* ==========================================================================
+   Tables become cards
+   --------------------------------------------------------------------------
+   The single biggest mobile usability problem: a four-column table on a
+   390px screen. Before this, the table scrolled sideways, which hides half
+   the data behind a gesture nobody discovers, and leaves the row header out
+   of view while you read the row.
+
+   The fix needs no markup change and no JavaScript. Each cell already knows
+   which column it belongs to -- the <thead> says so -- so the header can be
+   attached to every cell with a generated ::before label, and the row can be
+   laid out as a stack.
+
+   Worth noting: three of the four tables on this site are populated by
+   JavaScript at runtime. A JS-based card renderer would have had to be added
+   to each of them separately; doing it in CSS means all four, including any
+   added later, are fixed at once.
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* The scroll container stops being a scroll container: nothing overflows
+     any more, so the horizontal gesture is no longer required. */
+  .tablewrap {
+    overflow-x: visible;
+  }
+
+  table.data,
+  table.data--compact {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: var(--text-body);
+  }
+
+  /* The header row is not hidden -- its text is copied into each cell below,
+     so hiding the row itself does not lose the information. Removing it from
+     the flow is what makes room for the first card. */
+  table.data thead,
+  table.data--compact thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  table.data tbody,
+  table.data--compact tbody {
+    display: block;
+  }
+
+  /* Each row becomes a card. */
+  table.data tr,
+  table.data--compact tr {
+    display: block;
+    position: relative;
+    padding: var(--space-4);
+    border: 1px solid var(--glass-edge);
+    border-radius: var(--radius-card);
+    background: var(--glass-card-bg);
+    box-shadow: var(--shadow-soft);
+    margin-bottom: var(--space-3);
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    table.data tr,
+    table.data--compact tr {
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    }
+  }
+
+  table.data tr:last-child,
+  table.data--compact tr:last-child {
+    margin-bottom: 0;
+  }
+
+  table.data th,
+  table.data td,
+  table.data--compact th,
+  table.data--compact td {
+    display: block;
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    position: static;
+    white-space: normal;
+    text-align: left;
+  }
+
+  /* The row header -- the model id, the source name, the provider -- is the
+     card's title. It gets the emphasis a title deserves. */
+  table.data th[scope="row"],
+  table.data--compact th[scope="row"] {
+    font-size: var(--text-section);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border);
+    letter-spacing: -0.01em;
+  }
+
+  /* Every remaining cell is a labelled field. The label comes from the
+     column header, stored on the cell by the generator below. */
+  table.data td,
+  table.data--compact td {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    padding: var(--space-2) 0;
+  }
+
+  table.data td::before,
+  table.data--compact td::before {
+    content: attr(data-label);
+    font-size: var(--text-helper);
+    font-weight: 550;
+    letter-spacing: 0.02em;
+    color: var(--text-subtle);
+  }
+
+  /* A cell with no label would render an empty line above its value. */
+  table.data td:not([data-label])::before,
+  table.data--compact td:not([data-label])::before {
+    display: none;
+  }
+
+  table.data caption,
+  table.data--compact caption {
+    padding: 0 0 var(--space-3);
+  }
+
+  /* Compact rows were a fixed 56px for a pointer at a desk. On a phone they
+     are cards like every other row. */
+  table.data--compact th,
+  table.data--compact td {
+    padding: var(--space-2) 0;
+  }
+}
+
+/* ==========================================================================
+   Narrow phones
+   ========================================================================== */
+@media (max-width: 429px) {
+  :root {
+    --gutter-page: 12px;
+    --bottomnav-height: 58px;
+  }
+
+  .overview__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Landscape phones
+   --------------------------------------------------------------------------
+   A phone held sideways is ~740px wide but only ~360px tall. The mobile tab
+   bar plus a tall header would leave almost nothing for content, so the tab
+   bar is dropped in favour of the top navigation, and the vertical padding is
+   cut. This case was previously handled by the 767px rule alone, which got
+   the width right and the height wrong.
+   ========================================================================== */
+@media (max-width: 900px) and (max-height: 460px) and (orientation: landscape) {
+  .bottomnav {
+    display: none;
+  }
+
+  .topnav--has-bottomnav {
+    display: flex;
+  }
+
+  .app {
+    padding-bottom: var(--gutter-page);
+  }
+
+  .topbar {
+    min-height: 48px;
+  }
+}
+
+/* ==========================================================================
+   Wide screens
+   --------------------------------------------------------------------------
+   Past about 1600px a single content column starts to look lost. The grid
+   gains a third track so the sidebar and content stay proportional instead of
+   the content stretching to an unreadable measure.
+   ========================================================================== */
+@media (min-width: 1600px) {
+  :root {
+    --sidebar-width: 252px;
+    --content-max: 1480px;
+  }
+}
+
+/* ==========================================================================
+   Fine pointer only
+   --------------------------------------------------------------------------
+   Hover effects on a touch device fire on tap and then stick. Everything
+   hover-driven is gated behind a real pointer.
+   ========================================================================== */
+@media (hover: none) {
+  .glass--interactive:hover {
+    transform: none;
+    box-shadow: var(--shadow-soft);
+  }
+}
+
+/* ==========================================================================
+   Increased contrast
+   --------------------------------------------------------------------------
+   The OS-level request for more contrast must beat the glass, because
+   translucency is exactly what the user is asking to be reduced.
+   ========================================================================== */
+@media (prefers-contrast: more) {
+  .glass--nav,
+  .glass--panel,
+  .glass--card,
+  .glass,
+  .plate--frosted {
+    background: var(--surface);
+    border-color: var(--border-strong);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .glass--edge::after {
+    display: none;
+  }
+
+  :focus-visible {
+    outline-width: 3px;
+    outline-offset: 2px;
+  }
+}
+
+/* ==========================================================================
+   Print
+   --------------------------------------------------------------------------
+   A directory page is plausibly printed or saved as PDF. Navigation and
+   controls are removed; the data grid keeps its borders so columns stay
+   readable in black and white. Note that the mobile card layout must be
+   undone here, because printing from a phone-width window would otherwise
+   produce a stack of cards instead of a table.
+   ========================================================================== */
+@media print {
+  .sidebar,
+  .topnav,
+  .bottomnav,
+  .topbar,
+  .directory__toolbar,
+  .facets,
+  .pager,
+  .toast,
+  .skip-link {
+    display: none !important;
+  }
+
+  body::before,
+  body::after {
+    display: none !important;
+  }
+
+  .app,
+  .directory,
+  .provider,
+  .provider__grid,
+  .report,
+  .overview__columns,
+  .overview__grid {
+    display: block !important;
+  }
+
+  .app {
+    padding: 0;
+  }
+
+  .glass,
+  .glass--card,
+  .glass--nav,
+  .glass--panel,
+  .plate,
+  .plate--frosted {
+    background: #fff !important;
+    border-color: #999 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Undo the phone card layout: a printed table should be a table. */
+  table.data,
+  table.data--compact {
+    display: table !important;
+    width: 100% !important;
+  }
+
+  table.data thead,
+  table.data--compact thead {
+    display: table-header-group !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    clip-path: none !important;
+  }
+
+  table.data tbody,
+  table.data--compact tbody {
+    display: table-row-group !important;
+  }
+
+  table.data tr,
+  table.data--compact tr {
+    display: table-row !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: none !important;
+  }
+
+  table.data th,
+  table.data td,
+  table.data--compact th,
+  table.data--compact td {
+    display: table-cell !important;
+    padding: 6px 8px !important;
+    border-bottom: 1px solid #999 !important;
+    white-space: normal;
+  }
+
+  table.data td::before,
+  table.data--compact td::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  .prose a::after {
+    content: " (" attr(href) ")";
+    font-size: 11px;
+    color: #555;
+  }
+}

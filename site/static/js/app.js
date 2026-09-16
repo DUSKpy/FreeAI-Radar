@@ -19,6 +19,7 @@ import { getBootstrap } from './bootstrap.js';
 import { initTheme } from './theme.js';
 import { initFavorites } from './favorites.js';
 import { hydrateMarkdownBlocks } from './markdown.js';
+import { initTableCards } from './table-cards.js';
 import { initToast } from './toast.js';
 
 function detectPage() {
@@ -47,6 +48,11 @@ async function boot() {
 
   // 3. markdown blocks may exist on any page (report prose, provider notes)
   hydrateMarkdownBlocks();
+
+  // 4. data tables become cards on a phone; every cell needs its column name
+  //    on it for that to work, and the rows arrive asynchronously, so this
+  //    starts an observer rather than doing a single pass.
+  initTableCards();
 
   const page = detectPage();
   document.documentElement.dataset.renderedPage = page;

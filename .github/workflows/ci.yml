@@ -87,11 +87,17 @@ jobs:
               missing=1
             fi
           done
-          # The four stylesheets and the app entry point are the minimum asset
+          # The five stylesheets and the app entry point are the minimum asset
           # tree; a build that drops them renders unstyled but still exits 0.
+          # responsive.css is included because it is loaded last and carries
+          # every mobile layout rule -- losing it would leave a phone layout
+          # that still looks plausible at a glance, which is the worst kind of
+          # regression to ship unnoticed.
           for f in assets/css/tokens.css assets/css/glass.css \
                    assets/css/components.css assets/css/pages.css \
-                   assets/js/app.js assets/favicon.svg; do
+                   assets/css/responsive.css \
+                   assets/js/app.js assets/js/table-cards.js \
+                   assets/favicon.svg; do
             if [ ! -e "dist/$f" ]; then
               echo "::error::build did not produce dist/$f"
               missing=1

@@ -1,106 +1,209 @@
 /* ==========================================================================
-   glass.css -- the three-layer material system
+   glass.css -- the material system
    --------------------------------------------------------------------------
-   Layer 1  environment  : static radial gradients, behind everything
-   Layer 2  content      : near-opaque surfaces, stable contrast, fine border
-   Layer 3  control      : translucent with blur, inner highlight, soft shadow
+   What actually makes a panel look like iOS 26 "Liquid Glass" is three
+   independent visual properties stacked. Getting one or two of them leaves
+   something that reads as ordinary frosted plastic.
 
-   Only navigation and control surfaces get real blur. Content cards use
-   edges, highlights and shadows to stay consistent with the glass without
-   turning every table cell into a lens.
+     layer 1  refraction  -- the backdrop is displaced, so the edge bends what
+                            is behind it. THIS IS THE LIQUID PART.
+     layer 2  diffusion   -- a strong blur plus a saturation and brightness
+                            lift, so the backdrop becomes colour rather than
+                            detail.
+     layer 3  specular    -- an edge highlight and a rim shadow, so the panel
+                            reads as a physical object with thickness.
 
-   Progressive enhancement order: a static, fully reliable version is built
-   first; the blurred variant is added only inside @supports.
+   An honest note on browser support, because it shapes this entire file:
+
+     backdrop-filter: url(#svgfilter)  is CHROMIUM-ONLY.
+     Safari does not support it. Neither does Firefox. This is not a matter of
+     writing it better -- the capability does not exist there, and every
+     "liquid glass" library on the web has the same limit.
+
+   So the design is built as: a complete, good-looking frosted-glass panel
+   that every browser renders, with the refraction added on top only where it
+   works. A Safari user gets a clean, deliberately-designed material rather
+   than a broken version of a Chrome effect.
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   Reliable base: opaque surface, border, radius, shadow.
-   This is what renders when backdrop-filter is unsupported.
-   -------------------------------------------------------------------------- */
-.glass {
+/* ==========================================================================
+   Layer 1 + 2: the three material strengths
+   --------------------------------------------------------------------------
+   One .glass class would force a single opacity on every surface, which is
+   the mistake the first pass made. A navigation bar over a moving background
+   can afford to be very transparent; a card containing a rate-limit table
+   cannot. These are the same material at three thicknesses.
+   ========================================================================== */
+
+/* The reliable base. This is what renders with no backdrop-filter at all. */
+.glass,
+.glass--nav,
+.glass--panel,
+.glass--card {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-panel);
   box-shadow: var(--shadow);
 }
 
-/* --------------------------------------------------------------------------
-   Blurred variant, only where it actually works.
-   -------------------------------------------------------------------------- */
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass {
-    background: var(--glass-bg);
-    border-color: var(--glass-edge);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow);
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Reduced transparency: in-page switch and the OS media query.
-   -------------------------------------------------------------------------- */
-[data-transparency="reduced"] .glass {
-  background: var(--surface);
-  border-color: var(--border);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  box-shadow: var(--shadow);
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  .glass {
-    background: var(--surface);
-    border-color: var(--border);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    box-shadow: var(--shadow);
-  }
-}
-
-/* ==========================================================================
-   Glass variants
-   ========================================================================== */
-
-/* Floating sidebar and top toolbar: the two strongest glass surfaces. */
 .glass--nav {
   border-radius: var(--radius-panel);
 }
 
-/* Modal shell and popovers. */
 .glass--panel {
   border-radius: var(--radius-panel);
 }
 
-/* Content cards: glass-adjacent, but the base is much closer to opaque so
-   text contrast never depends on what happens to be behind the card. */
 .glass--card {
   border-radius: var(--radius-card);
-  background: var(--surface);
-  border: 1px solid var(--border);
   box-shadow: var(--shadow-soft);
 }
 
+/* --------------------------------------------------------------------------
+   Diffusion: blur + saturate + brightness, plus the specular pair.
+   Applied wherever backdrop-filter exists, which is every current browser.
+   -------------------------------------------------------------------------- */
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass--card {
-    background: var(--glass-bg);
+  .glass--nav {
+    background: var(--glass-nav-bg);
     border-color: var(--glass-edge);
-    -webkit-backdrop-filter: blur(10px) saturate(115%);
-    backdrop-filter: blur(10px) saturate(115%);
-    box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-soft);
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      inset 0 -1px 0 var(--glass-rim),
+      var(--shadow);
+  }
+
+  .glass--panel {
+    background: var(--glass-nav-bg);
+    border-color: var(--glass-edge);
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      inset 0 -1px 0 var(--glass-rim),
+      var(--shadow);
+  }
+
+  .glass--card {
+    background: var(--glass-card-bg);
+    border-color: var(--glass-edge);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      inset 0 -1px 0 var(--glass-rim),
+      var(--shadow-soft);
+  }
+
+  /* .glass on its own, with no variant, gets the card treatment. */
+  .glass:not(.glass--nav):not(.glass--panel):not(.glass--card) {
+    background: var(--glass-card-bg);
+    border-color: var(--glass-edge);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
+      brightness(var(--glass-brightness));
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      inset 0 -1px 0 var(--glass-rim),
+      var(--shadow);
   }
 }
 
-[data-transparency="reduced"] .glass--card {
-  background: var(--surface);
-  border-color: var(--border);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+/* ==========================================================================
+   Layer 1: refraction
+   --------------------------------------------------------------------------
+   The SVG filter is defined once in base.html and referenced by id. It must
+   live in the same document -- a filter inside shadow DOM cannot be
+   referenced, and the filter element must not be display:none.
+
+   Two effects are chained inside the filter:
+     * feTurbulence + feGaussianBlur synthesise a smooth, low-frequency
+       displacement map in place of a PNG texture, so there is no extra asset
+       to download and the glass has no repeating pattern.
+     * feDisplacementMap pushes each backdrop pixel along that map, which is
+       what bends the edge. --glass-refract caps the strength at 8, because
+       past roughly 12 the result stops reading as glass and starts reading
+       as a rendering bug.
+     * A second, opposite displacement per channel is what produces the
+       chromatic fringe -- the faint red/blue split along a strong edge.
+
+   Applied ONLY to the floating navigation surfaces. A card holding a table
+   of numbers must not have its backdrop shifted: displaced text is harder to
+   read, and legibility beats decoration every time.
+   ========================================================================== */
+@supports (backdrop-filter: url(#radar-refract)) {
+  .glass--nav,
+  .glass--panel {
+    /* The displacement filter replaces the plain blur, so the blur has to be
+       folded into the filter chain itself (see base.html) rather than being
+       listed again here. Applying both would double-blur the backdrop. */
+    -webkit-backdrop-filter: url(#radar-refract);
+    backdrop-filter: url(#radar-refract);
+  }
 }
 
-/* A near-opaque plate for anything the user must read precisely: code
-   previews, quota tables, evidence excerpts, data grids. */
+/* ==========================================================================
+   Layer 3: edge highlight
+   --------------------------------------------------------------------------
+   A thin, non-interactive pseudo-element draws the specular edge. It must
+   never intercept clicks, so pointer-events is none.
+
+   This is the element the brief warns about: it is applied only to
+   control-layer surfaces, and never covers an interactive area.
+   ========================================================================== */
+.glass--edge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  /* A soft sweep of light down the left edge and a fainter one up the right,
+     which is how a curved pane catches a single overhead source. */
+  background: linear-gradient(
+    158deg,
+    var(--glass-highlight) 0%,
+    transparent 30%,
+    transparent 70%,
+    var(--glass-highlight) 100%
+  );
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+[data-theme="dark"] .glass--edge::after {
+  opacity: 0.32;
+}
+
+/* Refraction plus an overlaid gradient fights itself: the gradient is drawn
+   in screen space while the backdrop is being displaced, and the mismatch
+   shows up as a shimmer. Where refraction is active the sweep is dropped and
+   the specular highlight is carried by the inset box-shadow instead. */
+@supports (backdrop-filter: url(#radar-refract)) {
+  .glass--nav.glass--edge::after,
+  .glass--panel.glass--edge::after {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Content plates
+   --------------------------------------------------------------------------
+   The opposite of glass, and just as important. A near-opaque plate for
+   anything the user must read precisely: code, quota tables, evidence
+   excerpts, data grids. It still carries the radius, border and shadow so it
+   belongs to the same material family, but nothing is allowed to show through
+   it.
+   ========================================================================== */
 .plate {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -111,33 +214,31 @@
   background: var(--surface-soft);
 }
 
-/* ==========================================================================
-   Edge highlight
-   A thin, non-interactive pseudo element draws the specular edge. It must
-   never intercept clicks, so pointer-events is none. This is the element the
-   brief warns about: it is applied only to control-layer surfaces, and never
-   covers an interactive area.
-   ========================================================================== */
-.glass--edge::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  /* A one-pixel top-left highlight that fades along the edge. */
-  background: linear-gradient(
-    160deg,
-    var(--glass-highlight) 0%,
-    transparent 34%,
-    transparent 66%,
-    var(--glass-highlight) 100%
-  );
-  opacity: 0.55;
-  mix-blend-mode: screen;
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .plate--frosted {
+    background: var(--glass-plate-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  }
 }
 
-[data-theme="dark"] .glass--edge::after {
-  opacity: 0.4;
+/* ==========================================================================
+   Reduced transparency
+   --------------------------------------------------------------------------
+   Both the in-page switch and the OS media query. Refraction goes off with
+   the transparency: it is a transparency effect, and leaving it running over
+   an opaque panel is incoherent.
+   ========================================================================== */
+[data-transparency="reduced"] .glass,
+[data-transparency="reduced"] .glass--nav,
+[data-transparency="reduced"] .glass--panel,
+[data-transparency="reduced"] .glass--card,
+[data-transparency="reduced"] .plate--frosted {
+  background: var(--surface);
+  border-color: var(--border);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--shadow-soft);
 }
 
 [data-transparency="reduced"] .glass--edge::after,
@@ -145,26 +246,23 @@
   display: none;
 }
 
-/* ==========================================================================
-   Optional refraction experiment
-   --------------------------------------------------------------------------
-   Disabled by default. When enabled it applies an SVG displacement filter to
-   a SINGLE small control-layer widget -- never to text, code, or data tables.
-   Safari does not render the displacement, so the glass base, edge and all
-   content must remain complete without it.
-   ========================================================================== */
-.refract {
-  display: none;
-}
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass--nav,
+  .glass--panel,
+  .glass--card,
+  .plate--frosted {
+    background: var(--surface);
+    border-color: var(--border);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: var(--shadow-soft);
+  }
 
-[data-refraction="on"] .refract {
-  display: block;
-  filter: url("#radar-refraction");
-}
-
-/* Never transform or filter text, code or tables. */
-[data-refraction="on"] .refract :is(p, span, code, table, pre, h1, h2, h3) {
-  filter: none;
+  .glass--edge::after,
+  .glass::after {
+    display: none;
+  }
 }
 
 /* ==========================================================================
@@ -181,4 +279,50 @@
 .glass > * {
   position: relative;
   z-index: 1;
+}
+
+/* ==========================================================================
+   Interactive glass
+   --------------------------------------------------------------------------
+   A pressed state that pushes the panel into the page rather than lifting it.
+   This is the difference between a button that looks like a button and one
+   that looks like a sticker.
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  .glass--interactive {
+    transition:
+      transform var(--motion-normal) var(--ease-spring),
+      box-shadow var(--motion-normal) var(--ease-out),
+      background var(--motion-normal) var(--ease-out);
+  }
+
+  .glass--interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+.glass--interactive:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: var(--motion-fast);
+}
+
+/* ==========================================================================
+   Legacy refraction hook
+   --------------------------------------------------------------------------
+   Kept because pages.css and components.css still reference the attribute.
+   The old SVG-based experiment is superseded by the filter above; an
+   explicit user opt-out must still switch it off.
+   ========================================================================== */
+.refract {
+  display: none;
+}
+
+[data-refraction="on"] .refract {
+  display: block;
+}
+
+/* Never transform or filter text, code or tables. */
+[data-refraction="on"] .refract :is(p, span, code, table, pre, h1, h2, h3) {
+  filter: none;
 }

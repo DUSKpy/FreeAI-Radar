@@ -146,6 +146,8 @@ export function initTheme() {
     input.addEventListener('change', () => applyMotion(input.checked));
   }
 
+  initAppearanceSheet();
+
   syncThemeControls(currentThemeChoice());
   syncMetaThemeColor();
 
@@ -156,5 +158,51 @@ export function initTheme() {
       document.documentElement.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light');
       syncMetaThemeColor();
     }
+  });
+}
+
+/**
+ * Open and close the appearance sheet from the phone tab bar.
+ *
+ * This exists because the sidebar and top navigation are both hidden on a
+ * phone, which left the theme, transparency and motion controls with nowhere
+ * to live -- dark mode was unreachable. The sheet holds a third copy of the
+ * same controls, wired above by the attribute selectors, so nothing else had
+ * to change.
+ */
+function initAppearanceSheet() {
+  const sheet = document.getElementById('appearance-sheet');
+  if (!sheet) return;
+
+  for (const trigger of document.querySelectorAll('[data-open-appearance]')) {
+    trigger.addEventListener('click', () => {
+      // A native <dialog> gives focus trapping, Escape-to-close and the top
+      // layer for free. It is not nested inside a filtered ancestor, so the
+      // backdrop-filter on the page cannot clip it.
+      if (typeof sheet.showModal === 'function') {
+        sheet.showModal();
+      } else {
+        // Very old engines: fall back to a plain open so the controls are at
+        // least reachable rather than silently unavailable.
+        sheet.setAttribute('open', '');
+      }
+    });
+  }
+
+  for (const closer of sheet.querySelectorAll('[data-close-appearance]')) {
+    closer.addEventListener('click', () => {
+      if (typeof sheet.close === 'function') {
+        sheet.close();
+      } else {
+        sheet.removeAttribute('open');
+      }
+    });
+  }
+
+  // Clicking the backdrop closes the sheet, which is what a sheet should do.
+  // The check is on the dialog element itself rather than a wrapper, because
+  // a click on any child bubbles up with a different target.
+  sheet.addEventListener('click', (event) => {
+    if (event.target === sheet) sheet.close?.();
   });
 }

@@ -153,6 +153,67 @@ class TestBasePathHandling:
         assert manifest["catalog_url"].startswith("/freeai-radar/")
         assert manifest["changes_url"].startswith("/freeai-radar/")
 
+        # The manifest on disk must agree with the base path the pages were
+        # built with, not merely with the one the export used. Asserting only
+        # the prefix passes even when the copied file is stale, because the
+        # fixture exports and builds with the same value.
+        for html in built_site.glob("*.html"):
+            declared = re.search(r'data-base-path="([^"]+)"', html.read_text(encoding="utf-8"))
+            if declared:
+                assert manifest["catalog_url"].startswith(declared.group(1)), html.name
+                break
+
+
+class TestTheManifestIsRebasedNotJustCopied:
+    """A mismatch between the export base path and the build base path.
+
+    ``_rebase_urls`` rewrote the in-memory manifest, but ``_copy_data`` copied
+    ``manifest.json`` verbatim, so the rebased value never reached disk. The
+    pages rendered, the links looked right, and every data request 404'd --
+    because ``data-client.js`` strips the base path with a case-sensitive
+    ``String.replace`` that silently does nothing when the case differs.
+
+    The existing manifest test could not see this: the fixture exports and
+    builds with the same base path, so a stale copy and a rebased file are
+    identical. This test makes them differ.
+    """
+
+    def test_a_case_difference_between_export_and_build_is_corrected(self, tmp_path: Path) -> None:
+        from radar import export_public
+
+        public = tmp_path / "public"
+        dist = tmp_path / "dist"
+        state = ROOT / "tests" / "fixtures" / "state.minimal.json"
+
+        # Export says /freeai-radar/; the build says /FreeAI-Radar/.
+        assert (
+            export_public.main(
+                ["--state", str(state), "--output", str(public), "--base-path", "/freeai-radar/"]
+            )
+            == 0
+        )
+
+        exported = json.loads((public / "data" / "manifest.json").read_text(encoding="utf-8"))
+        assert exported["catalog_url"].startswith("/freeai-radar/")
+
+        assert (
+            build_site.main(
+                ["--data", str(public), "--output", str(dist), "--base-path", "/FreeAI-Radar/"]
+            )
+            == 0
+        )
+
+        published = json.loads((dist / "data" / "manifest.json").read_text(encoding="utf-8"))
+        assert published["catalog_url"].startswith("/FreeAI-Radar/"), (
+            "the published manifest kept the export's base path; every data "
+            "request would 404 on a case-sensitive host"
+        )
+        assert published["changes_url"].startswith("/FreeAI-Radar/")
+
+        # And the file it points at must actually be there.
+        target = published["catalog_url"][len("/FreeAI-Radar/") :]
+        assert (dist / target).exists(), f"manifest points at a missing file: {target}"
+
 
 class TestEveryPageIsProduced:
     #: Read-only; a class-level constant rather than an instance attribute.
