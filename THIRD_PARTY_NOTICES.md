@@ -21,10 +21,16 @@ FreeAI Radar 的**代码**以 MIT 许可发布（见 [LICENSE](LICENSE)）。MIT
 | [httpx](https://pypi.org/project/httpx/) | 0.28.1 | BSD-3-Clause | 采集阶段的 HTTP 客户端（超时、重定向上限、HTTP/2 关闭、连接复用） | https://github.com/encode/httpx |
 | [PyYAML](https://pypi.org/project/PyYAML/) | 6.0.2 | MIT | 解析 `config/*.yaml` | https://github.com/yaml/pyyaml |
 | [Jinja2](https://pypi.org/project/Jinja2/) | 3.1.5 | BSD-3-Clause | 静态页面模板渲染 | https://github.com/pallets/jinja |
+| [pydantic](https://pypi.org/project/pydantic/) | 2.x | MIT | `radar/models.py` 中所有采集记录的 schema 层（`ConfigDict`、`field_validator`） | https://github.com/pydantic/pydantic |
 | [beautifulsoup4](https://pypi.org/project/beautifulsoup4/) | 4.12.3 | MIT | 解析官方 HTML 文档页（`official_docs_generic`） | https://www.crummy.com/software/BeautifulSoup/ |
 | [lxml](https://pypi.org/project/lxml/) | 5.3.0 | BSD-3-Clause | BeautifulSoup 的解析后端 | https://lxml.de/ |
 
 > **Jinja2 的许可证**：PyPI 元数据里没有逐一列出 SPDX 标识，以 classifiers 为准；上游仓库使用 BSD-3-Clause。如需逐字确认请查阅上表中的项目地址。
+>
+> **此表曾与 `pyproject.toml` 不一致**：`pydantic`、`beautifulsoup4`、`lxml` 三个包被代码导入，
+> 但有一段时间没有写进 `dependencies`。本地开发机碰巧装有它们，所以测试一直是绿的；
+> 直到 CI 用**真正干净的安装**才暴露出来（`pip install -e .[dev]` 不会带上未声明的包）。
+> 现已全部声明。教训：改了 `import` 就要同步 `pyproject.toml`，并且**用干净环境验证**。
 
 ### 1.2 开发依赖
 

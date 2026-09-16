@@ -15,6 +15,19 @@ dependencies = [
   "httpx>=0.27",
   "PyYAML>=6.0",
   "Jinja2>=3.1",
+  # radar/models.py is the schema layer for every collected record and is built
+  # on pydantic v2 (`ConfigDict`, `field_validator`). This was missing from the
+  # list for a while and CI only caught it because a clean install is genuinely
+  # clean: `pip install -e .[dev]` never pulled pydantic, so the test modules
+  # that import models.py died at collection. A development machine that had
+  # pydantic from somewhere else saw nothing wrong.
+  "pydantic>=2.5",
+  # HTML sources are parsed with BeautifulSoup, pinned to the lxml backend in
+  # radar/parsers/html_docs.py (`BeautifulSoup(document, "lxml")`). Both were
+  # imported but neither was declared, so the same clean install that exposed
+  # pydantic also failed here.
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
 ]
 
 [project.optional-dependencies]
