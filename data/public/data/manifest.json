@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "dataset_version": "sha256:4695da5df959ae68876a9bd8f96fd30154b1e38038e6d5d18e30be524fab928a",
+  "changes_version": "sha256:164a4d951def55d07ca1de9529a505537e20fb7d48861f8fea2826b12378e047",
+  "build_commit": "unknown-local-build",
+  "generated_at": "2026-09-16T05:31:03Z",
+  "last_successful_collection_at": "2026-09-16T05:31:02Z",
+  "last_complete_collection_at": null,
+  "catalog_url": "/FreeAI-Radar/data/catalog.4695da5df959ae68.json",
+  "changes_url": "/FreeAI-Radar/data/changes.164a4d951def55d0.json",
+  "reports": [
+    "/FreeAI-Radar/data/reports/2026-09-16.md"
+  ],
+  "sources": [
+    {
+      "id": "awesome-freellm-apis",
+      "name": "awesome-freellm-apis (GitHub README)",
+      "source_family": "freellm-net",
+      "enabled": true,
+      "status": "ok",
+      "last_attempt_at": "2026-09-16T05:31:02Z",
+      "last_success_at": "2026-09-16T05:31:02Z",
+      "record_count": 85,
+      "error": null
+    },
+    {
+      "id": "free-llm-github",
+      "name": "Free-LLM (GitHub README)",
+      "source_family": "free-llm",
+      "enabled": true,
+      "status": "ok",
+      "last_attempt_at": "2026-09-16T05:31:02Z",
+      "last_success_at": "2026-09-16T05:31:02Z",
+      "record_count": 81,
+      "error": null
+    },
+    {
+      "id": "official-google-ai-studio",
+      "name": "Google AI Studio (official rate limits)",
+      "source_family": "google",
+      "enabled": true,
+      "status": "ok",
+      "last_attempt_at": "2026-09-16T05:31:02Z",
+      "last_success_at": "2026-09-16T05:31:02Z",
+      "record_count": 78,
+      "error": null
+    },
+    {
+      "id": "official-groq",
+      "name": "Groq (official rate limits)",
+      "source_family": "groq",
+      "enabled": true,
+      "status": "ok",
+      "last_attempt_at": "2026-09-16T05:31:02Z",
+      "last_success_at": "2026-09-16T05:31:02Z",
+      "record_count": 0,
+      "error": null
+    },
+    {
+      "id": "official-openrouter",
+      "name": "OpenRouter (official limits documentation)",
+      "source_family": "openrouter",
+      "enabled": true,
+      "status": "parse_error",
+      "last_attempt_at": "2026-09-16T05:31:02Z",
+      "last_success_at": null,
+      "record_count": null,
+      "error": "no readable text extracted"
+    }
+  ],
+  "counts": {
+    "providers": 56,
+    "models": 173,
+    "offers": 192,
+    "official_confirmed": 26,
+    "needs_review": 0,
+    "changes_today": 56
+  },
+  "collection": {
+    "job_type": "collect",
+    "outcome": "partial",
+    "started_at": "2026-09-16T05:31:02Z",
+    "finished_at": "2026-09-16T05:31:03Z",
+    "counts": {
+      "candidates": 244,
+      "providers": 56,
+      "models": 173,
+      "offers": 192,
+      "claims": 634,
+      "changes": 56
+    }
+  },
+  "state": {
+    "no_data_yet": false,
+    "message": null,
+    "serving_last_known_good": false
+  },
+  "reviews_source": "config/reviews.yaml"
+}
