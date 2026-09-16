@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-16T05:31:03Z",
-  "dataset_version": "sha256:4695da5df959ae68876a9bd8f96fd30154b1e38038e6d5d18e30be524fab928a",
+  "generated_at": "2026-09-16T10:46:11Z",
+  "dataset_version": "sha256:0735fb7289be2d9ebc759967ca22a0a8092ab1906f110ad5c58ad6241e2c8971",
   "changes_version": "sha256:164a4d951def55d07ca1de9529a505537e20fb7d48861f8fea2826b12378e047",
   "counts": {
     "providers": 56,
@@ -18,8 +18,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T05:31:02Z",
-      "last_success_at": "2026-09-16T05:31:02Z",
+      "last_attempt_at": "2026-09-16T10:46:07Z",
+      "last_success_at": "2026-09-16T10:46:07Z",
       "record_count": 85,
       "error": null
     },
@@ -29,8 +29,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T05:31:02Z",
-      "last_success_at": "2026-09-16T05:31:02Z",
+      "last_attempt_at": "2026-09-16T10:46:07Z",
+      "last_success_at": "2026-09-16T10:46:07Z",
       "record_count": 81,
       "error": null
     },
@@ -40,8 +40,8 @@
       "source_family": "google",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T05:31:02Z",
-      "last_success_at": "2026-09-16T05:31:02Z",
+      "last_attempt_at": "2026-09-16T10:46:07Z",
+      "last_success_at": "2026-09-16T10:46:07Z",
       "record_count": 78,
       "error": null
     },
@@ -51,8 +51,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-16T05:31:02Z",
-      "last_success_at": "2026-09-16T05:31:02Z",
+      "last_attempt_at": "2026-09-16T10:46:07Z",
+      "last_success_at": "2026-09-16T10:46:07Z",
       "record_count": 0,
       "error": null
     },
@@ -61,11 +61,11 @@
       "name": "OpenRouter (official limits documentation)",
       "source_family": "openrouter",
       "enabled": true,
-      "status": "parse_error",
-      "last_attempt_at": "2026-09-16T05:31:02Z",
-      "last_success_at": null,
-      "record_count": null,
-      "error": "no readable text extracted"
+      "status": "ok",
+      "last_attempt_at": "2026-09-16T10:46:07Z",
+      "last_success_at": "2026-09-16T10:46:07Z",
+      "record_count": 0,
+      "error": null
     }
   ],
   "reports": [
