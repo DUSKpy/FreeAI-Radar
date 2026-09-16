@@ -21,6 +21,7 @@ import { initFavorites } from './favorites.js';
 import { hydrateMarkdownBlocks } from './markdown.js';
 import { initTableCards } from './table-cards.js';
 import { initToast } from './toast.js';
+import { initAdaptiveGlass } from './glass-adaptive.js';
 
 function detectPage() {
   const explicit = document.querySelector('[data-page]')?.dataset.page;
@@ -45,6 +46,11 @@ async function boot() {
   // 2. shared chrome
   initToast();
   initFavorites();
+  // The adaptive material samples the photo backdrop. It bails out on its
+  // own when the backdrop is solid, so calling it unconditionally is fine.
+  initAdaptiveGlass().catch((error) => {
+    console.warn('[radar] adaptive glass init failed', error);
+  });
 
   // 3. markdown blocks may exist on any page (report prose, provider notes)
   hydrateMarkdownBlocks();

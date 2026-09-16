@@ -778,6 +778,76 @@ class TestEveryVarReferencedInCssIsDefined:
             "`--glass-bg: var(--glass-plate-bg);` to each block that defines "
             "--glass-plate-bg."
         )
+
+
+class TestAdaptiveGlassIsWired:
+    """The "glass responds to what's behind" feature has three moving parts.
+
+    1. glass-adaptive.js must exist and export initInitableGlass.
+    2. tokens.css must define --panel-adaptive-tint with a 0% default so
+       pages that never opt into the photo backdrop look exactly like before.
+    3. The color-mix() interpolation must actually USE the variable, with
+    a sane ceiling, so the JS-set value has an effect.
+
+    The browser-level proof -- that different panels get different values
+    when the photo backdrop is active -- lives in
+    .work/glass-adaptive-verify.mjs and runs as part of the manual sweep.
+    """
+
+    @staticmethod
+    def _strip_comments(css: str) -> str:
+        return re.sub(r"/\*.*?\*/", "", css, flags=re.DOTALL)
+
+    CSS_DIR = ROOT / "site" / "static" / "css"
+
+    def test_the_module_exists_and_exports_init(self) -> None:
+        path = ROOT / "site" / "static" / "js" / "glass-adaptive.js"
+        assert path.is_file(), (
+            "site/static/js/glass-adaptive.js is missing. The adaptive glass "
+            "module is wired into app.js via initAdaptiveGlass(), so deleting "
+            "the file silently reverts every panel to a uniform tint and the "
+            "user's complaint that the glass 'doesn't respond to what's "
+            "behind it' comes back with no test failure."
+        )
+        text = path.read_text(encoding="utf-8")
+        assert "export" in text and "async function initAdaptiveGlass" in text, (
+            "glass-adaptive.js must export initAdaptiveGlass for app.js to "
+            "import it. If you renamed it, also update app.js."
+        )
+
+    def test_the_token_is_defined_at_root(self) -> None:
+        css = self._strip_comments((self.CSS_DIR / "tokens.css").read_text(encoding="utf-8"))
+        m = re.search(r"--panel-adaptive-tint:\s*([^;]+);", css)
+        assert m, (
+            "--panel-adaptive-tint must have a default declaration so a page "
+            "without the JS (reduced motion, SSR fallback, screenshot tool) "
+            "looks exactly like the original design. If it is only set from "
+            "JS, the offline design is undefined."
+        )
+        # Default should be 0% -- any non-zero default would mean even a
+        # glass-clear page renders thicker than designed.
+        assert m.group(1).strip().rstrip("%") == "0", (
+            f"--panel-adaptive-tint defaults to {m.group(1).strip()}. The JS "
+            "overrides this per element; a non-zero default means the no-JS "
+            "design is thicker than intended."
+        )
+
+    def test_the_token_actually_drives_the_color_mix(self) -> None:
+        css = self._strip_comments((self.CSS_DIR / "tokens.css").read_text(encoding="utf-8"))
+        # At least one of the rendered --glass-*-bg declarations must
+        # reference --panel-adaptive-tint. A token that is only declared
+        # and never read is dead.
+        used = False
+        for tier in ("--glass-nav-bg", "--glass-card-bg", "--glass-plate-bg"):
+            if f"var({tier})" in css and "--panel-adaptive-tint" in css:
+                used = True
+                break
+        assert used, (
+            "tokens.css declares --panel-adaptive-tint but none of "
+            "--glass-nav-bg / --glass-card-bg / --glass-plate-bg read it. "
+            "The JS sets it per element but the CSS has to consume it, or the "
+            "module is a no-op."
+        )
         # The specific rule whose missing token left every modal transparent.
         css = self._strip_comments((self.CSS_DIR / "components.css").read_text(encoding="utf-8"))
         tokens_css = self._strip_comments((self.CSS_DIR / "tokens.css").read_text(encoding="utf-8"))

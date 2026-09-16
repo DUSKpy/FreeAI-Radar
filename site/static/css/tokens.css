@@ -411,6 +411,12 @@
 :root,
 [data-theme="dark"] {
   --glass-tint: 0%;
+  /* --panel-adaptive-tint is set per element by site/static/js/glass-adaptive.js.
+     Default 0% makes every panel equal to the non-adaptive behaviour when the
+     JS is absent (reduced motion, screenshot tool, SSR fallback). The variable
+     exists at :root so the CSS test that asserts "every var() reference has a
+     definition somewhere" does not flag the JS-managed one. */
+  --panel-adaptive-tint: 0%;
 
   --glass-nav-bg: var(--glass-nav-clear);
   --glass-card-bg: var(--glass-card-clear);
@@ -421,19 +427,30 @@
 @supports (color: color-mix(in srgb, red 50%, blue)) {
   :root,
   [data-theme="dark"] {
+    /* --panel-adaptive-tint is set per element by glass-adaptive.js, so the
+       material's effective opacity tracks the brightness of what is directly
+       behind it. It defaults to 0% where the JS has not (yet) run, so a
+       page that never opts into the photo backdrop still looks exactly like
+       before.
+
+       The two tints are MAXIMISED, not summed: the user's slider is the
+       ceiling, adaptive is a floor that varies with what's behind the panel.
+       Adding them would clamp both to 100% under the photo backdrop (where
+       base alpha is already 82-94%) and erase the per-panel difference
+       that the adaptive module exists to produce. */
     --glass-nav-bg: color-mix(
       in srgb,
-      var(--surface) var(--glass-tint),
+      var(--surface) min(100%, max(var(--glass-tint), var(--panel-adaptive-tint, 0%))),
       var(--glass-nav-clear)
     );
     --glass-card-bg: color-mix(
       in srgb,
-      var(--surface) var(--glass-tint),
+      var(--surface) min(100%, max(var(--glass-tint), var(--panel-adaptive-tint, 0%))),
       var(--glass-card-clear)
     );
     --glass-plate-bg: color-mix(
       in srgb,
-      var(--surface) var(--glass-tint),
+      var(--surface) min(100%, max(var(--glass-tint), var(--panel-adaptive-tint, 0%))),
       var(--glass-plate-clear)
     );
     --glass-bg: var(--glass-plate-bg);
