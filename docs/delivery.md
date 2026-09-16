@@ -87,7 +87,7 @@ Windows 上 `core.autocrlf=true` 会把 CRLF 写进仓库，Linux CI 随后会�
 
 ```bash
 python -m pytest -m "not network"
-# 215 passed, 1 skipped in 5.96s
+# 231 passed, 1 skipped in 7.07s
 
 python -m ruff check .
 # All checks passed!
@@ -102,7 +102,7 @@ python -m ruff format --check .
 | `test_invariants.py` | 四个 schema 闭合、三态只有三个值、`_tighten` 不把 unknown 变成负向、四个协议互不塌缩、五个维度分离、evidence 在 offer 与 claim 上都是必填、state 里不出现密钥形状的属性名 |
 | `test_cc_switch.py` | 结果状态语义、Deep Link 百分号编码往返、endpoint 自带的 `&` 无法注入额外参数、无 Key 时 `api_key` 为 `null`、版本钉定 |
 | `test_parsers.py` | 表格提取（有/无分隔行、多表、参差行、哨兵作用域）、列名归一匹配、HTML 容错、证据抽取有界且去重 |
-| `test_build.py` | `load_versioned` 四种情形回归、base_path、8 页 6 资源齐全、**遍历 JS import 图证明每个被导入的模块都已发布**、产物无填充密钥、`_prepare_output` 幂等且容忍锁文件 |
+| `test_build.py` | `load_versioned` 四种情形回归、base_path、8 页 6 资源齐全、**遍历 JS import 图证明每个被导入的模块都已发布**、产物无填充密钥、`_prepare_output` 幂等且容忍锁文件、**网格轨道顺序与模板 DOM 顺序交叉核对**、**受工具类影响的隐藏规则必须靠特异度取胜而不是靠书写顺序** |
 | `test_collect_state.py` | `--previous` 必填、缺失/损坏/非法文件都必须报错而不是静默重置、空状态不伪造时间戳 |
 | `test_repo_hygiene.py` | 在真实 git 仓库里问 `.gitignore`：必需文件可提交、密钥与状态被忽略、seed 必须保持为空且与代码生成形状一致 |
 | `tests/validate_fixtures.py` | fixture ↔ schema 校验 |
@@ -421,6 +421,8 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 | 15 | 页脚构建标识 834/1024px 溢出 | **只在 768–1239px 出现**，手机上反而正常（窄屏本来就换行）。`footer.html` 里数据版本那行写了 `.wrap-anywhere`，紧挨着的构建标识那行**漏了** → 40 字符 SHA 撑宽页面 27–42px | 把换行行为**下沉到 `.mono` 本身**：等宽字体承载的正是 SHA、模型 id、域名这类无断点字符串，不该依赖每个调用点记得加 helper |
 | 16 | 短面板被拉满全屏 | 手机上面板固定 `height: 100dvh`（为长的 CC Switch 配置面板而设），但外观面板只有三个控件，footer 下方留下约 450px 空白玻璃，**看起来像渲染错误**。改成 `height: auto` 后**仍**是 776px | 真正原因是 UA 样式表给模态 `dialog` 同时设了 `top: 0` 和 `bottom: 0`——绝对定位元素在 `height: auto` 且两端 inset 都设时会拉伸填满包含块。加 `top: auto; bottom: 0` 后才落到 418px（= 头部 67 + 主体 274 + 底部 77，与内容一致） |
 | 17 | **rebased manifest 从未落盘** | **本版最隐蔽的一个**。`_rebase_urls()` 把 manifest 里的数据 URL 改写到本次构建的 base path，但 `_copy_data()` 用 `shutil.copy2` **逐字复制**源文件，改写**只存在于内存**。配合 `data-client.js` 里 `href.replace(basePath, '')`——**`String.replace` 区分大小写**，前缀不匹配时**静默不动**，留下绝对路径 `/freeai-radar/...`。结果：页面渲染正常、链接正常、**每个数据请求 404**。导出用 `/freeai-radar/`、构建用 `/FreeAI-Radar/` 时必现 | `_copy_data(data_dir, output_dir, manifest)`：manifest 改为**写入**而非复制。新增回归测试 `TestTheManifestIsRebasedNotJustCopied`，故意让 export 与 build 的 base path **不同**（旧测试用同一个值，所以陈旧副本与已 rebase 字节相同，看不见）——**已验证它在旧代码上失败** |
+| 18 | 两个网格被反向分配 | CSS Grid 的轨道按 **DOM 源码顺序**分配。`.directory` 写 `260px minmax(0, 1fr)` 而模板首个子元素是 `.directory__main` → 1440px 下结果卡片被压成 **260px**、筛选栏拿到 **846px**。`.report` 同理：日报正文被压成 240px × 高 2259px 的竖条，日期索引占 864px。**元素都在、HTML 合法、不溢出**，截图"看着有内容" | 两处轨道顺序改为与模板一致（`minmax(0, 1fr) 260px` / `240px minmax(0, 1fr)`）。新增 `TestLayoutTracksMatchTheDomOrder`，把 CSS 声明顺序与模板子元素顺序**交叉核对**，并加一条守卫测试防止模板被重排。发现手段是写脚本标记"靠前的子元素比靠后的兄弟窄 2.2 倍以上"的网格 |
+| 19 | 桌面端有**点了没反应**的"筛选"按钮 | `.facets__toggle { display: none }` 是单类选择器（`components.css` 第 215 行），而按钮类名是 `class="btn btn--small facets__toggle"`，`.btn { display: inline-flex }` 在**同文件第 473 行**。特异度都是 (0,1,0)，级联只能靠源码顺序分胜负 → **`.btn` 赢**。1440px / 1024px 下筛选栏本来就可见，却渲染出一个 53×34 的按钮，点击只改 `aria-expanded`，面板纹丝不动。**一个看起来可交互、实际什么都不做的控件** —— 而且第 213 行的注释写的是"桌面端隐藏"，代码做的正好相反 | 改成 `.btn.facets__toggle` 把特异度提到 (0,2,0)，胜负不再取决于书写顺序；`responsive.css` 中恢复显示的规则同步改成两个类。4 个回归测试，其中 3 个**已验证在改回缺陷后失败** |
 
 第 4、5、6、10 条有一个共同点：**它们都是"错得安静"**。
 第 1、9 条也是。这类缺陷不会报错，只会让结果悄悄变错。
@@ -431,6 +433,29 @@ git push --dry-run origin main   # 先把 workflow 文件 git add 进去
 第 17 条更极端：**它连截图都骗过了**——页面渲染完全正常，
 只有一条不起眼的 404 出现在控制台里。它是靠"就绪条件断言 + 单点探针"
 （`dir-diag.mjs` 打印出 `数据文件不存在：/freeai-radar/...`）才暴露的。
+
+第 18、19 条是**"看着对"的第三种形态：界面在骗用户**。
+第 18 条的页面有内容、不溢出、HTML 合法，只是所有东西都待在错的列里；
+第 19 条更直接——它渲染出一个**承诺了交互但不提供交互**的控件。
+两条都没有触发既有检查，因为既有检查问的是"东西在不在"，
+而不是"它是不是在做它看起来该做的事"。
+
+第 19 条还留了一个关于**测试自身**的教训：第一版回归测试用字符串
+`in` 判断选择器是否存在，结果**在有缺陷的代码上也是通过的** ——
+因为断言匹配到了紧邻的注释，而注释里为了说明问题引用了
+`.btn.facets__toggle` 这个写法。剥掉 `/* ... */` 之后测试才真正有效。
+**会读散文的测试不是测试。**
+
+排查第 19 条时另外踩了两个工具坑，一并记下，因为都很容易再犯：
+
+- **用 `rule.media` 判断真值是不可靠的。** `CSSStyleRule` 同样有一个空的
+  `media`（`MediaList`，字符串化为 `""`），所以真值判断会把**每一条**
+  普通规则都误报成"有媒体条件"，遍历结果自相矛盾。正确写法是
+  `rule instanceof CSSMediaRule`。
+- **数花括号判断嵌套深度也不可靠。** 嵌套 at-rule 让深度计算失去意义，
+  脚本对每个 at-rule 都报 depth 0。
+  最终用 CDP 的 `CSS.getMatchedStylesForNode` 拿到权威答案：
+  两条规则都是 `origin: regular`、`media: (none)`。
 
 第 9 条还说明另一件事：**fixture 测试覆盖不到真实站点的 CSS 现实**。
 `tests/fixtures/*.md` 都是 Markdown，而 `_strip_noise` 只在 HTML 路径上跑，
@@ -548,6 +573,12 @@ Chromium 下 `url("#radar-refract")`，模拟降级下
 验证方式是机械扫描而不是肉眼看图：**8 页 × 6 个宽度**
 （320/390/430/768/834/1024），断言无横向溢出；手机上表格变卡片、桌面上仍是表格；
 96 张截图覆盖 6 宽度 × 2 主题。
+
+筛选栏在 <768px 变成折叠面板，**开关是手机上触达筛选的唯一入口**，
+所以它的可见性与行为都有断言保护：桌面端必须隐藏（筛选栏常驻可见），
+手机端必须可见、可开、**可关**（单向展开等于陷阱）。实测 430/767/1024/1440px 四点全过。
+另外所有小于 44px 的控件只在 `@media (pointer: coarse)` 下抬高触控目标，
+桌面工具条保持紧凑；正文内联链接用负 inset 的 `::after` 扩大点击区而不打乱行距。
 
 ---
 

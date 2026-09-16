@@ -353,7 +353,12 @@
     display: flex;
   }
 
-  .facets__toggle {
+  /* Matches the specificity of the hide rule in components.css, which is also
+     written as two classes. A single-class selector here would still win on
+     source order (this file loads last), but leaving the two rules at
+     different weights invites the exact bug that hid this control on desktop:
+     the outcome would depend on load order rather than on intent. */
+  .btn.facets__toggle {
     display: inline-flex;
   }
 

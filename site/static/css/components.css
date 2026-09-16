@@ -211,8 +211,19 @@
 }
 
 /* The facet toggle is only meaningful when the rail is collapsed, so it is
-   hidden on desktop where the rail is always visible. */
-.facets__toggle {
+   hidden on desktop where the rail is always visible.
+
+   Written as `.btn.facets__toggle` rather than plain `.facets__toggle` on
+   purpose. The button carries both classes, and `.btn { display: inline-flex }`
+   is a single-class rule sitting LATER in this same file (line ~473 vs ~215),
+   so at equal specificity (0,1,0) source order handed the win to `.btn` and
+   the toggle rendered as a 53x34 dead control on every desktop width -- it
+   looked interactive and toggled nothing, because the rail was already open.
+
+   Two classes raise this to (0,2,0), so the hide no longer depends on which
+   of the two rules happens to appear first. Order-dependent wins are the kind
+   of bug that reappears the next time someone reorganises the file. */
+.btn.facets__toggle {
   display: none;
 }
 

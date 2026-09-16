@@ -466,6 +466,89 @@ class TestStaleAndUnknownStatesSurviveTheBuild:
             assert status in (None, "untested"), f"{offer['id']} claims call_status={status!r}"
 
 
+class TestUtilityRulesAreNotBeatenBySourceOrder:
+    """A single-class rule can be silently defeated by a later single-class rule.
+
+    ``.facets__toggle { display: none }`` is meant to hide the filter toggle on
+    desktop, where the rail is always open. But the button is rendered as
+    ``class="btn btn--small facets__toggle"``, and ``.btn { display: inline-flex }``
+    is a single-class rule sitting *later in the same file*. At equal
+    specificity (0,1,0) the cascade falls through to source order, so ``.btn``
+    won and the toggle appeared as a 53x34 control at 1440px and 1024px that
+    toggled nothing -- the rail was already visible, so clicking it was a no-op.
+
+    Nothing caught it: the element existed, the page did not overflow, the HTML
+    validated, and the CSS was well-formed. The control simply lied about being
+    interactive. Counting braces or grepping for the selector both look correct.
+
+    The fix raises the hide rule to two classes, so the outcome no longer
+    depends on which rule happens to be written first. These tests pin that.
+    """
+
+    #: Rules that hide a control, and the utility class that would otherwise
+    #: beat them on source order alone.
+    HIDE_RULES: ClassVar[dict[str, str]] = {
+        "toggle_hidden_on_desktop": ".btn.facets__toggle",
+    }
+
+    @staticmethod
+    def _strip_comments(css: str) -> str:
+        """Remove /* ... */ blocks before asserting on selectors.
+
+        Without this the tests match the explanation rather than the code: the
+        comment above the hide rule quotes the selector `.btn.facets__toggle`,
+        so a naive ``in`` check passes even when the rule itself has been
+        reverted to one class. A test that reads prose is not a test.
+        """
+        return re.sub(r"/\*.*?\*/", "", css, flags=re.DOTALL)
+
+    def test_hiding_rule_outweighs_the_utility_it_overrides(self, built_site: Path) -> None:
+        css = self._strip_comments(
+            (built_site / "assets" / "css" / "components.css").read_text(encoding="utf-8")
+        )
+        for name, selector in self.HIDE_RULES.items():
+            assert re.search(rf"(?<![.\w-]){re.escape(selector)}\s*\{{", css), (
+                f"{name}: expected the hide rule {selector!r} in components.css; "
+                "a single-class selector here loses to .btn on source order"
+            )
+
+    def test_the_bare_single_class_hide_rule_is_gone(self, built_site: Path) -> None:
+        css = self._strip_comments(
+            (built_site / "assets" / "css" / "components.css").read_text(encoding="utf-8")
+        )
+        # A bare `.facets__toggle {` (not preceded by another class) is the
+        # defeated form. `.btn.facets__toggle {` must not match this.
+        bare = re.findall(r"(?<![.\w-])\.facets__toggle\s*\{", css)
+        assert not bare, (
+            "found a bare `.facets__toggle {` rule; it has the same specificity as "
+            ".btn and loses on source order, hiding the toggle on desktop"
+        )
+
+    def test_the_responsive_rule_matches_that_specificity(self, built_site: Path) -> None:
+        css = self._strip_comments(
+            (built_site / "assets" / "css" / "responsive.css").read_text(encoding="utf-8")
+        )
+        # The phone-width rule brings the toggle back. If it stayed at one
+        # class while the hide rule is two, the pair is inconsistent and the
+        # next reorganisation reintroduces the bug in the other direction.
+        assert re.search(r"(?<![.\w-])\.btn\.facets__toggle\s*\{", css), (
+            "responsive.css must re-show the toggle with the same two-class "
+            "specificity as the hide rule in components.css"
+        )
+
+    def test_the_toggle_actually_carries_both_classes(self, built_site: Path) -> None:
+        # The whole test class rests on the element having class="btn ... facets__toggle".
+        # If the markup drops .btn, the two-class selector stops matching and the
+        # rule quietly stops applying -- the same failure, one layer down.
+        html = (built_site / "directory.html").read_text(encoding="utf-8")
+        match = re.search(r'class="([^"]*facets__toggle[^"]*)"', html)
+        assert match, "no element with the facets__toggle class in directory.html"
+        classes = match.group(1).split()
+        assert "btn" in classes, (
+            f"the toggle must carry .btn for the two-class selectors to match; got {classes!r}"
+        )
+
+
 class TestPrepareOutputIsSafeToRerun:
     def test_rebuilding_into_the_same_directory_succeeds(self, tmp_path: Path) -> None:
         # The build empties its output directory in place. It must be safe to
