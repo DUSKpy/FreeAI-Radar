@@ -119,26 +119,43 @@
 }
 
 /* ==========================================================================
-   Layer 1: refraction
+   Layer 1: refraction -- the edge-only "lens" effect
    --------------------------------------------------------------------------
    The SVG filter is defined once in base.html and referenced by id. It must
    live in the same document -- a filter inside shadow DOM cannot be
    referenced, and the filter element must not be display:none.
 
-   Two effects are chained inside the filter:
-     * feTurbulence + feGaussianBlur synthesise a smooth, low-frequency
+   Two effects are chained inside each filter:
+     * feTurbulence + feColorMatrix(alpha=1) generate a smooth, low-frequency
        displacement map in place of a PNG texture, so there is no extra asset
        to download and the glass has no repeating pattern.
-     * feDisplacementMap pushes each backdrop pixel along that map, which is
-       what bends the edge. --glass-refract caps the strength at 8, because
-       past roughly 12 the result stops reading as glass and starts reading
-       as a rendering bug.
+     * feDisplacementMap pushes each backdrop pixel along that map. The map
+       is multiplied with an edge-only rim mask (a soft rounded-rectangle
+       stroke rasterised by feImage) so the centre stays at 0.5 (= no shift)
+       and only the rim follows the turbulence. That is the iOS "lens at the
+       edge, calm in the middle" behaviour. Closed form is
+       D = T*M - 0.5*M + 0.5, written as a single feComposite arithmetic so
+       no scripting is needed.
      * A second, opposite displacement per channel is what produces the
        chromatic fringe -- the faint red/blue split along a strong edge.
+       Because the fringe lives on the displaced channel and the rim mask is
+       the same, the colour split naturally lives at the rim, not in the
+       middle.
 
-   Applied ONLY to the floating navigation surfaces. A card holding a table
-   of numbers must not have its backdrop shifted: displaced text is harder to
-   read, and legibility beats decoration every time.
+   Two strengths are exported:
+
+     #radar-refract       nav / panel   -- strong rim, tight transition.
+     #radar-refract-soft  card          -- gentle rim, wide transition.
+
+   The card filter is why cards can now carry refraction at all. A uniform
+   displacement across a card would push the rows of a table around and
+   hurt legibility; an edge-only displacement only touches the rim, so a
+   numeric table or a small badge in the centre still reads cleanly.
+
+   Safari and Firefox do not support backdrop-filter: url() at all, so they
+   stay on the plain frosted material that the @supports blur() block above
+   provides. That material is a deliberate design in its own right; see the
+   note at the top of this file.
    ========================================================================== */
 @supports (backdrop-filter: url(#radar-refract)) {
   .glass--nav,
@@ -148,6 +165,15 @@
        listed again here. Applying both would double-blur the backdrop. */
     -webkit-backdrop-filter: url(#radar-refract);
     backdrop-filter: url(#radar-refract);
+  }
+
+  .glass--card,
+  .glass:not(.glass--nav):not(.glass--panel):not(.glass--card) {
+    /* The soft variant. Wider rim ramp (stdDeviation 6 vs 3) and lower
+       scale (14 vs 20) so a row of cards does not read as a row of
+       fish-eyes, and the small numbers/labels inside stay in place. */
+    -webkit-backdrop-filter: url(#radar-refract-soft);
+    backdrop-filter: url(#radar-refract-soft);
   }
 }
 

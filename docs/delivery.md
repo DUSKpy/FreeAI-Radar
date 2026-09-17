@@ -87,13 +87,13 @@ Windows 上 `core.autocrlf=true` 会把 CRLF 写进仓库，Linux CI 随后会�
 
 ```bash
 python -m pytest -m "not network"
-# 274 passed in 7.18s
+# 284 passed in 6.04s
 
 python -m ruff check .
 # All checks passed!
 
 python -m ruff format --check .
-# 36 files already formatted
+# 38 files already formatted
 ```
 
 | 模块 | 测的什么 |
@@ -665,6 +665,20 @@ SVG 滤镜有两个必须记住的约束，踩过：
 **最终用原地改写 `glass.css`、跑完再还原的办法验证**，结果才可信：
 Chromium 下 `url("#radar-refract")`，模拟降级下
 `blur(40px) saturate(1.8) brightness(1.08)`，7/7 卡片正常渲染，0 横向溢出。
+
+**M14 起，折射不再是"全场铺满"**。每个 `url()` 滤镜的位移图都先乘上一个
+**边缘环带遮罩**（`feImage` 引用一个圆角矩形描边，再 `feGaussianBlur` 柔化成
+一段斜坡），闭式是 `D = T*M - 0.5*M + 0.5`，写成
+`feComposite arithmetic k1=1 k2=0 k3=-0.5 k4=0.5`。
+中心 `M=0` → `D=0.5`（feDisplacementMap 的"不动"中位），边缘 `M=1` → `D=T`
+（完全跟场）。结果就是 iOS 真实玻璃板在边缘有的那种"透镜挤压"——边缘强、
+中心为零位移。卡片因此也能接入折射（M11 之前因"位移文字更难读"被禁止），
+现在用柔版 `#radar-refract-soft`（更宽过渡、更低 scale），中心数字和小字保持
+静止，只有外缘几像素在动。
+`tests/test_glass_lens.py` 钉住这条闭式、钉住"卡片必须接 soft 版"、
+钉住"feDisplacementMap 不能直接接 noise"——最后一条是防止有人悄悄把
+边缘调制删了回退到全场折射的报警器。Safari/Firefox 降级路径不受影响：
+它们拿不到 `url()`，直接走扩散层。
 
 ---
 

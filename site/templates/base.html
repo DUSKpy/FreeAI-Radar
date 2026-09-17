@@ -111,8 +111,58 @@
    this document. SMIL cannot be switched off from a CSS media query, and a
    user who asked for less motion should not get a permanently drifting
    refraction. #}
+{#  Edge-lens refraction: two filters that push the backdrop into a different
+   shape in the centre vs near the rim.
+
+   The physical intuition is a pane of curved glass: the centre looks almost
+   straight through, but near the edge the glass acts like a lens and bends
+   what is behind it. That is what makes an iOS surface read as liquid: the
+   bend is concentrated at the rim, the centre is calm, and the eye stops
+   looking for a flat texture.
+
+   How the edge-only modulation is built:
+
+     T   = a moving fractal-noise field, used as the raw displacement map
+           (its R/G channels later drive feDisplacementMap).
+     M   = a soft edge-only mask: a rounded-rectangle STROKE rasterised by
+           feImage, then blurred so the rim is a smooth ramp instead of a
+           hard band. The stroke uses the same rx ratio as the glass surface
+           so the mask lines up with the visible border. preserveAspectRatio
+           is "none" on purpose: the mask has to cover every direction of the
+           bounding box, and a slight stretch on long thin cards is far less
+           noticeable than a missing rim.
+     D   = the displacement map actually used. D = T*M - 0.5*M + 0.5  is the
+           closed form of "no shift in the centre, full field near the rim".
+           Written as an feComposite arithmetic primitive so the four scalars
+           k1..k4 encode the formula directly; no scripting, no second pass.
+
+   Two strengths are exported:
+
+     #radar-refract       nav and panel -- strong rim, tighter transition.
+     #radar-refract-soft  card -- gentle rim, wider transition, so a row of
+                          cards does not feel like a row of fish-eyes.
+
+   Both filters still carry the channel-split chromatic fringe and the
+   saturation/brightness lift, because both effects are themselves strongest
+   near the rim and quietly disappear in the centre, which is exactly how
+   real glass behaves.
+
+   Safari and Firefox do not support backdrop-filter: url() at all. They fall
+   back to the plain frosted material in glass.css, which is a complete design
+   in its own right -- see the note at the top of that file.
+#}
 <svg class="refract-defs" id="radar-refract-defs" width="0" height="0" aria-hidden="true" focusable="false">
-  <filter id="radar-refract" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+  <defs>
+    {# A single rounded-rectangle stroke, reused by both filters via <use>.
+       Width/height here are 100x100 because feImage stretches it to the
+       filter region with preserveAspectRatio="none". A 7% stroke at a 14%
+       corner radius keeps the inner flat zone around 72% of the panel,
+       which leaves the rim with enough room to read as a lens. #}
+    <svg id="radar-refract-edges" viewBox="0 0 100 100" preserveAspectRatio="none" overflow="visible">
+      <rect x="3" y="3" width="94" height="94" rx="14" fill="none" stroke="white" stroke-width="7"/>
+    </svg>
+  </defs>
+  <filter id="radar-refract" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
     {# The displacement field. Two octaves at different frequencies give a
        slightly irregular edge, which is what stops the refraction from
        looking like a uniform fisheye.
@@ -128,9 +178,10 @@
        makes it flow instead of pulse: changing scale only breathes the same
        field in and out, while changing frequency regenerates the field, so
        the bent edges actually travel. The cost is real -- fractalNoise is
-       regenerated per frame -- so the cycle is deliberately slow (24s) and
-       this filter is only ever applied to the floating navigation surfaces,
-       never to a list of cards. #}
+       regenerated per frame -- so the cycle is deliberately slow (24s).
+
+       alpha is forced to 1 below so the arithmetic modulation is not
+       distorted by premultiplied alpha. #}
     <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise">
       <animate attributeName="baseFrequency"
                dur="24s"
@@ -140,16 +191,32 @@
                keySplines="0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1"
                repeatCount="indefinite"/>
     </feTurbulence>
-    <feGaussianBlur in="noise" stdDeviation="2.2" result="field"/>
+    <feColorMatrix in="noise" type="matrix"
+      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0 1" result="T"/>
+
+    {# The rim mask: stroke rasterised to the filter region, then softened
+       into a ramp so the lens transition is not a hard step. #}
+    <feImage x="0%" y="0%" width="100%" height="100%" preserveAspectRatio="none" result="rim0"
+             href="#radar-refract-edges"/>
+    <feGaussianBlur in="rim0" stdDeviation="3" result="M"/>
+
+    {# D = T*M - 0.5*M + 0.5  -> centre 0.5 (no shift), rim follows T. #}
+    <feComposite in="T" in2="M" operator="arithmetic"
+                 k1="1" k2="0" k3="-0.5" k4="0.5" result="D"/>
 
     {# Diffuse pass: the whole panel gets a strong blur and a colour lift. #}
     <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blurred"/>
 
-    {# Refracted pass: the blurred backdrop pushed along the field. #}
-    <feDisplacementMap in="blurred" in2="field" scale="14" xChannelSelector="R" yChannelSelector="G" result="bent"/>
+    {# Refracted pass: the blurred backdrop pushed along the rim-modulated
+       field. scale is deliberately conservative -- the rim mask amplifies
+       the effect near the border, so the visible bend is bigger than the
+       raw scale suggests. #}
+    <feDisplacementMap in="blurred" in2="D" scale="20" xChannelSelector="R" yChannelSelector="G" result="bent"/>
 
     {# Channel split for the chromatic fringe. Each channel is isolated, then
-       displaced by a slightly different amount, then recombined additively. #}
+       displaced by a slightly different amount, then recombined additively.
+       The fringe is strongest where the rim mask is strongest, so the
+       colour split naturally lives at the edge. #}
     <feColorMatrix in="bent" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="ch-r"/>
     <feColorMatrix in="bent" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="ch-g"/>
     <feColorMatrix in="bent" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="ch-b"/>
@@ -167,6 +234,52 @@
       <feFuncR type="linear" slope="1.06" intercept="0.01"/>
       <feFuncG type="linear" slope="1.06" intercept="0.01"/>
       <feFuncB type="linear" slope="1.06" intercept="0.015"/>
+    </feComponentTransfer>
+  </filter>
+
+  <filter id="radar-refract-soft" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+    {# Same edge-lens chain, gentler. Wider rim mask (stdDeviation 6 instead
+       of 3) and lower scale (14 instead of 20) so a list of cards does not
+       turn into a row of fish-eyes, and small numeric tables inside stay
+       readable in the centre. #}
+    <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise">
+      <animate attributeName="baseFrequency"
+               dur="24s"
+               values="0.008 0.012; 0.0115 0.0092; 0.0092 0.0128; 0.008 0.012"
+               keyTimes="0; 0.34; 0.67; 1"
+               calcMode="spline"
+               keySplines="0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1"
+               repeatCount="indefinite"/>
+    </feTurbulence>
+    <feColorMatrix in="noise" type="matrix"
+      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0 1" result="T"/>
+
+    <feImage x="0%" y="0%" width="100%" height="100%" preserveAspectRatio="none" result="rim0"
+             href="#radar-refract-edges"/>
+    <feGaussianBlur in="rim0" stdDeviation="6" result="M"/>
+
+    <feComposite in="T" in2="M" operator="arithmetic"
+                 k1="1" k2="0" k3="-0.5" k4="0.5" result="D"/>
+
+    <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blurred"/>
+
+    <feDisplacementMap in="blurred" in2="D" scale="14" xChannelSelector="R" yChannelSelector="G" result="bent"/>
+
+    <feColorMatrix in="bent" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="ch-r"/>
+    <feColorMatrix in="bent" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="ch-g"/>
+    <feColorMatrix in="bent" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="ch-b"/>
+
+    <feOffset in="ch-r" dx="-1.0" dy="-0.7" result="off-r"/>
+    <feOffset in="ch-b" dx="1.0" dy="0.7" result="off-b"/>
+
+    <feBlend in="off-r" in2="ch-g" mode="screen" result="rg"/>
+    <feBlend in="rg" in2="off-b" mode="screen" result="rgb"/>
+
+    <feColorMatrix in="rgb" type="saturate" values="1.45" result="saturated"/>
+    <feComponentTransfer in="saturated" result="brightened">
+      <feFuncR type="linear" slope="1.04" intercept="0.01"/>
+      <feFuncG type="linear" slope="1.04" intercept="0.01"/>
+      <feFuncB type="linear" slope="1.04" intercept="0.015"/>
     </feComponentTransfer>
   </filter>
 </svg>

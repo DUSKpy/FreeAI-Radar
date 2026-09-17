@@ -885,6 +885,101 @@ iOS 27 修的正是这点：**玻璃对背后复杂内容的扩散要更强**（
 
 ---
 
+## M14 — 边缘透镜折射：玻璃感真正活起来的地方
+
+iOS 26 液态玻璃最容易被忽视的特征不是模糊也不是色散，而是**边框附近
+对下方内容的"挤压"**。一个平面面板看上去像玻璃；一个边缘会弯曲下方内容
+的面板看上去是液态。M11 把折射做出来了，但它是**均匀**铺满整个面板的——
+中心区域和角落位移一样强烈，于是中心的数字表格也跟着抖，眼睛便能立刻看穿
+"这是纹理贴在表面上"的把戏。
+
+这一轮把折射从"全场"改成"只在边缘"。
+
+### 设计
+
+边缘透镜的物理直觉是真实玻璃板的倒角：中央几乎平直穿过，越靠近边缘，
+玻璃越像一个透镜，把后景挤压、拉长、弯折。**位移场的强度从边缘往中心
+衰减**，中心的位移为零。SVG 滤镜拿不到元素自身的圆角矩形形状
+（`backdrop-filter` 的 `SourceGraphic` 是后景快照，不是元素 alpha），
+所以边缘遮罩是用 `feImage` 引用一个圆角矩形描边、再用 `feGaussianBlur`
+柔化成一段斜坡得到的。
+
+位移场 `T`（turbulence）与遮罩 `M` 通过一个 `feComposite arithmetic`
+合成最终位移图 `D`：
+
+    D = T * M - 0.5 * M + 0.5
+
+四元组的 closed form 直接写成 `k1=1 k2=0 k3=-0.5 k4=0.5`。
+中心 `M=0` → `D=0.5`（feDisplacementMap 的"不动"中位）；
+边缘 `M=1` → `D=T`（完全跟场）。这一个算术原语就把"全场折射"变成了
+"边缘折射"，没有脚本、没有二次扫描。
+
+### 关键设计选择
+
+- **两个滤镜导出**：`#radar-refract` 给 nav/panel（强、过渡窄），
+  `#radar-refract-soft` 给 card（柔、过渡宽、scale 更低）。
+  一行卡片用强版会变成一排鱼眼，数字会被拉花；用柔版则只有外缘几像素
+  在动，里面的小字小数字完全静止。
+- **feImage 共享一个内嵌 SVG**：`#radar-refract-edges` 是一个圆角矩形描边，
+  两个滤镜都 `href="#radar-refract-edges"`。形状不重复，rx 与面板一致，
+  描边宽度和柔化半径决定了"多大范围算边缘"。
+- **保留动画**：turbulence 的 24s baseFrequency 飘移原封不动。流动感是 M11
+  的成果，不能为了加边缘透镜丢回去。`#radar-refract-soft` 也带同样的动画。
+- **色散自动跟着边缘走**：feDisplacementMap 之后是 R/G/B 三通道分离 + 偏移
+  + `feBlend screen` 重组。色散作用在被位移的通道上，位移图本身有边缘梯度，
+  所以色散也只出现在边缘——正中文字不会泛红/泛蓝。
+- **filter region 收紧到 0/0/100%/100%**：旧的 -12% 溢出是为均匀位移留的
+  余量；边缘调制下不需要外溢，画布正好等于元素边界，描边圆角也就
+  真正落在面板的圆角上。
+
+### 可读性的关键观察
+
+之前 glass.css 的注释写着"卡片不能加折射，位移文字更难读"。
+这一轮的发现：**位移只集中在边缘时，中心的文字根本没动**。这同时解决了
+"卡片要液态玻璃"和"卡片中心数字要稳定"两个需求——这两个在均匀位移下
+是矛盾的，在边缘调制下是天然分离的。
+
+`tests/test_glass_lens.py` 新增 10 个回归，钉住四个性质：
+
+1. 两个滤镜都在，且共享 `#radar-refract-edges` 形状
+2. 每个滤镜都有 `feComposite arithmetic k1=1 k2=0 k3=-0.5 k4=0.5` 闭式
+3. glass.css 在 `@supports (url())` 块里把 `.glass--card` 接到 `#radar-refract-soft`
+   而不是 `#radar-refract`
+4. `feDisplacementMap` 的 `in2` 必须是调制后的 D，不能直接接 `T` 或 `noise`
+   —— 这条最关键，是"均匀位移又悄悄回来了"的报警器
+
+两条注入验证已跑过：
+
+- 把 strong 版的 `k3=-0.5` 改成 `k3=0` → `test_filter_has_arithmetic_composite_in_closed_form[radar-refract]`
+  立即红，错误信息直接指向"centre would no longer stay at 0.5"
+- 把 `.glass--card` 的 `url(#radar-refract-soft)` 改成 `url(#radar-refract)` →
+  `test_cards_apply_refract_soft_in_url_supports_block` 立即红，错误信息
+  指向"The soft variant keeps the rim gentle"
+
+### 验证结果
+
+| 项 | 结果 |
+| --- | --- |
+| 单元 | **284 passed**（M13 时 274 → +10 = 284）· ruff 全绿 |
+| 截图 | **96 张重生成**（8 页 × 6 宽度 × 2 主题），无横向溢出 |
+| 表格→卡片（手机）/ 仍为表格（桌面） | 12/32 · 32/32 |
+| 底部胶囊 | 32/32 |
+| 对比度 solid 模式 | 1944 元素全 AA，**最差 4.80/4.5** |
+| 对比度 photo 模式 | 1944 元素全 AA，**最差 5.33/4.5** |
+| UI 审计 | 24 视图中 23 干净；唯一发现仍是 `changes@phone` 上 inline "结构化报告"<br>（WCAG 2.5.8 豁免，已知） |
+| computed style | `.glass--nav`/`.glass--panel` → `url("#radar-refract")`；<br>`.glass--card` → `url("#radar-refract-soft")` ✓ |
+| 真实页面截图（Agnes AI · 深色 + photo） | 顶栏/侧栏/信息提示框/CC Switch 面板/核对状态面板/免费条目卡<br>**每个玻璃元素边缘都能看到背景照片被弯曲**，中心文字完全不变形 |
+
+### 一个值得记的真相
+
+浅色纯色背景下边缘透镜很克制——不是没生效，是浅色低对比本身就让位移不易
+被察觉。把"图片背景"开关打开（外观面板里），照片会让透镜立刻显形。**这个
+跟物理一致**：现实里也是夜间车灯照在磨砂玻璃上才看得见折射。
+`docs/delivery.md` 6.1 的措辞没变——它说的是"这是有意的厚玻璃"，这一轮
+之后还多了一句"边缘有透镜感"。
+
+---
+
 ## 已知缺口 / Known gaps
 
 按重要性排序，不掩饰：
