@@ -241,10 +241,10 @@ python -m radar.export_public \
   --base-path /
 python -m radar.build_site \
   --data .work/public-fixture \
-  --out dist-fixture \
+  --output .work/dist-fixture \
   --base-path /
-test -f dist-fixture/index.html && test -f dist-fixture/directory/index.html && echo "pages ok"
-python -m tests.scan_secrets dist-fixture
+test -f .work/dist-fixture/index.html && test -f .work/dist-fixture/directory.html && echo "pages ok"
+python -m tests.scan_secrets .work/dist-fixture
 ```
 
 **场景 2：用空 seed 验证空状态**（确认"还没有数据"这条路也走得通）
@@ -256,7 +256,7 @@ python -m radar.export_public \
   --base-path /
 python -m radar.build_site \
   --data .work/public-empty \
-  --out dist-empty \
+  --output .work/dist-empty \
   --base-path /
 ```
 
@@ -265,14 +265,20 @@ python -m radar.build_site \
 - [ ] 场景 2 的 `provider_count` 是 0，**且首页明确说"还没有成功完成过一次采集"**，
       不是一片空白让人以为坏了
 
-> 注意参数名：`export_public` 用 `--output`，`build_site` 用 `--data` 指输入、
-> `--out` 指输出。写错会直接 argparse 报错——这是好事，不要靠记忆而是靠 `--help`。
-
+> **参数名**：`export_public` 用 `--output`；`build_site` 用 `--data` 指输入、
+> `--output` 指输出。**没有 `--out`。** 它之所以"能用"，只是因为 argparse 允许
+> 唯一前缀缩写——那不是真参数名，将来多一个 `--outdir` 就会歧义报错。
+> 靠 `--help` 而不是靠记忆。
+>
+> **输出目录放在 `.work/` 下**：`.gitignore` 只忽略 `dist/`，
+> 裸的 `dist-fixture` / `dist-empty` 会出现在 `git status` 里等着被误提交。
+> 上面两个场景已经写好了，照着跑就不会踩。
+>
 > 注意：这里产出的是**基于 fixture 或空 seed** 的站点。它证明流水线是通的，
 > **不证明**真实数据是对的。不要把它当成"站点已上线"。
 
-**清理：** 这两个目录都不该被提交。
+**清理：**
 
 ```bash
-rm -rf .work/public-fixture .work/public-empty dist-fixture dist-empty
+rm -rf .work/public-fixture .work/public-empty .work/dist-fixture .work/dist-empty
 ```
