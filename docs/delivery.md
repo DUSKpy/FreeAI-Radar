@@ -743,15 +743,23 @@ Chromium 下 `url("#radar-refract")`，模拟降级下
 
 | 机制 | 保护对象 | 代价 |
 | --- | --- | --- |
-| `--photo-guard`（82% 局部底板） | 没有面板的裸文字（报告正文、区块标题、分页、页脚） | 只影响那些文字块，画面其余部分不动 |
+| `--photo-guard`（82% 局部底板，两主题） | 没有面板的裸文字（报告正文、区块标题、分页、页脚） | 只影响那些文字块，画面其余部分不动 |
 | `--photo-floor` + `background-blend-mode: lighten`（仅浅色） | 卡片内的深色文字 | 照片暗部被抬到 floor 色 |
-| tier 不透明度（卡片 45% / 66%） | 卡片自身的内容 | 照片透出多少，卡片就透出多少 |
+| tier 不透明度 | 面板自身的内容 | 照片透出多少，面板就透出多少 |
 
-**浅色 scrim 从 88% 降到 12%，照片净透出从 4.6% 升到约 48%（约 10 倍）。**
+**浅色 scrim 从 88% 降到 12%，深色从 82% 降到 60%。**
+照片净透出：浅色 **4.6% → 约 48%**（约 10 倍），深色 **2.9% → 约 14%**（约 5 倍）。
 
-深色主题**故意不采用 floor**：它的失败方向相反（浅色文字怕亮照片），
-而镜像的 `darken` 会把夜景照片唯一还读得出来的高光压平，照片会彻底消失。
-深色保留 82% scrim，改从卡片厚度拿收益（84% → 66%，净透出约 2 倍）。
+深色**不采用 floor**，而是靠 guard + 降 scrim：它的失败方向相反
+（浅色文字怕亮照片），而镜像的 `darken` 会把夜景照片唯一还读得出来的高光压平，
+照片会彻底消失。深色 scrim 停在 60% 而不是更低，是因为约束来自导航层上
+11px 的 `--text-subtle` 小字：纯白照片下 50% 给 4.60:1、55% 给 4.73、
+60% 给 4.81，而离线模型比渲染乐观约 3%，断言需要 4.635 ——
+50% 能过浏览器但过不了模型，0.1 的余量不算余量。
+
+**深色的导航层反而变厚了**（44% → 88%，照片模式下）。这不矛盾：
+这个主题的 tier 填充比页面**亮**，照片越亮越把它往上推，11px 浅灰小字就撑不住；
+而卡片装的是 `--text` / `--text-muted`，两者都够亮，所以**只有卡片能让照片多透**。
 
 **仍然存在的代价**：浅色下照片的暗部被 floor（`#a8b8cc`）抬平，
 所以它读起来是一张"高调照片"而不是夜景。这仍然是"对任意照片保证 AA"的价格，
@@ -799,15 +807,18 @@ python -m radar.export_public \
   --state tests/fixtures/state.minimal.json \
   --output .work/public-fixture --base-path /
 python -m radar.build_site \
-  --data .work/public-fixture --output dist-fixture --base-path /
+  --data .work/public-fixture --output .work/dist-fixture --base-path /
 
 # 5. 密钥扫描
-python -m tests.scan_secrets dist-fixture
+python -m tests.scan_secrets .work/dist-fixture
 
 # 6. 本地预览
-python -m http.server 8000 --directory dist-fixture
+python -m http.server 8000 --directory .work/dist-fixture
 # 打开 http://localhost:8000
 ```
+
+构建输出刻意放在 `.work/` 下：`.gitignore` 只忽略 `dist/`，
+一个裸的 `dist-fixture` 会出现在 `git status` 里等着被误提交。
 
 **预期结果：** 第 2 步 `220 passed, 1 skipped`；第 4 步 `provider_count: 3`；
 第 5 步无密钥形状字符串。

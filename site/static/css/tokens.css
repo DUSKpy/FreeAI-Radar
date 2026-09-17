@@ -292,15 +292,19 @@
      below AA. 82% gives L 0.0411 and measured 5.16:1 against a white photo,
      which is the brightest thing a user can hand us.
 
-     Revised 2026-09-17: the scrim stays at 82% here while the light theme
-     dropped to 12%. That is not an inconsistency -- it is the two failure
-     directions. Light theme's risk is a dark photo under dark text, and a
-     blend floor fixes that without covering the picture. Dark theme's risk is
-     a bright photo under LIGHT text, and the mirror-image blend would flatten
-     exactly the highlights the night photo is made of. So this theme keeps the
-     scrim and takes its gains from the material instead: the tiers below are
-     thinner than the 82/84/94 they were. */
-  --photo-scrim: rgb(8 14 26 / 82%);
+     Revised 2026-09-17: the scrim came down from 82% to 60%, and the reason it
+     could is the same one the light theme used -- the bare text has its own
+     guard plate now, so the scrim no longer has to satisfy the worst-placed
+     text on the page. It only has to keep the glass above it dark enough.
+
+     Why 60% and not lower. The binding constraint here is the 11px
+     --text-subtle labels on the nav tier, and the nav tier's fill is LIGHTER
+     than the page, so a bright photo pushes it up fast. Measured against a
+     pure white photo with the nav tier at 88%: 50% gives 4.60:1, 55% gives
+     4.73, 60% gives 4.81. The offline model is about 3% optimistic, so the
+     assertions need 4.635 -- 50% passes the browser but not the model, and a
+     0.1 margin is not a margin. 60% it is. */
+  --photo-scrim: rgb(8 14 26 / 60%);
   --photo-guard: rgb(8 14 26 / 82%);
   --photo-env-opacity: 0.4;
 
@@ -414,16 +418,16 @@
    for the card is only its own contents -- titles and descriptions -- which is
    a much smaller job than carrying the whole page's contrast budget.
 
-   The nav tier is the opposite case. Its fill is LIGHTER than the page in this
-   theme, so making it thicker makes it lighter still, and the 11px
-   --text-subtle labels sitting on it lose contrast: measured 4.03:1 at 70%
-   against the solid backdrop, below AA. The card carries --text and
-   --text-muted instead, both of which are bright enough to survive a lighter
-   surface. So the two tiers move in opposite directions, and that follows from
-   which text sits on each.
+   The nav tier goes UP here (44% -> 88%) while the card comes down
+   (84% -> 66%), and the two directions are both forced by their contents. The
+   nav carries 11px --text-subtle labels, and this theme's tier fill is lighter
+   than the page, so a brighter backdrop pushes those labels toward failure --
+   at the new 60% scrim they need 88% to stay above AA. The card carries --text
+   and --text-muted, both bright enough to survive a lighter surface, so it is
+   the one that can pass more of the photo through.
    ========================================================================== */
 [data-theme="dark"][data-backdrop="photo"] {
-  --glass-nav-clear: rgb(26 38 57 / 82%);
+  --glass-nav-clear: rgb(26 38 57 / 88%);
   --glass-card-clear: rgb(22 32 49 / 66%);
   --glass-plate-clear: rgb(15 23 36 / 94%);
 }
