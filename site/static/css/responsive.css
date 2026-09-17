@@ -632,7 +632,8 @@
     backdrop-filter: none;
   }
 
-  .glass--edge::after {
+  .glass--edge::after,
+  .glass--edge::before {
     display: none;
   }
 

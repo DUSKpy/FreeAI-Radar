@@ -222,6 +222,90 @@
 }
 
 /* ==========================================================================
+   The travelling rim highlight
+   --------------------------------------------------------------------------
+   The edge lens (above) bends what is behind the card. This is the other half
+   of the same illusion: a highlight that travels along the rim, which is how
+   a real pane reads when either it or the light source moves.
+
+   It is a RING, not a wash. The two-layer mask keeps the paint to the border
+   box minus the content box, so the gradient can only ever show in the outer
+   1.5px -- a conic or linear sweep painted over the whole card would grey out
+   the text instead of glinting off the edge.
+
+   Why animate background-position rather than a @property angle driving a
+   conic-gradient: the conic version is prettier on paper but repaints the
+   whole element's gradient every frame, and a directory page carries 24 of
+   these. A linear gradient sliding behind a mask is the cheaper primitive and
+   reads the same at this thickness.
+
+   The card only. .glass--nav and .glass--panel take the strong refraction,
+   which already displaces the backdrop under the rim; adding a screen-space
+   gradient on top of a displaced backdrop is the mismatch the file header
+   warns about, and it shows up as a shimmer.
+   ========================================================================== */
+.glass--card.glass--edge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  padding: 2px;
+  /* The band has to be able to enter and leave the card entirely, which fixes
+     both the size and the position range.
+
+     background-position percentages are relative to (image width - box width),
+     so at `background-size: 300%` the sweep travels 2x the card width. With
+     the band centred at 50% of a 3x-wide image, position 0% puts it half a
+     card-width to the RIGHT of the card and position 100% puts it the same
+     distance to the LEFT -- it crosses the whole rim in between. An earlier
+     version used -150%..150%, which is a 4x-width travel: the gradient spent
+     most of the cycle completely outside the box, so the rim sat dark and the
+     highlight was only visible for a fraction of each loop. */
+  background-image: linear-gradient(
+    100deg,
+    transparent 45%,
+    var(--glass-highlight) 50%,
+    transparent 55%
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: rim-flow 9s linear infinite;
+}
+
+@keyframes rim-flow {
+  from {
+    background-position: 0% 50%;
+  }
+
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+/* The sweep is a moving element, so it goes away wherever motion is not
+   wanted -- and with it the whole pseudo-element, since a static ring would
+   just be a second border. */
+@media (prefers-reduced-motion: reduce) {
+  .glass--card.glass--edge::before {
+    display: none;
+  }
+}
+
+[data-motion="reduced"] .glass--card.glass--edge::before {
+  display: none;
+}
+
+/* ==========================================================================
    Content plates
    --------------------------------------------------------------------------
    The opposite of glass, and just as important. A near-opaque plate for
@@ -249,6 +333,142 @@
 }
 
 /* ==========================================================================
+   Guard plates
+   --------------------------------------------------------------------------
+   The photo scrim used to be one page-wide 88% wash. Its job was to keep a
+   specific kind of text readable: text that has no surface of its own -- the
+   report prose, section headings, pagination, the empty states. Everything
+   else on the page already sits on a panel, and a panel is a better place to
+   solve contrast than a layer over the whole picture.
+
+   A page-wide scrim has to satisfy the worst-placed text anywhere on the page,
+   so it is always priced for the worst case -- and the price is paid by every
+   pixel of the photo, including the pixels behind the cards the user is
+   actually looking at. At 88% only 12% of the picture reached the eye, and
+   since a card sits on top of that, about 4% survived to the screen. That is
+   why "the cards are opaque, I cannot see the photo" was true even though the
+   cards themselves were translucent.
+
+   A guard plate inverts the arrangement: the text that needs a surface gets
+   one, and the picture is left alone everywhere else. The list below comes
+   from a scan of every text node with no painting ancestor
+   (.work/_bare-text-scan.mjs) -- if a new bare block is added to a template it
+   will show up there, and the scan is the check that this list is complete.
+
+   Padding is paired with an equal negative margin, so the plate can be bigger
+   than its text without moving anything. The layout is identical to the
+   unguarded version; only the paint changes.
+   ========================================================================== */
+[data-backdrop="photo"] :is(
+    .section__head,
+    .prose,
+    .changeitem,
+    .state,
+    .deflist,
+    .notfound,
+    .favorites__privacy,
+    .howto,
+    .overview__freshness,
+    .overview__hero-text,
+    .report__meta,
+    .directory__filters,
+    .pager,
+    .provider__identity,
+    .cluster,
+    .directory__count,
+    .howto__title,
+    .howto__body,
+    .section > .helper
+  ) {
+  background: var(--photo-guard);
+  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-4);
+  margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-4));
+}
+
+/* The two blocks that are themselves a row of controls get a tighter plate:
+   at the card radius they read as panels, which is not what they are. */
+[data-backdrop="photo"] :is(.pager, .cluster, .directory__count, .report__meta) {
+  border-radius: var(--radius-control);
+}
+
+/* The footer carries the nav tier by default, and the nav tier is sized for
+   11px labels. What the footer actually holds is 14.5px prose in
+   --text-subtle -- the lightest grey in the palette -- plus the build hash,
+   at the very bottom of the page where a photo is least predictable. Under a
+   photo it takes the plate tier instead: it is content, not navigation. */
+[data-backdrop="photo"] .sitefoot {
+  background: var(--glass-plate-bg);
+}
+
+/* ==========================================================================
+   Small controls under a photo
+   --------------------------------------------------------------------------
+   A chip is a label, not a surface. This is the part that makes "make the
+   cards translucent" actually work: a directory card carries a free-type
+   chip, four protocol tags, a model-id pill and a detail button, and every
+   one of them shipped with an opaque fill. Thinning the card alone left a
+   card that still read as solid, because the controls on top of it covered
+   most of its area.
+
+   They are thinned with color-mix() rather than `opacity`, so the label
+   inside keeps its own contrast -- fading the element would fade the text
+   with it, which is the opposite of what is wanted.
+
+   Only under a photo. Over the flat colour backdrop the controls sit on a
+   uniform field and their solid fills are correct -- the material has nothing
+   to reveal there.
+   ========================================================================== */
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+  [data-backdrop="photo"] .btn {
+    background: color-mix(in srgb, var(--surface) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .btn:hover {
+    background: color-mix(in srgb, var(--surface-soft) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .proto,
+  [data-backdrop="photo"] .service__modelid {
+    background: color-mix(in srgb, var(--surface) var(--control-fill), transparent);
+  }
+
+  /* After the rule above, which would otherwise win on the shared (0,1,1)
+     specificity and flatten the two variants into the base fill. */
+  [data-backdrop="photo"] .proto--on {
+    background: color-mix(in srgb, var(--accent-bg) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .service__modelid {
+    background: color-mix(in srgb, var(--surface-sunken) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .chip--ok {
+    background: color-mix(in srgb, var(--ok-bg) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .chip--warn {
+    background: color-mix(in srgb, var(--warn-bg) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .chip--danger {
+    background: color-mix(in srgb, var(--danger-bg) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .chip--info {
+    background: color-mix(in srgb, var(--info-bg) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .chip--neutral {
+    background: color-mix(in srgb, var(--neutral-bg) var(--control-fill), transparent);
+  }
+
+  [data-backdrop="photo"] .chip--accent {
+    background: color-mix(in srgb, var(--accent-bg) var(--control-fill), transparent);
+  }
+}
+
+/* ==========================================================================
    Reduced transparency
    --------------------------------------------------------------------------
    Both the in-page switch and the OS media query. Refraction goes off with
@@ -268,6 +488,7 @@
 }
 
 [data-transparency="reduced"] .glass--edge::after,
+[data-transparency="reduced"] .glass--edge::before,
 [data-transparency="reduced"] .glass::after {
   display: none;
 }
@@ -286,6 +507,7 @@
   }
 
   .glass--edge::after,
+  .glass--edge::before,
   .glass::after {
     display: none;
   }

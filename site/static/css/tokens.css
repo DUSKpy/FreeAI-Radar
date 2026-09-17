@@ -55,7 +55,40 @@
      of the photo reaches the screen, so it reads as a soft wash rather than a
      picture. That is the price of an AA guarantee over arbitrary content, and
      it is why this stays opt-in. */
-  --photo-scrim: rgb(239 244 251 / 88%);
+  --photo-scrim: rgb(239 244 251 / 12%);
+  /* The floor the photo is blended against, and the reason the scrim could
+     come down from 88% to 12%.
+
+     A scrim bounds the backdrop's luminance by covering the picture up, so
+     every percent of safety is a percent of the image the user never sees. At
+     88% the page was safe but the photo read as a pale wash -- and since a
+     card sits on top of it, only ~4% of the picture survived to the eye.
+     "The cards are opaque, I cannot see the photo" was literally true.
+
+     A blend floor bounds the same luminance from BELOW instead. With
+     `background-blend-mode: lighten`, the darkest a backdrop pixel can be is
+     the floor's own colour, with no scrim over the picture at all. The
+     guarantee is the same -- an arbitrary photo cannot go darker than the
+     floor -- but it is not bought by covering the image up.
+
+     The value is set by what a CARD needs, not by what the bare text needs
+     (bare text has its own guard plate now, see --photo-guard). A card is a
+     translucent surface with dark text on it, so a dark photo behind it drags
+     the card's own fill down with it: at a 30% card over a pure black photo
+     the fill lands at rgb(97) and --text-muted measures 1.17:1. The floor is
+     what stops that. At #a8b8cc the worst case is rgb(176,191,210) under the
+     scrim, a 45% card fill is rgb(212,220,230), and --text-muted measures
+     5.39:1.
+
+     What it costs: the photo's shadows are flattened to the floor colour, so
+     the image reads as a high-key print rather than a night scene. The floor
+     is a blue-grey rather than white so the photo keeps its own hue down
+     there. That trade is the whole reason the picture is now visible at all,
+     and it is documented in docs/delivery.md. */
+  --photo-floor: #a8b8cc;
+  /* The guard plate: the scrim that text gets when it has no surface of its
+     own. See "Guard plates" in glass.css. */
+  --photo-guard: rgb(239 244 251 / 82%);
   /* How much of the colour-blob layer survives under a photo. The blobs exist
      to give glass something to sample; a photo already does that, so keeping
      them at full strength only muddies the image. */
@@ -104,8 +137,8 @@
   /* The CLEAR end of each tier -- what the material looks like with the tint
      slider at 0%. The tinted end is always --surface, so a single number can
      interpolate the whole material. See "The tint slider" below. */
-  --glass-nav-clear: rgb(255 255 255 / 46%);
-  --glass-card-clear: rgb(255 255 255 / 62%);
+  --glass-nav-clear: rgb(255 255 255 / 50%);
+  --glass-card-clear: rgb(255 255 255 / 45%);
   --glass-plate-clear: rgb(255 255 255 / 88%);
 
   --glass-edge: rgb(255 255 255 / 70%);
@@ -257,8 +290,18 @@
      #adbed4 (L 0.5048), so the backdrop must stay at or below L 0.0733. A pure
      white photo at the previous 72% gave rgb(77,82,90), L 0.0752 -- 4.43:1,
      below AA. 82% gives L 0.0411 and measured 5.16:1 against a white photo,
-     which is the brightest thing a user can hand us. */
+     which is the brightest thing a user can hand us.
+
+     Revised 2026-09-17: the scrim stays at 82% here while the light theme
+     dropped to 12%. That is not an inconsistency -- it is the two failure
+     directions. Light theme's risk is a dark photo under dark text, and a
+     blend floor fixes that without covering the picture. Dark theme's risk is
+     a bright photo under LIGHT text, and the mirror-image blend would flatten
+     exactly the highlights the night photo is made of. So this theme keeps the
+     scrim and takes its gains from the material instead: the tiers below are
+     thinner than the 82/84/94 they were. */
   --photo-scrim: rgb(8 14 26 / 82%);
+  --photo-guard: rgb(8 14 26 / 82%);
   --photo-env-opacity: 0.4;
 
   --bg: #080e1a;
@@ -276,8 +319,16 @@
   --on-accent: #06203f;
 
   /* Lighter than the page, so the panel lifts off it. */
+  /* The nav tier is NOT thinner than it was, and that is a correction rather
+     than an oversight. Raising it looked like the consistent move -- the card
+     came down, so the nav should follow -- but in this theme the tier's fill is
+     LIGHTER than the page, so a thicker nav makes it lighter still, and the
+     11px --text-subtle labels on it lose contrast: at 70% the sidebar label
+     measured 4.03:1 against the solid backdrop. Thinner is what those labels
+     need. The card carries --text and --text-muted, which are both bright
+     enough to survive a lighter surface, so it is the one that can come down. */
   --glass-nav-clear: rgb(58 74 100 / 44%);
-  --glass-card-clear: rgb(44 58 82 / 52%);
+  --glass-card-clear: rgb(44 58 82 / 60%);
   --glass-plate-clear: rgb(26 38 57 / 88%);
 
   --glass-edge: rgb(190 214 245 / 22%);
@@ -353,10 +404,27 @@
    pick -- the worst text reaches 5.16:1 (1.15x the AA requirement). Against the
    shipped photo it is higher. tests/test_photo_backdrop_contrast.py asserts the
    same arithmetic offline so it cannot drift.
+
+   ---------------------------------------------------------------------------
+   Revised 2026-09-17: the CARD tier is thinner; the nav tier is not, and the
+   difference is the point rather than an inconsistency.
+
+   The old card value was derived against the bare text that used to sit on the
+   page background. That text carries its own guard plate now, so what is left
+   for the card is only its own contents -- titles and descriptions -- which is
+   a much smaller job than carrying the whole page's contrast budget.
+
+   The nav tier is the opposite case. Its fill is LIGHTER than the page in this
+   theme, so making it thicker makes it lighter still, and the 11px
+   --text-subtle labels sitting on it lose contrast: measured 4.03:1 at 70%
+   against the solid backdrop, below AA. The card carries --text and
+   --text-muted instead, both of which are bright enough to survive a lighter
+   surface. So the two tiers move in opposite directions, and that follows from
+   which text sits on each.
    ========================================================================== */
 [data-theme="dark"][data-backdrop="photo"] {
   --glass-nav-clear: rgb(26 38 57 / 82%);
-  --glass-card-clear: rgb(22 32 49 / 84%);
+  --glass-card-clear: rgb(22 32 49 / 66%);
   --glass-plate-clear: rgb(15 23 36 / 94%);
 }
 
@@ -379,6 +447,7 @@
 :root[data-backdrop="photo"] {
   --glass-blur: 34px;
   --glass-blur-strong: 54px;
+  --control-fill: 62%;
 }
 
 /* ==========================================================================
@@ -411,6 +480,19 @@
 :root,
 [data-theme="dark"] {
   --glass-tint: 0%;
+  /* How much of a small control's own fill survives. 100% is the original
+     design; under a photo the chips, protocol tags and small buttons inside a
+     card thin out so they do not punch opaque holes through the material.
+
+     A chip is a LABEL, not a surface. At full opacity a row of them -- and a
+     directory card carries four or five -- covers enough of the card that the
+     card reads as opaque no matter how thin its own fill is. The card would
+     have been made translucent and the result would still look solid, which is
+     the exact complaint this whole change exists to answer.
+
+     Applied with color-mix() rather than `opacity` so the text inside keeps
+     its own contrast: fading the whole element would fade the label too. */
+  --control-fill: 100%;
   /* --panel-adaptive-tint is set per element by site/static/js/glass-adaptive.js.
      Default 0% makes every panel equal to the non-adaptive behaviour when the
      JS is absent (reduced motion, screenshot tool, SSR fallback). The variable
@@ -641,9 +723,33 @@ body::after {
    The scrim is the first background layer, so it covers the photo and nothing
    else -- it does not dim the panels sitting on top. */
 [data-backdrop="photo"] .env-photo {
+  background-color: var(--photo-floor);
   background-image: linear-gradient(var(--photo-scrim), var(--photo-scrim)),
     url("../img/backdrop-night.jpg");
+  /* Layer 1 (the scrim) composites normally; layer 2 (the photo) is blended
+     against the floor colour with `lighten`, so no photo pixel can come out
+     darker than the floor. */
+  background-blend-mode: normal, lighten;
   opacity: 1;
+}
+
+/* Dark theme keeps the scrim instead of taking a floor, and the difference is
+   not an oversight.
+
+   Bounding from below works in the light theme because dark text needs a
+   LIGHT backdrop: `lighten` flattens the photo's shadows and keeps its
+   highlights, and the highlights are what still reads. The dark theme needs
+   the mirror image, and the mirror image does not survive: its text needs a
+   DARK backdrop, so the blend would flatten the highlights and keep the
+   shadows -- and the shipped photo is a night scene, so what survived would be
+   very nearly black. The picture would disappear.
+
+   A scrim costs 18% of the image but keeps the whole of its range, so that is
+   what this theme keeps. The gain here comes from the material instead: the
+   tiers below are thinner than they were, and a card at 60% passes twice as
+   much of the backdrop as one at 84% did. */
+[data-theme="dark"][data-backdrop="photo"] .env-photo {
+  background-blend-mode: normal, normal;
 }
 
 /* Under a photo the blobs step back: the photo is already something for the
