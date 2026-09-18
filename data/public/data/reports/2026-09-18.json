@@ -1,0 +1,82 @@
+{
+  "date": "2026-09-18",
+  "generated_at": "2026-09-18T04:52:56Z",
+  "data_cutoff": "2026-09-18T04:52:54Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 5,
+    "success_rate_percent": 100.0
+  },
+  "counts": {
+    "new": 1,
+    "important": 1,
+    "pending": 2,
+    "total": 2
+  },
+  "new_entries": [
+    {
+      "id": "ch_d1451c123db31f52",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_dec6cb4af8b18342",
+      "subject_label": "DeepSeek: DeepSeek V4 Flash 0731 (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "deepseek/deepseek-v4-flash-0731:free",
+      "detected_at": "2026-09-18T04:52:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_ce4a24c36d2af9da",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_5b0d40eaaf5443da",
+      "subject_label": "inclusionAI: Ling 3.0 Flash Fin (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "inclusionai/ling-3.0-flash-fin:free",
+      "new": null,
+      "detected_at": "2026-09-18T04:52:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_d1451c123db31f52",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_dec6cb4af8b18342",
+      "subject_label": "DeepSeek: DeepSeek V4 Flash 0731 (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "deepseek/deepseek-v4-flash-0731:free",
+      "detected_at": "2026-09-18T04:52:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_ce4a24c36d2af9da",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_5b0d40eaaf5443da",
+      "subject_label": "inclusionAI: Ling 3.0 Flash Fin (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "inclusionai/ling-3.0-flash-fin:free",
+      "new": null,
+      "detected_at": "2026-09-18T04:52:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}

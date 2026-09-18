@@ -1,84 +1,8 @@
 {
   "schema_version": 1,
+  "dataset_version": "sha256:21328b3930caaac9dab4c302b1b4dd5038e600a7d435a0a0f304634d4ad713b6",
   "generated_at": "2026-09-18T04:52:56Z",
-  "dataset_version": "sha256:714541e7420f2209d626bb6b77e9c1dcfc22e1a8a97f399358d37e371d451efd",
-  "changes_version": "sha256:21328b3930caaac9dab4c302b1b4dd5038e600a7d435a0a0f304634d4ad713b6",
-  "counts": {
-    "providers": 56,
-    "models": 173,
-    "offers": 192,
-    "official_confirmed": 26,
-    "needs_review": 0,
-    "changes_today": 2
-  },
-  "sources": [
-    {
-      "id": "awesome-freellm-apis",
-      "name": "awesome-freellm-apis (GitHub README)",
-      "source_family": "freellm-net",
-      "enabled": true,
-      "status": "ok",
-      "last_attempt_at": "2026-09-18T04:52:54Z",
-      "last_success_at": "2026-09-18T04:52:54Z",
-      "record_count": 85,
-      "error": null
-    },
-    {
-      "id": "free-llm-github",
-      "name": "Free-LLM (GitHub README)",
-      "source_family": "free-llm",
-      "enabled": true,
-      "status": "ok",
-      "last_attempt_at": "2026-09-18T04:52:54Z",
-      "last_success_at": "2026-09-18T04:52:54Z",
-      "record_count": 81,
-      "error": null
-    },
-    {
-      "id": "official-google-ai-studio",
-      "name": "Google AI Studio (official rate limits)",
-      "source_family": "google",
-      "enabled": true,
-      "status": "ok",
-      "last_attempt_at": "2026-09-18T04:52:54Z",
-      "last_success_at": "2026-09-18T04:52:54Z",
-      "record_count": 78,
-      "error": null
-    },
-    {
-      "id": "official-groq",
-      "name": "Groq (official rate limits)",
-      "source_family": "groq",
-      "enabled": true,
-      "status": "ok",
-      "last_attempt_at": "2026-09-18T04:52:54Z",
-      "last_success_at": "2026-09-18T04:52:54Z",
-      "record_count": 0,
-      "error": null
-    },
-    {
-      "id": "official-openrouter",
-      "name": "OpenRouter (official limits documentation)",
-      "source_family": "openrouter",
-      "enabled": true,
-      "status": "ok",
-      "last_attempt_at": "2026-09-18T04:52:54Z",
-      "last_success_at": "2026-09-18T04:52:54Z",
-      "record_count": 0,
-      "error": null
-    }
-  ],
-  "reports": [
-    {
-      "date": "2026-09-18",
-      "url": "data/reports/2026-09-18.md"
-    },
-    {
-      "date": "2026-09-16",
-      "url": "data/reports/2026-09-16.md"
-    }
-  ],
-  "recent_changes": [
+  "changes": [
     {
       "id": "ch_3e4bbf07d3a1e8eb",
       "subject_type": "provider",
