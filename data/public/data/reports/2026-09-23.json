@@ -1,0 +1,142 @@
+{
+  "date": "2026-09-23",
+  "generated_at": "2026-09-23T04:53:04Z",
+  "data_cutoff": "2026-09-23T04:53:03Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 5,
+    "success_rate_percent": 100.0
+  },
+  "counts": {
+    "new": 2,
+    "important": 2,
+    "pending": 4,
+    "total": 4
+  },
+  "new_entries": [
+    {
+      "id": "ch_0cea9f822584b46b",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_218f3f6569de7921",
+      "subject_label": "Solar Pro 4",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": null,
+      "new": "cline-free/solar-pro4",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_0a7f09e5d0a0b061",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_d066f0afcabcbfd0",
+      "subject_label": "z-ai/glm-5.3",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": null,
+      "new": "z-ai/glm-5.3",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_8bc4c537888c1cd1",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_855727004605269c",
+      "subject_label": "glm-5.3-flash",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": "z-ai/glm-5.3-flash",
+      "new": null,
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_4f27ac58933895f2",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_a6d996da76d5295f",
+      "subject_label": "poolside/laguna-xs-2.1",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": "poolside/laguna-xs-2.1",
+      "new": null,
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_0cea9f822584b46b",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_218f3f6569de7921",
+      "subject_label": "Solar Pro 4",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": null,
+      "new": "cline-free/solar-pro4",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_0a7f09e5d0a0b061",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_d066f0afcabcbfd0",
+      "subject_label": "z-ai/glm-5.3",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": null,
+      "new": "z-ai/glm-5.3",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_8bc4c537888c1cd1",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_855727004605269c",
+      "subject_label": "glm-5.3-flash",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": "z-ai/glm-5.3-flash",
+      "new": null,
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_4f27ac58933895f2",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_a6d996da76d5295f",
+      "subject_label": "poolside/laguna-xs-2.1",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": "poolside/laguna-xs-2.1",
+      "new": null,
+      "detected_at": "2026-09-23T04:53:03Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}

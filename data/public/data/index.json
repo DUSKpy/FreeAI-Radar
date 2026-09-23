@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-22T05:08:29Z",
-  "dataset_version": "sha256:5f04e4727e4c24ef192bb0caf9fe34477eece68bf6c4e224305886986af8e58b",
-  "changes_version": "sha256:91ec5faa08eee747d3d11b278ac2debf29411d44fc660bfb1ca9ec0e7752cbe1",
+  "generated_at": "2026-09-23T04:53:04Z",
+  "dataset_version": "sha256:adb90f5a8a95d39ff47805a3109aef8c26433c2fdd5fd6b984b70e36dc0c9b61",
+  "changes_version": "sha256:4b6f847a6c25c32fef801ec353a3115e387ab1ec3d1e93da56d873a999eeecf0",
   "counts": {
     "providers": 56,
     "models": 173,
     "offers": 192,
     "official_confirmed": 26,
     "needs_review": 0,
-    "changes_today": 2
+    "changes_today": 4
   },
   "sources": [
     {
@@ -18,8 +18,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-22T05:08:27Z",
-      "last_success_at": "2026-09-22T05:08:27Z",
+      "last_attempt_at": "2026-09-23T04:53:03Z",
+      "last_success_at": "2026-09-23T04:53:03Z",
       "record_count": 85,
       "error": null
     },
@@ -29,8 +29,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-22T05:08:27Z",
-      "last_success_at": "2026-09-22T05:08:27Z",
+      "last_attempt_at": "2026-09-23T04:53:03Z",
+      "last_success_at": "2026-09-23T04:53:03Z",
       "record_count": 81,
       "error": null
     },
@@ -40,8 +40,8 @@
       "source_family": "google",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-22T05:08:27Z",
-      "last_success_at": "2026-09-22T05:08:27Z",
+      "last_attempt_at": "2026-09-23T04:53:03Z",
+      "last_success_at": "2026-09-23T04:53:03Z",
       "record_count": 78,
       "error": null
     },
@@ -51,8 +51,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-22T05:08:27Z",
-      "last_success_at": "2026-09-22T05:08:27Z",
+      "last_attempt_at": "2026-09-23T04:53:03Z",
+      "last_success_at": "2026-09-23T04:53:03Z",
       "record_count": 0,
       "error": null
     },
@@ -62,13 +62,17 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-22T05:08:27Z",
-      "last_success_at": "2026-09-22T05:08:27Z",
+      "last_attempt_at": "2026-09-23T04:53:03Z",
+      "last_success_at": "2026-09-23T04:53:03Z",
       "record_count": 0,
       "error": null
     }
   ],
   "reports": [
+    {
+      "date": "2026-09-23",
+      "url": "data/reports/2026-09-23.md"
+    },
     {
       "date": "2026-09-22",
       "url": "data/reports/2026-09-22.md"
@@ -1076,6 +1080,70 @@
       "detected_at": "2026-09-22T05:08:27Z",
       "observed_at": "2026-09-22T05:08:27Z",
       "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_0cea9f822584b46b",
+      "subject_type": "model",
+      "subject_id": "m_218f3f6569de7921",
+      "subject_label": "Solar Pro 4",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old_value": null,
+      "new_value": "cline-free/solar-pro4",
+      "change_type": "new_model",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "observed_at": "2026-09-23T04:53:03Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_0a7f09e5d0a0b061",
+      "subject_type": "model",
+      "subject_id": "m_d066f0afcabcbfd0",
+      "subject_label": "z-ai/glm-5.3",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old_value": null,
+      "new_value": "z-ai/glm-5.3",
+      "change_type": "new_model",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "observed_at": "2026-09-23T04:53:03Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_8bc4c537888c1cd1",
+      "subject_type": "model",
+      "subject_id": "m_855727004605269c",
+      "subject_label": "glm-5.3-flash",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old_value": "z-ai/glm-5.3-flash",
+      "new_value": null,
+      "change_type": "missing_from_source",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "observed_at": "2026-09-23T04:53:03Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_4f27ac58933895f2",
+      "subject_type": "model",
+      "subject_id": "m_a6d996da76d5295f",
+      "subject_label": "poolside/laguna-xs-2.1",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old_value": "poolside/laguna-xs-2.1",
+      "new_value": null,
+      "change_type": "missing_from_source",
+      "detected_at": "2026-09-23T04:53:03Z",
+      "observed_at": "2026-09-23T04:53:03Z",
+      "source_id": "free-llm",
       "confirmed": false,
       "note": "no longer listed by this source; not a confirmed shutdown"
     }
