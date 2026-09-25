@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-24T05:02:14Z",
-  "dataset_version": "sha256:f63eaee8e49f4d313eb66e8dc4f5be40dc1e8afe7b75307b37d8131bf9cb5ef6",
-  "changes_version": "sha256:288845b8481faaf8d74fc5b779ff6547e8ccd09320f76530d46c3eb79b354d1e",
+  "generated_at": "2026-09-25T05:05:43Z",
+  "dataset_version": "sha256:7d19bfcdb03eeaeee4fd2ecac285ae3d4760559e05936727bcf9f01a01b283fa",
+  "changes_version": "sha256:f9c153c10a2596187a901d29a930dfcf0f2b97bb90c56a965765b2646c45576a",
   "counts": {
     "providers": 56,
     "models": 173,
     "offers": 192,
     "official_confirmed": 26,
     "needs_review": 0,
-    "changes_today": 6
+    "changes_today": 2
   },
   "sources": [
     {
@@ -18,8 +18,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-24T05:02:13Z",
-      "last_success_at": "2026-09-24T05:02:13Z",
+      "last_attempt_at": "2026-09-25T05:05:42Z",
+      "last_success_at": "2026-09-25T05:05:42Z",
       "record_count": 85,
       "error": null
     },
@@ -29,8 +29,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-24T05:02:13Z",
-      "last_success_at": "2026-09-24T05:02:13Z",
+      "last_attempt_at": "2026-09-25T05:05:42Z",
+      "last_success_at": "2026-09-25T05:05:42Z",
       "record_count": 81,
       "error": null
     },
@@ -40,8 +40,8 @@
       "source_family": "google",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-24T05:02:13Z",
-      "last_success_at": "2026-09-24T05:02:13Z",
+      "last_attempt_at": "2026-09-25T05:05:42Z",
+      "last_success_at": "2026-09-25T05:05:42Z",
       "record_count": 78,
       "error": null
     },
@@ -51,8 +51,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-24T05:02:13Z",
-      "last_success_at": "2026-09-24T05:02:13Z",
+      "last_attempt_at": "2026-09-25T05:05:42Z",
+      "last_success_at": "2026-09-25T05:05:42Z",
       "record_count": 0,
       "error": null
     },
@@ -62,13 +62,17 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-09-24T05:02:13Z",
-      "last_success_at": "2026-09-24T05:02:13Z",
+      "last_attempt_at": "2026-09-25T05:05:42Z",
+      "last_success_at": "2026-09-25T05:05:42Z",
       "record_count": 0,
       "error": null
     }
   ],
   "reports": [
+    {
+      "date": "2026-09-25",
+      "url": "data/reports/2026-09-25.md"
+    },
     {
       "date": "2026-09-24",
       "url": "data/reports/2026-09-24.md"
@@ -1243,6 +1247,38 @@
       "change_type": "missing_from_source",
       "detected_at": "2026-09-24T05:02:13Z",
       "observed_at": "2026-09-24T05:02:13Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_a40408c91ba93e6d",
+      "subject_type": "model",
+      "subject_id": "m_f7810925eb5fbc40",
+      "subject_label": "Space Bunny Alpha",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old_value": null,
+      "new_value": "stealth/space-bunny-alpha",
+      "change_type": "new_model",
+      "detected_at": "2026-09-25T05:05:42Z",
+      "observed_at": "2026-09-25T05:05:42Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_a31629aaa6d11176",
+      "subject_type": "model",
+      "subject_id": "m_6de714ea45231f24",
+      "subject_label": "Poolside: Laguna S 2.1 (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old_value": "poolside/laguna-s-2.1:free",
+      "new_value": null,
+      "change_type": "missing_from_source",
+      "detected_at": "2026-09-25T05:05:42Z",
+      "observed_at": "2026-09-25T05:05:42Z",
       "source_id": "free-llm",
       "confirmed": false,
       "note": "no longer listed by this source; not a confirmed shutdown"
