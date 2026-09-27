@@ -1,0 +1,51 @@
+{
+  "date": "2026-09-27",
+  "generated_at": "2026-09-27T05:26:36Z",
+  "data_cutoff": "2026-09-27T05:26:35Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 5,
+    "success_rate_percent": 100.0
+  },
+  "counts": {
+    "new": 1,
+    "important": 0,
+    "pending": 1,
+    "total": 1
+  },
+  "new_entries": [
+    {
+      "id": "ch_1b94320ef41b95a1",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_bc480f1be3453508",
+      "subject_label": "moonshotai/kimi-k2.6",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": null,
+      "new": "moonshotai/kimi-k2.6",
+      "detected_at": "2026-09-27T05:26:35Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [],
+  "pending": [
+    {
+      "id": "ch_1b94320ef41b95a1",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_bc480f1be3453508",
+      "subject_label": "moonshotai/kimi-k2.6",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": null,
+      "new": "moonshotai/kimi-k2.6",
+      "detected_at": "2026-09-27T05:26:35Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ]
+}
