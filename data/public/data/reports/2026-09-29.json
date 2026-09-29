@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-27",
+  "date": "2026-09-29",
   "generated_at": "2026-09-29T05:52:08Z",
   "data_cutoff": "2026-09-29T05:52:07Z",
   "collection": {
@@ -15,16 +15,16 @@
   },
   "new_entries": [
     {
-      "id": "ch_1b94320ef41b95a1",
+      "id": "ch_08246cd62095ce94",
       "type": "new_model",
       "subject_type": "model",
-      "subject_id": "m_bc480f1be3453508",
-      "subject_label": "moonshotai/kimi-k2.6",
-      "provider_id": "p_nvidia",
+      "subject_id": "m_6de714ea45231f24",
+      "subject_label": "Poolside: Laguna S 2.1 (free)",
+      "provider_id": "p_openrouter",
       "field": "model_id",
       "old": null,
-      "new": "moonshotai/kimi-k2.6",
-      "detected_at": "2026-09-27T05:26:35Z",
+      "new": "poolside/laguna-s-2.1:free",
+      "detected_at": "2026-09-29T05:52:07Z",
       "source_id": "free-llm",
       "confirmed": false,
       "note": null
@@ -33,16 +33,16 @@
   "important_changes": [],
   "pending": [
     {
-      "id": "ch_1b94320ef41b95a1",
+      "id": "ch_08246cd62095ce94",
       "type": "new_model",
       "subject_type": "model",
-      "subject_id": "m_bc480f1be3453508",
-      "subject_label": "moonshotai/kimi-k2.6",
-      "provider_id": "p_nvidia",
+      "subject_id": "m_6de714ea45231f24",
+      "subject_label": "Poolside: Laguna S 2.1 (free)",
+      "provider_id": "p_openrouter",
       "field": "model_id",
       "old": null,
-      "new": "moonshotai/kimi-k2.6",
-      "detected_at": "2026-09-27T05:26:35Z",
+      "new": "poolside/laguna-s-2.1:free",
+      "detected_at": "2026-09-29T05:52:07Z",
       "source_id": "free-llm",
       "confirmed": false,
       "note": null
