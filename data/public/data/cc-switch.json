@@ -1717,6 +1717,434 @@
         }
       }
     },
+    "p_api-airforce": {
+      "provider_slug": "api-airforce",
+      "provider_name": "Api.Airforce",
+      "base_url": "https://api.airforce/v1",
+      "protocols": [],
+      "apps": {
+        "claude": {
+          "status": "unknown",
+          "target": "claude",
+          "target_label": "Claude Code",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Api.Airforce",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "claude",
+              "required": true,
+              "hint": "Claude Code",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.airforce/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://api.airforce/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Api.Airforce",
+            "target_app": "claude",
+            "base_url": "https://api.airforce/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "codex": {
+          "status": "unknown",
+          "target": "codex",
+          "target_label": "Codex",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Api.Airforce",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "codex",
+              "required": true,
+              "hint": "Codex",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.airforce/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://api.airforce/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Api.Airforce",
+            "target_app": "codex",
+            "base_url": "https://api.airforce/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "gemini": {
+          "status": "unknown",
+          "target": "gemini",
+          "target_label": "Gemini CLI",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Api.Airforce",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "gemini",
+              "required": true,
+              "hint": "Gemini CLI",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.airforce/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://api.airforce/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Api.Airforce",
+            "target_app": "gemini",
+            "base_url": "https://api.airforce/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "opencode": {
+          "status": "unknown",
+          "target": "opencode",
+          "target_label": "OpenCode",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Api.Airforce",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "opencode",
+              "required": true,
+              "hint": "OpenCode",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.airforce/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://api.airforce/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Api.Airforce",
+            "target_app": "opencode",
+            "base_url": "https://api.airforce/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "openclaw": {
+          "status": "unknown",
+          "target": "openclaw",
+          "target_label": "OpenClaw",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Api.Airforce",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "openclaw",
+              "required": true,
+              "hint": "OpenClaw",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.airforce/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://api.airforce/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Api.Airforce",
+            "target_app": "openclaw",
+            "base_url": "https://api.airforce/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        }
+      }
+    },
     "p_cerebras": {
       "provider_slug": "cerebras",
       "provider_name": "Cerebras",
@@ -1770,7 +2198,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Llama 3.1 70B (Fast)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -1801,7 +2229,7 @@
             "provider_name": "Cerebras",
             "target_app": "claude",
             "base_url": "https://api.cerebras.ai/v1",
-            "model_id": "Llama 3.1 70B (Fast)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -1854,7 +2282,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Llama 3.1 70B (Fast)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -1885,7 +2313,7 @@
             "provider_name": "Cerebras",
             "target_app": "codex",
             "base_url": "https://api.cerebras.ai/v1",
-            "model_id": "Llama 3.1 70B (Fast)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -1938,7 +2366,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Llama 3.1 70B (Fast)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -1969,7 +2397,7 @@
             "provider_name": "Cerebras",
             "target_app": "gemini",
             "base_url": "https://api.cerebras.ai/v1",
-            "model_id": "Llama 3.1 70B (Fast)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -2022,7 +2450,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Llama 3.1 70B (Fast)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2053,7 +2481,7 @@
             "provider_name": "Cerebras",
             "target_app": "opencode",
             "base_url": "https://api.cerebras.ai/v1",
-            "model_id": "Llama 3.1 70B (Fast)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -2106,7 +2534,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Llama 3.1 70B (Fast)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2137,7 +2565,7 @@
             "provider_name": "Cerebras",
             "target_app": "openclaw",
             "base_url": "https://api.cerebras.ai/v1",
-            "model_id": "Llama 3.1 70B (Fast)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -3054,7 +3482,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/deepseek-v4.1-flash",
+              "value": "cline-free/mimo-v2.6-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3085,7 +3513,7 @@
             "provider_name": "Cline",
             "target_app": "claude",
             "base_url": null,
-            "model_id": "cline-free/deepseek-v4.1-flash",
+            "model_id": "cline-free/mimo-v2.6-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3138,7 +3566,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/deepseek-v4.1-flash",
+              "value": "cline-free/mimo-v2.6-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3169,7 +3597,7 @@
             "provider_name": "Cline",
             "target_app": "codex",
             "base_url": null,
-            "model_id": "cline-free/deepseek-v4.1-flash",
+            "model_id": "cline-free/mimo-v2.6-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3222,7 +3650,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/deepseek-v4.1-flash",
+              "value": "cline-free/mimo-v2.6-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3253,7 +3681,7 @@
             "provider_name": "Cline",
             "target_app": "gemini",
             "base_url": null,
-            "model_id": "cline-free/deepseek-v4.1-flash",
+            "model_id": "cline-free/mimo-v2.6-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3306,7 +3734,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/deepseek-v4.1-flash",
+              "value": "cline-free/mimo-v2.6-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3337,7 +3765,7 @@
             "provider_name": "Cline",
             "target_app": "opencode",
             "base_url": null,
-            "model_id": "cline-free/deepseek-v4.1-flash",
+            "model_id": "cline-free/mimo-v2.6-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3390,7 +3818,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/deepseek-v4.1-flash",
+              "value": "cline-free/mimo-v2.6-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3421,7 +3849,7 @@
             "provider_name": "Cline",
             "target_app": "openclaw",
             "base_url": null,
-            "model_id": "cline-free/deepseek-v4.1-flash",
+            "model_id": "cline-free/mimo-v2.6-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3910,7 +4338,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Command A (111B)",
+              "value": "Command A Reasoning",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3941,7 +4369,7 @@
             "provider_name": "Cohere",
             "target_app": "claude",
             "base_url": "https://api.cohere.ai/v1",
-            "model_id": "Command A (111B)",
+            "model_id": "Command A Reasoning",
             "protocols": [],
             "api_key": null
           },
@@ -3994,7 +4422,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Command A (111B)",
+              "value": "Command A Reasoning",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4025,7 +4453,7 @@
             "provider_name": "Cohere",
             "target_app": "codex",
             "base_url": "https://api.cohere.ai/v1",
-            "model_id": "Command A (111B)",
+            "model_id": "Command A Reasoning",
             "protocols": [],
             "api_key": null
           },
@@ -4078,7 +4506,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Command A (111B)",
+              "value": "Command A Reasoning",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4109,7 +4537,7 @@
             "provider_name": "Cohere",
             "target_app": "gemini",
             "base_url": "https://api.cohere.ai/v1",
-            "model_id": "Command A (111B)",
+            "model_id": "Command A Reasoning",
             "protocols": [],
             "api_key": null
           },
@@ -4162,7 +4590,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Command A (111B)",
+              "value": "Command A Reasoning",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4193,7 +4621,7 @@
             "provider_name": "Cohere",
             "target_app": "opencode",
             "base_url": "https://api.cohere.ai/v1",
-            "model_id": "Command A (111B)",
+            "model_id": "Command A Reasoning",
             "protocols": [],
             "api_key": null
           },
@@ -4246,7 +4674,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Command A (111B)",
+              "value": "Command A Reasoning",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4277,7 +4705,7 @@
             "provider_name": "Cohere",
             "target_app": "openclaw",
             "base_url": "https://api.cohere.ai/v1",
-            "model_id": "Command A (111B)",
+            "model_id": "Command A Reasoning",
             "protocols": [],
             "api_key": null
           },
@@ -5194,7 +5622,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "deepseek-chat-v3-2",
+              "value": "DeepSeek Flash (V4.1)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5225,7 +5653,7 @@
             "provider_name": "DeepSeek",
             "target_app": "claude",
             "base_url": "https://api.deepseek.com/v1",
-            "model_id": "deepseek-chat-v3-2",
+            "model_id": "DeepSeek Flash (V4.1)",
             "protocols": [],
             "api_key": null
           },
@@ -5278,7 +5706,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "deepseek-chat-v3-2",
+              "value": "DeepSeek Flash (V4.1)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5309,7 +5737,7 @@
             "provider_name": "DeepSeek",
             "target_app": "codex",
             "base_url": "https://api.deepseek.com/v1",
-            "model_id": "deepseek-chat-v3-2",
+            "model_id": "DeepSeek Flash (V4.1)",
             "protocols": [],
             "api_key": null
           },
@@ -5362,7 +5790,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "deepseek-chat-v3-2",
+              "value": "DeepSeek Flash (V4.1)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5393,7 +5821,7 @@
             "provider_name": "DeepSeek",
             "target_app": "gemini",
             "base_url": "https://api.deepseek.com/v1",
-            "model_id": "deepseek-chat-v3-2",
+            "model_id": "DeepSeek Flash (V4.1)",
             "protocols": [],
             "api_key": null
           },
@@ -5446,7 +5874,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "deepseek-chat-v3-2",
+              "value": "DeepSeek Flash (V4.1)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5477,7 +5905,7 @@
             "provider_name": "DeepSeek",
             "target_app": "opencode",
             "base_url": "https://api.deepseek.com/v1",
-            "model_id": "deepseek-chat-v3-2",
+            "model_id": "DeepSeek Flash (V4.1)",
             "protocols": [],
             "api_key": null
           },
@@ -5530,7 +5958,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "deepseek-chat-v3-2",
+              "value": "DeepSeek Flash (V4.1)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5561,7 +5989,7 @@
             "provider_name": "DeepSeek",
             "target_app": "openclaw",
             "base_url": "https://api.deepseek.com/v1",
-            "model_id": "deepseek-chat-v3-2",
+            "model_id": "DeepSeek Flash (V4.1)",
             "protocols": [],
             "api_key": null
           },
@@ -5622,7 +6050,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5653,7 +6081,7 @@
             "provider_name": "Fireworks AI",
             "target_app": "claude",
             "base_url": "https://api.fireworks.ai/inference/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -5706,7 +6134,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5737,7 +6165,7 @@
             "provider_name": "Fireworks AI",
             "target_app": "codex",
             "base_url": "https://api.fireworks.ai/inference/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -5790,7 +6218,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5821,7 +6249,7 @@
             "provider_name": "Fireworks AI",
             "target_app": "gemini",
             "base_url": "https://api.fireworks.ai/inference/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -5874,7 +6302,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5905,7 +6333,7 @@
             "provider_name": "Fireworks AI",
             "target_app": "opencode",
             "base_url": "https://api.fireworks.ai/inference/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -5958,7 +6386,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5989,7 +6417,7 @@
             "provider_name": "Fireworks AI",
             "target_app": "openclaw",
             "base_url": "https://api.fireworks.ai/inference/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -6050,7 +6478,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6081,7 +6509,7 @@
             "provider_name": "Friendli AI",
             "target_app": "claude",
             "base_url": "https://inference.friendli.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.2",
             "protocols": [],
             "api_key": null
           },
@@ -6134,7 +6562,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6165,7 +6593,7 @@
             "provider_name": "Friendli AI",
             "target_app": "codex",
             "base_url": "https://inference.friendli.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.2",
             "protocols": [],
             "api_key": null
           },
@@ -6218,7 +6646,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6249,7 +6677,7 @@
             "provider_name": "Friendli AI",
             "target_app": "gemini",
             "base_url": "https://inference.friendli.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.2",
             "protocols": [],
             "api_key": null
           },
@@ -6302,7 +6730,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6333,7 +6761,7 @@
             "provider_name": "Friendli AI",
             "target_app": "opencode",
             "base_url": "https://inference.friendli.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.2",
             "protocols": [],
             "api_key": null
           },
@@ -6386,7 +6814,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6417,7 +6845,7 @@
             "provider_name": "Friendli AI",
             "target_app": "openclaw",
             "base_url": "https://inference.friendli.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.2",
             "protocols": [],
             "api_key": null
           },
@@ -6906,7 +7334,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Gemini 3.0 Flash",
+              "value": "Gemini 3.1 Flash-Lite",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6937,7 +7365,7 @@
             "provider_name": "Google AI Studio",
             "target_app": "claude",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "Gemini 3.0 Flash",
+            "model_id": "Gemini 3.1 Flash-Lite",
             "protocols": [],
             "api_key": null
           },
@@ -6990,7 +7418,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Gemini 3.0 Flash",
+              "value": "Gemini 3.1 Flash-Lite",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7021,7 +7449,7 @@
             "provider_name": "Google AI Studio",
             "target_app": "codex",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "Gemini 3.0 Flash",
+            "model_id": "Gemini 3.1 Flash-Lite",
             "protocols": [],
             "api_key": null
           },
@@ -7074,7 +7502,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Gemini 3.0 Flash",
+              "value": "Gemini 3.1 Flash-Lite",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7105,7 +7533,7 @@
             "provider_name": "Google AI Studio",
             "target_app": "gemini",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "Gemini 3.0 Flash",
+            "model_id": "Gemini 3.1 Flash-Lite",
             "protocols": [],
             "api_key": null
           },
@@ -7158,7 +7586,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Gemini 3.0 Flash",
+              "value": "Gemini 3.1 Flash-Lite",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7189,7 +7617,7 @@
             "provider_name": "Google AI Studio",
             "target_app": "opencode",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "Gemini 3.0 Flash",
+            "model_id": "Gemini 3.1 Flash-Lite",
             "protocols": [],
             "api_key": null
           },
@@ -7242,7 +7670,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Gemini 3.0 Flash",
+              "value": "Gemini 3.1 Flash-Lite",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7273,7 +7701,7 @@
             "provider_name": "Google AI Studio",
             "target_app": "openclaw",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "Gemini 3.0 Flash",
+            "model_id": "Gemini 3.1 Flash-Lite",
             "protocols": [],
             "api_key": null
           },
@@ -7334,7 +7762,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Grok-2",
+              "value": "grok-2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7365,7 +7793,7 @@
             "provider_name": "Grok (xAI)",
             "target_app": "claude",
             "base_url": "https://api.x.ai/v1",
-            "model_id": "Grok-2",
+            "model_id": "grok-2",
             "protocols": [],
             "api_key": null
           },
@@ -7418,7 +7846,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Grok-2",
+              "value": "grok-2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7449,7 +7877,7 @@
             "provider_name": "Grok (xAI)",
             "target_app": "codex",
             "base_url": "https://api.x.ai/v1",
-            "model_id": "Grok-2",
+            "model_id": "grok-2",
             "protocols": [],
             "api_key": null
           },
@@ -7502,7 +7930,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Grok-2",
+              "value": "grok-2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7533,7 +7961,7 @@
             "provider_name": "Grok (xAI)",
             "target_app": "gemini",
             "base_url": "https://api.x.ai/v1",
-            "model_id": "Grok-2",
+            "model_id": "grok-2",
             "protocols": [],
             "api_key": null
           },
@@ -7586,7 +8014,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Grok-2",
+              "value": "grok-2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7617,7 +8045,7 @@
             "provider_name": "Grok (xAI)",
             "target_app": "opencode",
             "base_url": "https://api.x.ai/v1",
-            "model_id": "Grok-2",
+            "model_id": "grok-2",
             "protocols": [],
             "api_key": null
           },
@@ -7670,7 +8098,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Grok-2",
+              "value": "grok-2",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7701,7 +8129,435 @@
             "provider_name": "Grok (xAI)",
             "target_app": "openclaw",
             "base_url": "https://api.x.ai/v1",
-            "model_id": "Grok-2",
+            "model_id": "grok-2",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        }
+      }
+    },
+    "p_grokified": {
+      "provider_slug": "grokified",
+      "provider_name": "Grokified",
+      "base_url": "https://api.grokified.com/v1",
+      "protocols": [],
+      "apps": {
+        "claude": {
+          "status": "unknown",
+          "target": "claude",
+          "target_label": "Claude Code",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Grokified",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "claude",
+              "required": true,
+              "hint": "Claude Code",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.grokified.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "grok-4.3",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://grokified.com",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Grokified",
+            "target_app": "claude",
+            "base_url": "https://api.grokified.com/v1",
+            "model_id": "grok-4.3",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "codex": {
+          "status": "unknown",
+          "target": "codex",
+          "target_label": "Codex",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Grokified",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "codex",
+              "required": true,
+              "hint": "Codex",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.grokified.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "grok-4.3",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://grokified.com",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Grokified",
+            "target_app": "codex",
+            "base_url": "https://api.grokified.com/v1",
+            "model_id": "grok-4.3",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "gemini": {
+          "status": "unknown",
+          "target": "gemini",
+          "target_label": "Gemini CLI",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Grokified",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "gemini",
+              "required": true,
+              "hint": "Gemini CLI",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.grokified.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "grok-4.3",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://grokified.com",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Grokified",
+            "target_app": "gemini",
+            "base_url": "https://api.grokified.com/v1",
+            "model_id": "grok-4.3",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "opencode": {
+          "status": "unknown",
+          "target": "opencode",
+          "target_label": "OpenCode",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Grokified",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "opencode",
+              "required": true,
+              "hint": "OpenCode",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.grokified.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "grok-4.3",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://grokified.com",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Grokified",
+            "target_app": "opencode",
+            "base_url": "https://api.grokified.com/v1",
+            "model_id": "grok-4.3",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "openclaw": {
+          "status": "unknown",
+          "target": "openclaw",
+          "target_label": "OpenClaw",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Grokified",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "openclaw",
+              "required": true,
+              "hint": "OpenClaw",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.grokified.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "grok-4.3",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://grokified.com",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Grokified",
+            "target_app": "openclaw",
+            "base_url": "https://api.grokified.com/v1",
+            "model_id": "grok-4.3",
             "protocols": [],
             "api_key": null
           },
@@ -9421,434 +10277,6 @@
         }
       }
     },
-    "p_hyperbolic": {
-      "provider_slug": "hyperbolic",
-      "provider_name": "Hyperbolic",
-      "base_url": "https://api.hyperbolic.xyz/v1",
-      "protocols": [],
-      "apps": {
-        "claude": {
-          "status": "unknown",
-          "target": "claude",
-          "target_label": "Claude Code",
-          "supported_version": "3.20.3",
-          "supported_commit": "06082e1",
-          "resource": "provider",
-          "protocol": null,
-          "protocol_label": null,
-          "requires_conversion": false,
-          "reason": "protocol_unknown",
-          "warnings": [
-            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
-            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
-          ],
-          "deep_link": null,
-          "fields": [
-            {
-              "key": "name",
-              "label": "Provider 名称",
-              "value": "Hyperbolic",
-              "required": true,
-              "hint": "在 CC Switch 中显示的供应商名称",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "app",
-              "label": "目标应用",
-              "value": "claude",
-              "required": true,
-              "hint": "Claude Code",
-              "secret": false,
-              "copiable": false
-            },
-            {
-              "key": "endpoint",
-              "label": "Base URL",
-              "value": "https://api.hyperbolic.xyz/v1",
-              "required": true,
-              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "model",
-              "label": "模型 ID",
-              "value": null,
-              "required": false,
-              "hint": "精确的上游模型标识",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "homepage",
-              "label": "供应商官网",
-              "value": "https://app.hyperbolic.xyz/",
-              "required": false,
-              "hint": "可选",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "apiKey",
-              "label": "API Key",
-              "value": null,
-              "required": true,
-              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
-              "secret": true,
-              "copiable": false
-            }
-          ],
-          "radar_export": {
-            "kind": "freeai-radar.exchange.v1",
-            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
-            "provider_name": "Hyperbolic",
-            "target_app": "claude",
-            "base_url": "https://api.hyperbolic.xyz/v1",
-            "model_id": null,
-            "protocols": [],
-            "api_key": null
-          },
-          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
-        },
-        "codex": {
-          "status": "unknown",
-          "target": "codex",
-          "target_label": "Codex",
-          "supported_version": "3.20.3",
-          "supported_commit": "06082e1",
-          "resource": "provider",
-          "protocol": null,
-          "protocol_label": null,
-          "requires_conversion": false,
-          "reason": "protocol_unknown",
-          "warnings": [
-            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
-            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
-          ],
-          "deep_link": null,
-          "fields": [
-            {
-              "key": "name",
-              "label": "Provider 名称",
-              "value": "Hyperbolic",
-              "required": true,
-              "hint": "在 CC Switch 中显示的供应商名称",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "app",
-              "label": "目标应用",
-              "value": "codex",
-              "required": true,
-              "hint": "Codex",
-              "secret": false,
-              "copiable": false
-            },
-            {
-              "key": "endpoint",
-              "label": "Base URL",
-              "value": "https://api.hyperbolic.xyz/v1",
-              "required": true,
-              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "model",
-              "label": "模型 ID",
-              "value": null,
-              "required": false,
-              "hint": "精确的上游模型标识",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "homepage",
-              "label": "供应商官网",
-              "value": "https://app.hyperbolic.xyz/",
-              "required": false,
-              "hint": "可选",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "apiKey",
-              "label": "API Key",
-              "value": null,
-              "required": true,
-              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
-              "secret": true,
-              "copiable": false
-            }
-          ],
-          "radar_export": {
-            "kind": "freeai-radar.exchange.v1",
-            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
-            "provider_name": "Hyperbolic",
-            "target_app": "codex",
-            "base_url": "https://api.hyperbolic.xyz/v1",
-            "model_id": null,
-            "protocols": [],
-            "api_key": null
-          },
-          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
-        },
-        "gemini": {
-          "status": "unknown",
-          "target": "gemini",
-          "target_label": "Gemini CLI",
-          "supported_version": "3.20.3",
-          "supported_commit": "06082e1",
-          "resource": "provider",
-          "protocol": null,
-          "protocol_label": null,
-          "requires_conversion": false,
-          "reason": "protocol_unknown",
-          "warnings": [
-            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
-            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
-          ],
-          "deep_link": null,
-          "fields": [
-            {
-              "key": "name",
-              "label": "Provider 名称",
-              "value": "Hyperbolic",
-              "required": true,
-              "hint": "在 CC Switch 中显示的供应商名称",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "app",
-              "label": "目标应用",
-              "value": "gemini",
-              "required": true,
-              "hint": "Gemini CLI",
-              "secret": false,
-              "copiable": false
-            },
-            {
-              "key": "endpoint",
-              "label": "Base URL",
-              "value": "https://api.hyperbolic.xyz/v1",
-              "required": true,
-              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "model",
-              "label": "模型 ID",
-              "value": null,
-              "required": false,
-              "hint": "精确的上游模型标识",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "homepage",
-              "label": "供应商官网",
-              "value": "https://app.hyperbolic.xyz/",
-              "required": false,
-              "hint": "可选",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "apiKey",
-              "label": "API Key",
-              "value": null,
-              "required": true,
-              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
-              "secret": true,
-              "copiable": false
-            }
-          ],
-          "radar_export": {
-            "kind": "freeai-radar.exchange.v1",
-            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
-            "provider_name": "Hyperbolic",
-            "target_app": "gemini",
-            "base_url": "https://api.hyperbolic.xyz/v1",
-            "model_id": null,
-            "protocols": [],
-            "api_key": null
-          },
-          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
-        },
-        "opencode": {
-          "status": "unknown",
-          "target": "opencode",
-          "target_label": "OpenCode",
-          "supported_version": "3.20.3",
-          "supported_commit": "06082e1",
-          "resource": "provider",
-          "protocol": null,
-          "protocol_label": null,
-          "requires_conversion": false,
-          "reason": "protocol_unknown",
-          "warnings": [
-            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
-            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
-          ],
-          "deep_link": null,
-          "fields": [
-            {
-              "key": "name",
-              "label": "Provider 名称",
-              "value": "Hyperbolic",
-              "required": true,
-              "hint": "在 CC Switch 中显示的供应商名称",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "app",
-              "label": "目标应用",
-              "value": "opencode",
-              "required": true,
-              "hint": "OpenCode",
-              "secret": false,
-              "copiable": false
-            },
-            {
-              "key": "endpoint",
-              "label": "Base URL",
-              "value": "https://api.hyperbolic.xyz/v1",
-              "required": true,
-              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "model",
-              "label": "模型 ID",
-              "value": null,
-              "required": false,
-              "hint": "精确的上游模型标识",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "homepage",
-              "label": "供应商官网",
-              "value": "https://app.hyperbolic.xyz/",
-              "required": false,
-              "hint": "可选",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "apiKey",
-              "label": "API Key",
-              "value": null,
-              "required": true,
-              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
-              "secret": true,
-              "copiable": false
-            }
-          ],
-          "radar_export": {
-            "kind": "freeai-radar.exchange.v1",
-            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
-            "provider_name": "Hyperbolic",
-            "target_app": "opencode",
-            "base_url": "https://api.hyperbolic.xyz/v1",
-            "model_id": null,
-            "protocols": [],
-            "api_key": null
-          },
-          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
-        },
-        "openclaw": {
-          "status": "unknown",
-          "target": "openclaw",
-          "target_label": "OpenClaw",
-          "supported_version": "3.20.3",
-          "supported_commit": "06082e1",
-          "resource": "provider",
-          "protocol": null,
-          "protocol_label": null,
-          "requires_conversion": false,
-          "reason": "protocol_unknown",
-          "warnings": [
-            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
-            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
-          ],
-          "deep_link": null,
-          "fields": [
-            {
-              "key": "name",
-              "label": "Provider 名称",
-              "value": "Hyperbolic",
-              "required": true,
-              "hint": "在 CC Switch 中显示的供应商名称",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "app",
-              "label": "目标应用",
-              "value": "openclaw",
-              "required": true,
-              "hint": "OpenClaw",
-              "secret": false,
-              "copiable": false
-            },
-            {
-              "key": "endpoint",
-              "label": "Base URL",
-              "value": "https://api.hyperbolic.xyz/v1",
-              "required": true,
-              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "model",
-              "label": "模型 ID",
-              "value": null,
-              "required": false,
-              "hint": "精确的上游模型标识",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "homepage",
-              "label": "供应商官网",
-              "value": "https://app.hyperbolic.xyz/",
-              "required": false,
-              "hint": "可选",
-              "secret": false,
-              "copiable": true
-            },
-            {
-              "key": "apiKey",
-              "label": "API Key",
-              "value": null,
-              "required": true,
-              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
-              "secret": true,
-              "copiable": false
-            }
-          ],
-          "radar_export": {
-            "kind": "freeai-radar.exchange.v1",
-            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
-            "provider_name": "Hyperbolic",
-            "target_app": "openclaw",
-            "base_url": "https://api.hyperbolic.xyz/v1",
-            "model_id": null,
-            "protocols": [],
-            "api_key": null
-          },
-          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
-        }
-      }
-    },
     "p_inference-net": {
       "provider_slug": "inference-net",
       "provider_name": "Inference.net",
@@ -10270,6 +10698,434 @@
             "target_app": "openclaw",
             "base_url": "https://api.inference.net/v1",
             "model_id": "DeepSeek-R1",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        }
+      }
+    },
+    "p_kilo-ai-gateway": {
+      "provider_slug": "kilo-ai-gateway",
+      "provider_name": "Kilo AI Gateway",
+      "base_url": "https://api.kilo.ai/api/gateway",
+      "protocols": [],
+      "apps": {
+        "claude": {
+          "status": "unknown",
+          "target": "claude",
+          "target_label": "Claude Code",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Kilo AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "claude",
+              "required": true,
+              "hint": "Claude Code",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.kilo.ai/api/gateway",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "Kilo Auto Free",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://kilo.ai/gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Kilo AI Gateway",
+            "target_app": "claude",
+            "base_url": "https://api.kilo.ai/api/gateway",
+            "model_id": "Kilo Auto Free",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "codex": {
+          "status": "unknown",
+          "target": "codex",
+          "target_label": "Codex",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Kilo AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "codex",
+              "required": true,
+              "hint": "Codex",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.kilo.ai/api/gateway",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "Kilo Auto Free",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://kilo.ai/gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Kilo AI Gateway",
+            "target_app": "codex",
+            "base_url": "https://api.kilo.ai/api/gateway",
+            "model_id": "Kilo Auto Free",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "gemini": {
+          "status": "unknown",
+          "target": "gemini",
+          "target_label": "Gemini CLI",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Kilo AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "gemini",
+              "required": true,
+              "hint": "Gemini CLI",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.kilo.ai/api/gateway",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "Kilo Auto Free",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://kilo.ai/gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Kilo AI Gateway",
+            "target_app": "gemini",
+            "base_url": "https://api.kilo.ai/api/gateway",
+            "model_id": "Kilo Auto Free",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "opencode": {
+          "status": "unknown",
+          "target": "opencode",
+          "target_label": "OpenCode",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Kilo AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "opencode",
+              "required": true,
+              "hint": "OpenCode",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.kilo.ai/api/gateway",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "Kilo Auto Free",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://kilo.ai/gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Kilo AI Gateway",
+            "target_app": "opencode",
+            "base_url": "https://api.kilo.ai/api/gateway",
+            "model_id": "Kilo Auto Free",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "openclaw": {
+          "status": "unknown",
+          "target": "openclaw",
+          "target_label": "OpenClaw",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Kilo AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "openclaw",
+              "required": true,
+              "hint": "OpenClaw",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.kilo.ai/api/gateway",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "Kilo Auto Free",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://kilo.ai/gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Kilo AI Gateway",
+            "target_app": "openclaw",
+            "base_url": "https://api.kilo.ai/api/gateway",
+            "model_id": "Kilo Auto Free",
             "protocols": [],
             "api_key": null
           },
@@ -10758,7 +11614,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek-R1",
+              "value": "Codestral Latest",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -10789,7 +11645,7 @@
             "provider_name": "LLM7.io",
             "target_app": "claude",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "DeepSeek-R1",
+            "model_id": "Codestral Latest",
             "protocols": [],
             "api_key": null
           },
@@ -10842,7 +11698,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek-R1",
+              "value": "Codestral Latest",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -10873,7 +11729,7 @@
             "provider_name": "LLM7.io",
             "target_app": "codex",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "DeepSeek-R1",
+            "model_id": "Codestral Latest",
             "protocols": [],
             "api_key": null
           },
@@ -10926,7 +11782,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek-R1",
+              "value": "Codestral Latest",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -10957,7 +11813,7 @@
             "provider_name": "LLM7.io",
             "target_app": "gemini",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "DeepSeek-R1",
+            "model_id": "Codestral Latest",
             "protocols": [],
             "api_key": null
           },
@@ -11010,7 +11866,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek-R1",
+              "value": "Codestral Latest",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11041,7 +11897,7 @@
             "provider_name": "LLM7.io",
             "target_app": "opencode",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "DeepSeek-R1",
+            "model_id": "Codestral Latest",
             "protocols": [],
             "api_key": null
           },
@@ -11094,7 +11950,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek-R1",
+              "value": "Codestral Latest",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11125,7 +11981,7 @@
             "provider_name": "LLM7.io",
             "target_app": "openclaw",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "DeepSeek-R1",
+            "model_id": "Codestral Latest",
             "protocols": [],
             "api_key": null
           },
@@ -11614,7 +12470,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Mistral 7B",
+              "value": "Codestral 2508",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11645,7 +12501,7 @@
             "provider_name": "Mistral (La Plateforme)",
             "target_app": "claude",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "Mistral 7B",
+            "model_id": "Codestral 2508",
             "protocols": [],
             "api_key": null
           },
@@ -11698,7 +12554,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Mistral 7B",
+              "value": "Codestral 2508",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11729,7 +12585,7 @@
             "provider_name": "Mistral (La Plateforme)",
             "target_app": "codex",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "Mistral 7B",
+            "model_id": "Codestral 2508",
             "protocols": [],
             "api_key": null
           },
@@ -11782,7 +12638,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Mistral 7B",
+              "value": "Codestral 2508",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11813,7 +12669,7 @@
             "provider_name": "Mistral (La Plateforme)",
             "target_app": "gemini",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "Mistral 7B",
+            "model_id": "Codestral 2508",
             "protocols": [],
             "api_key": null
           },
@@ -11866,7 +12722,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Mistral 7B",
+              "value": "Codestral 2508",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11897,7 +12753,7 @@
             "provider_name": "Mistral (La Plateforme)",
             "target_app": "opencode",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "Mistral 7B",
+            "model_id": "Codestral 2508",
             "protocols": [],
             "api_key": null
           },
@@ -11950,7 +12806,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Mistral 7B",
+              "value": "Codestral 2508",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11981,7 +12837,7 @@
             "provider_name": "Mistral (La Plateforme)",
             "target_app": "openclaw",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "Mistral 7B",
+            "model_id": "Codestral 2508",
             "protocols": [],
             "api_key": null
           },
@@ -12898,7 +13754,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "GLM 5.3",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -12929,7 +13785,7 @@
             "provider_name": "Nebius (Token Factory)",
             "target_app": "claude",
             "base_url": "https://api.tokenfactory.nebius.com/v1",
-            "model_id": null,
+            "model_id": "GLM 5.3",
             "protocols": [],
             "api_key": null
           },
@@ -12982,7 +13838,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "GLM 5.3",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -13013,7 +13869,7 @@
             "provider_name": "Nebius (Token Factory)",
             "target_app": "codex",
             "base_url": "https://api.tokenfactory.nebius.com/v1",
-            "model_id": null,
+            "model_id": "GLM 5.3",
             "protocols": [],
             "api_key": null
           },
@@ -13066,7 +13922,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "GLM 5.3",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -13097,7 +13953,7 @@
             "provider_name": "Nebius (Token Factory)",
             "target_app": "gemini",
             "base_url": "https://api.tokenfactory.nebius.com/v1",
-            "model_id": null,
+            "model_id": "GLM 5.3",
             "protocols": [],
             "api_key": null
           },
@@ -13150,7 +14006,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "GLM 5.3",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -13181,7 +14037,7 @@
             "provider_name": "Nebius (Token Factory)",
             "target_app": "opencode",
             "base_url": "https://api.tokenfactory.nebius.com/v1",
-            "model_id": null,
+            "model_id": "GLM 5.3",
             "protocols": [],
             "api_key": null
           },
@@ -13234,7 +14090,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "GLM 5.3",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -13265,7 +14121,7 @@
             "provider_name": "Nebius (Token Factory)",
             "target_app": "openclaw",
             "base_url": "https://api.tokenfactory.nebius.com/v1",
-            "model_id": null,
+            "model_id": "GLM 5.3",
             "protocols": [],
             "api_key": null
           },
@@ -13754,7 +14610,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -13785,7 +14641,7 @@
             "provider_name": "Novita AI",
             "target_app": "claude",
             "base_url": "https://api.novita.ai/v3/openai",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -13838,7 +14694,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -13869,7 +14725,7 @@
             "provider_name": "Novita AI",
             "target_app": "codex",
             "base_url": "https://api.novita.ai/v3/openai",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -13922,7 +14778,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -13953,7 +14809,7 @@
             "provider_name": "Novita AI",
             "target_app": "gemini",
             "base_url": "https://api.novita.ai/v3/openai",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -14006,7 +14862,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -14037,7 +14893,7 @@
             "provider_name": "Novita AI",
             "target_app": "opencode",
             "base_url": "https://api.novita.ai/v3/openai",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -14090,7 +14946,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -14121,7 +14977,7 @@
             "provider_name": "Novita AI",
             "target_app": "openclaw",
             "base_url": "https://api.novita.ai/v3/openai",
-            "model_id": null,
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -14610,7 +15466,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "poolside/laguna-xs-2.1",
+              "value": "DeepSeek V4 Pro (0813)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -14641,7 +15497,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "claude",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "poolside/laguna-xs-2.1",
+            "model_id": "DeepSeek V4 Pro (0813)",
             "protocols": [],
             "api_key": null
           },
@@ -14694,7 +15550,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "poolside/laguna-xs-2.1",
+              "value": "DeepSeek V4 Pro (0813)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -14725,7 +15581,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "codex",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "poolside/laguna-xs-2.1",
+            "model_id": "DeepSeek V4 Pro (0813)",
             "protocols": [],
             "api_key": null
           },
@@ -14778,7 +15634,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "poolside/laguna-xs-2.1",
+              "value": "DeepSeek V4 Pro (0813)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -14809,7 +15665,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "gemini",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "poolside/laguna-xs-2.1",
+            "model_id": "DeepSeek V4 Pro (0813)",
             "protocols": [],
             "api_key": null
           },
@@ -14862,7 +15718,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "poolside/laguna-xs-2.1",
+              "value": "DeepSeek V4 Pro (0813)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -14893,7 +15749,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "opencode",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "poolside/laguna-xs-2.1",
+            "model_id": "DeepSeek V4 Pro (0813)",
             "protocols": [],
             "api_key": null
           },
@@ -14946,7 +15802,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "poolside/laguna-xs-2.1",
+              "value": "DeepSeek V4 Pro (0813)",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -14977,7 +15833,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "openclaw",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "poolside/laguna-xs-2.1",
+            "model_id": "DeepSeek V4 Pro (0813)",
             "protocols": [],
             "api_key": null
           },
@@ -15038,7 +15894,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek V4 Flash (Cloud)",
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -15069,7 +15925,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "claude",
             "base_url": "https://ollama.com/v1",
-            "model_id": "DeepSeek V4 Flash (Cloud)",
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -15122,7 +15978,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek V4 Flash (Cloud)",
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -15153,7 +16009,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "codex",
             "base_url": "https://ollama.com/v1",
-            "model_id": "DeepSeek V4 Flash (Cloud)",
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -15206,7 +16062,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek V4 Flash (Cloud)",
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -15237,7 +16093,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "gemini",
             "base_url": "https://ollama.com/v1",
-            "model_id": "DeepSeek V4 Flash (Cloud)",
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -15290,7 +16146,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek V4 Flash (Cloud)",
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -15321,7 +16177,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "opencode",
             "base_url": "https://ollama.com/v1",
-            "model_id": "DeepSeek V4 Flash (Cloud)",
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -15374,7 +16230,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "DeepSeek V4 Flash (Cloud)",
+              "value": "DeepSeek V4.1 Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -15405,7 +16261,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "openclaw",
             "base_url": "https://ollama.com/v1",
-            "model_id": "DeepSeek V4 Flash (Cloud)",
+            "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
           },
@@ -15894,7 +16750,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Google: Gemini 2.0 Flash (free)",
+              "value": "Apodex 1.1 Mini",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -15925,7 +16781,7 @@
             "provider_name": "OpenRouter",
             "target_app": "claude",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "Google: Gemini 2.0 Flash (free)",
+            "model_id": "Apodex 1.1 Mini",
             "protocols": [],
             "api_key": null
           },
@@ -15978,7 +16834,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Google: Gemini 2.0 Flash (free)",
+              "value": "Apodex 1.1 Mini",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16009,7 +16865,7 @@
             "provider_name": "OpenRouter",
             "target_app": "codex",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "Google: Gemini 2.0 Flash (free)",
+            "model_id": "Apodex 1.1 Mini",
             "protocols": [],
             "api_key": null
           },
@@ -16062,7 +16918,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Google: Gemini 2.0 Flash (free)",
+              "value": "Apodex 1.1 Mini",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16093,7 +16949,7 @@
             "provider_name": "OpenRouter",
             "target_app": "gemini",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "Google: Gemini 2.0 Flash (free)",
+            "model_id": "Apodex 1.1 Mini",
             "protocols": [],
             "api_key": null
           },
@@ -16146,7 +17002,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Google: Gemini 2.0 Flash (free)",
+              "value": "Apodex 1.1 Mini",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16177,7 +17033,7 @@
             "provider_name": "OpenRouter",
             "target_app": "opencode",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "Google: Gemini 2.0 Flash (free)",
+            "model_id": "Apodex 1.1 Mini",
             "protocols": [],
             "api_key": null
           },
@@ -16230,7 +17086,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Google: Gemini 2.0 Flash (free)",
+              "value": "Apodex 1.1 Mini",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16261,7 +17117,7 @@
             "provider_name": "OpenRouter",
             "target_app": "openclaw",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "Google: Gemini 2.0 Flash (free)",
+            "model_id": "Apodex 1.1 Mini",
             "protocols": [],
             "api_key": null
           },
@@ -16322,7 +17178,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Qwen3Guard-Gen-0.6B (Beta)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16353,7 +17209,7 @@
             "provider_name": "OVH AI Endpoints",
             "target_app": "claude",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "Qwen3Guard-Gen-0.6B (Beta)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -16406,7 +17262,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Qwen3Guard-Gen-0.6B (Beta)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16437,7 +17293,7 @@
             "provider_name": "OVH AI Endpoints",
             "target_app": "codex",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "Qwen3Guard-Gen-0.6B (Beta)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -16490,7 +17346,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Qwen3Guard-Gen-0.6B (Beta)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16521,7 +17377,7 @@
             "provider_name": "OVH AI Endpoints",
             "target_app": "gemini",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "Qwen3Guard-Gen-0.6B (Beta)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -16574,7 +17430,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Qwen3Guard-Gen-0.6B (Beta)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16605,7 +17461,7 @@
             "provider_name": "OVH AI Endpoints",
             "target_app": "opencode",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "Qwen3Guard-Gen-0.6B (Beta)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -16658,7 +17514,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Qwen3Guard-Gen-0.6B (Beta)",
+              "value": "GPT OSS 120B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -16689,7 +17545,7 @@
             "provider_name": "OVH AI Endpoints",
             "target_app": "openclaw",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "Qwen3Guard-Gen-0.6B (Beta)",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -17606,7 +18462,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Qwen3.6 Plus",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -17637,7 +18493,7 @@
             "provider_name": "Qwen (Alibaba)",
             "target_app": "claude",
             "base_url": "https://dashscope-intl.aliyuncs.com/api/v1",
-            "model_id": null,
+            "model_id": "Qwen3.6 Plus",
             "protocols": [],
             "api_key": null
           },
@@ -17690,7 +18546,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Qwen3.6 Plus",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -17721,7 +18577,7 @@
             "provider_name": "Qwen (Alibaba)",
             "target_app": "codex",
             "base_url": "https://dashscope-intl.aliyuncs.com/api/v1",
-            "model_id": null,
+            "model_id": "Qwen3.6 Plus",
             "protocols": [],
             "api_key": null
           },
@@ -17774,7 +18630,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Qwen3.6 Plus",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -17805,7 +18661,7 @@
             "provider_name": "Qwen (Alibaba)",
             "target_app": "gemini",
             "base_url": "https://dashscope-intl.aliyuncs.com/api/v1",
-            "model_id": null,
+            "model_id": "Qwen3.6 Plus",
             "protocols": [],
             "api_key": null
           },
@@ -17858,7 +18714,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Qwen3.6 Plus",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -17889,7 +18745,7 @@
             "provider_name": "Qwen (Alibaba)",
             "target_app": "opencode",
             "base_url": "https://dashscope-intl.aliyuncs.com/api/v1",
-            "model_id": null,
+            "model_id": "Qwen3.6 Plus",
             "protocols": [],
             "api_key": null
           },
@@ -17942,7 +18798,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Qwen3.6 Plus",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -17973,7 +18829,7 @@
             "provider_name": "Qwen (Alibaba)",
             "target_app": "openclaw",
             "base_url": "https://dashscope-intl.aliyuncs.com/api/v1",
-            "model_id": null,
+            "model_id": "Qwen3.6 Plus",
             "protocols": [],
             "api_key": null
           },
@@ -18890,7 +19746,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "NVIDIA Nemotron 3 Super",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18921,7 +19777,7 @@
             "provider_name": "Requesty",
             "target_app": "claude",
             "base_url": "https://router.requesty.ai/v1",
-            "model_id": null,
+            "model_id": "NVIDIA Nemotron 3 Super",
             "protocols": [],
             "api_key": null
           },
@@ -18974,7 +19830,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "NVIDIA Nemotron 3 Super",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -19005,7 +19861,7 @@
             "provider_name": "Requesty",
             "target_app": "codex",
             "base_url": "https://router.requesty.ai/v1",
-            "model_id": null,
+            "model_id": "NVIDIA Nemotron 3 Super",
             "protocols": [],
             "api_key": null
           },
@@ -19058,7 +19914,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "NVIDIA Nemotron 3 Super",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -19089,7 +19945,7 @@
             "provider_name": "Requesty",
             "target_app": "gemini",
             "base_url": "https://router.requesty.ai/v1",
-            "model_id": null,
+            "model_id": "NVIDIA Nemotron 3 Super",
             "protocols": [],
             "api_key": null
           },
@@ -19142,7 +19998,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "NVIDIA Nemotron 3 Super",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -19173,7 +20029,7 @@
             "provider_name": "Requesty",
             "target_app": "opencode",
             "base_url": "https://router.requesty.ai/v1",
-            "model_id": null,
+            "model_id": "NVIDIA Nemotron 3 Super",
             "protocols": [],
             "api_key": null
           },
@@ -19226,7 +20082,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "NVIDIA Nemotron 3 Super",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -19257,7 +20113,435 @@
             "provider_name": "Requesty",
             "target_app": "openclaw",
             "base_url": "https://router.requesty.ai/v1",
-            "model_id": null,
+            "model_id": "NVIDIA Nemotron 3 Super",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        }
+      }
+    },
+    "p_routeway": {
+      "provider_slug": "routeway",
+      "provider_name": "Routeway",
+      "base_url": "https://api.routeway.ai/v1",
+      "protocols": [],
+      "apps": {
+        "claude": {
+          "status": "unknown",
+          "target": "claude",
+          "target_label": "Claude Code",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Routeway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "claude",
+              "required": true,
+              "hint": "Claude Code",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.routeway.ai/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "GPT OSS 120B",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://routeway.ai/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Routeway",
+            "target_app": "claude",
+            "base_url": "https://api.routeway.ai/v1",
+            "model_id": "GPT OSS 120B",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "codex": {
+          "status": "unknown",
+          "target": "codex",
+          "target_label": "Codex",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Routeway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "codex",
+              "required": true,
+              "hint": "Codex",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.routeway.ai/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "GPT OSS 120B",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://routeway.ai/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Routeway",
+            "target_app": "codex",
+            "base_url": "https://api.routeway.ai/v1",
+            "model_id": "GPT OSS 120B",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "gemini": {
+          "status": "unknown",
+          "target": "gemini",
+          "target_label": "Gemini CLI",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Routeway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "gemini",
+              "required": true,
+              "hint": "Gemini CLI",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.routeway.ai/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "GPT OSS 120B",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://routeway.ai/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Routeway",
+            "target_app": "gemini",
+            "base_url": "https://api.routeway.ai/v1",
+            "model_id": "GPT OSS 120B",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "opencode": {
+          "status": "unknown",
+          "target": "opencode",
+          "target_label": "OpenCode",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Routeway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "opencode",
+              "required": true,
+              "hint": "OpenCode",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.routeway.ai/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "GPT OSS 120B",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://routeway.ai/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Routeway",
+            "target_app": "opencode",
+            "base_url": "https://api.routeway.ai/v1",
+            "model_id": "GPT OSS 120B",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "openclaw": {
+          "status": "unknown",
+          "target": "openclaw",
+          "target_label": "OpenClaw",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Routeway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "openclaw",
+              "required": true,
+              "hint": "OpenClaw",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://api.routeway.ai/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "GPT OSS 120B",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://routeway.ai/",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Routeway",
+            "target_app": "openclaw",
+            "base_url": "https://api.routeway.ai/v1",
+            "model_id": "GPT OSS 120B",
             "protocols": [],
             "api_key": null
           },
@@ -19746,7 +21030,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.1",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -19777,7 +21061,7 @@
             "provider_name": "SambaNova Cloud",
             "target_app": "claude",
             "base_url": "https://api.sambanova.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.1",
             "protocols": [],
             "api_key": null
           },
@@ -19830,7 +21114,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.1",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -19861,7 +21145,7 @@
             "provider_name": "SambaNova Cloud",
             "target_app": "codex",
             "base_url": "https://api.sambanova.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.1",
             "protocols": [],
             "api_key": null
           },
@@ -19914,7 +21198,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.1",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -19945,7 +21229,7 @@
             "provider_name": "SambaNova Cloud",
             "target_app": "gemini",
             "base_url": "https://api.sambanova.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.1",
             "protocols": [],
             "api_key": null
           },
@@ -19998,7 +21282,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.1",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20029,7 +21313,7 @@
             "provider_name": "SambaNova Cloud",
             "target_app": "opencode",
             "base_url": "https://api.sambanova.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.1",
             "protocols": [],
             "api_key": null
           },
@@ -20082,7 +21366,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "DeepSeek V3.1",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20113,7 +21397,7 @@
             "provider_name": "SambaNova Cloud",
             "target_app": "openclaw",
             "base_url": "https://api.sambanova.ai/v1",
-            "model_id": null,
+            "model_id": "DeepSeek V3.1",
             "protocols": [],
             "api_key": null
           },
@@ -20174,7 +21458,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Llama 3.3 70B Instruct",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20205,7 +21489,7 @@
             "provider_name": "Scaleway Generative APIs",
             "target_app": "claude",
             "base_url": "https://api.scaleway.ai/v1",
-            "model_id": null,
+            "model_id": "Llama 3.3 70B Instruct",
             "protocols": [],
             "api_key": null
           },
@@ -20258,7 +21542,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Llama 3.3 70B Instruct",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20289,7 +21573,7 @@
             "provider_name": "Scaleway Generative APIs",
             "target_app": "codex",
             "base_url": "https://api.scaleway.ai/v1",
-            "model_id": null,
+            "model_id": "Llama 3.3 70B Instruct",
             "protocols": [],
             "api_key": null
           },
@@ -20342,7 +21626,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Llama 3.3 70B Instruct",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20373,7 +21657,7 @@
             "provider_name": "Scaleway Generative APIs",
             "target_app": "gemini",
             "base_url": "https://api.scaleway.ai/v1",
-            "model_id": null,
+            "model_id": "Llama 3.3 70B Instruct",
             "protocols": [],
             "api_key": null
           },
@@ -20426,7 +21710,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Llama 3.3 70B Instruct",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20457,7 +21741,7 @@
             "provider_name": "Scaleway Generative APIs",
             "target_app": "opencode",
             "base_url": "https://api.scaleway.ai/v1",
-            "model_id": null,
+            "model_id": "Llama 3.3 70B Instruct",
             "protocols": [],
             "api_key": null
           },
@@ -20510,7 +21794,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": null,
+              "value": "Llama 3.3 70B Instruct",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20541,7 +21825,7 @@
             "provider_name": "Scaleway Generative APIs",
             "target_app": "openclaw",
             "base_url": "https://api.scaleway.ai/v1",
-            "model_id": null,
+            "model_id": "Llama 3.3 70B Instruct",
             "protocols": [],
             "api_key": null
           },
@@ -20552,7 +21836,7 @@
     "p_siliconflow": {
       "provider_slug": "siliconflow",
       "provider_name": "SiliconFlow",
-      "base_url": "https://api.siliconflow.cn/v1",
+      "base_url": "https://api.siliconflow.com/v1",
       "protocols": [],
       "apps": {
         "claude": {
@@ -20593,7 +21877,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://api.siliconflow.cn/v1",
+              "value": "https://api.siliconflow.com/v1",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -20602,7 +21886,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "abbreviation",
+              "value": "DeepSeek R1 Distill Qwen 7B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20632,8 +21916,8 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "SiliconFlow",
             "target_app": "claude",
-            "base_url": "https://api.siliconflow.cn/v1",
-            "model_id": "abbreviation",
+            "base_url": "https://api.siliconflow.com/v1",
+            "model_id": "DeepSeek R1 Distill Qwen 7B",
             "protocols": [],
             "api_key": null
           },
@@ -20677,7 +21961,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://api.siliconflow.cn/v1",
+              "value": "https://api.siliconflow.com/v1",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -20686,7 +21970,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "abbreviation",
+              "value": "DeepSeek R1 Distill Qwen 7B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20716,8 +22000,8 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "SiliconFlow",
             "target_app": "codex",
-            "base_url": "https://api.siliconflow.cn/v1",
-            "model_id": "abbreviation",
+            "base_url": "https://api.siliconflow.com/v1",
+            "model_id": "DeepSeek R1 Distill Qwen 7B",
             "protocols": [],
             "api_key": null
           },
@@ -20761,7 +22045,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://api.siliconflow.cn/v1",
+              "value": "https://api.siliconflow.com/v1",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -20770,7 +22054,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "abbreviation",
+              "value": "DeepSeek R1 Distill Qwen 7B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20800,8 +22084,8 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "SiliconFlow",
             "target_app": "gemini",
-            "base_url": "https://api.siliconflow.cn/v1",
-            "model_id": "abbreviation",
+            "base_url": "https://api.siliconflow.com/v1",
+            "model_id": "DeepSeek R1 Distill Qwen 7B",
             "protocols": [],
             "api_key": null
           },
@@ -20845,7 +22129,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://api.siliconflow.cn/v1",
+              "value": "https://api.siliconflow.com/v1",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -20854,7 +22138,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "abbreviation",
+              "value": "DeepSeek R1 Distill Qwen 7B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20884,8 +22168,8 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "SiliconFlow",
             "target_app": "opencode",
-            "base_url": "https://api.siliconflow.cn/v1",
-            "model_id": "abbreviation",
+            "base_url": "https://api.siliconflow.com/v1",
+            "model_id": "DeepSeek R1 Distill Qwen 7B",
             "protocols": [],
             "api_key": null
           },
@@ -20929,7 +22213,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://api.siliconflow.cn/v1",
+              "value": "https://api.siliconflow.com/v1",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -20938,7 +22222,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "abbreviation",
+              "value": "DeepSeek R1 Distill Qwen 7B",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -20968,8 +22252,8 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "SiliconFlow",
             "target_app": "openclaw",
-            "base_url": "https://api.siliconflow.cn/v1",
-            "model_id": "abbreviation",
+            "base_url": "https://api.siliconflow.com/v1",
+            "model_id": "DeepSeek R1 Distill Qwen 7B",
             "protocols": [],
             "api_key": null
           },
@@ -21886,7 +23170,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Dolphin Mixtral",
+              "value": null,
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -21917,7 +23201,7 @@
             "provider_name": "Venice.ai",
             "target_app": "claude",
             "base_url": "https://api.venice.ai/api/v1",
-            "model_id": "Dolphin Mixtral",
+            "model_id": null,
             "protocols": [],
             "api_key": null
           },
@@ -21970,7 +23254,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Dolphin Mixtral",
+              "value": null,
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -22001,7 +23285,7 @@
             "provider_name": "Venice.ai",
             "target_app": "codex",
             "base_url": "https://api.venice.ai/api/v1",
-            "model_id": "Dolphin Mixtral",
+            "model_id": null,
             "protocols": [],
             "api_key": null
           },
@@ -22054,7 +23338,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Dolphin Mixtral",
+              "value": null,
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -22085,7 +23369,7 @@
             "provider_name": "Venice.ai",
             "target_app": "gemini",
             "base_url": "https://api.venice.ai/api/v1",
-            "model_id": "Dolphin Mixtral",
+            "model_id": null,
             "protocols": [],
             "api_key": null
           },
@@ -22138,7 +23422,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Dolphin Mixtral",
+              "value": null,
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -22169,7 +23453,7 @@
             "provider_name": "Venice.ai",
             "target_app": "opencode",
             "base_url": "https://api.venice.ai/api/v1",
-            "model_id": "Dolphin Mixtral",
+            "model_id": null,
             "protocols": [],
             "api_key": null
           },
@@ -22222,7 +23506,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "Dolphin Mixtral",
+              "value": null,
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -22253,7 +23537,435 @@
             "provider_name": "Venice.ai",
             "target_app": "openclaw",
             "base_url": "https://api.venice.ai/api/v1",
-            "model_id": "Dolphin Mixtral",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        }
+      }
+    },
+    "p_vercel-ai-gateway": {
+      "provider_slug": "vercel-ai-gateway",
+      "provider_name": "Vercel AI Gateway",
+      "base_url": "https://ai-gateway.vercel.sh/v1",
+      "protocols": [],
+      "apps": {
+        "claude": {
+          "status": "unknown",
+          "target": "claude",
+          "target_label": "Claude Code",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Vercel AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "claude",
+              "required": true,
+              "hint": "Claude Code",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://ai-gateway.vercel.sh/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://vercel.com/ai-gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Vercel AI Gateway",
+            "target_app": "claude",
+            "base_url": "https://ai-gateway.vercel.sh/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "codex": {
+          "status": "unknown",
+          "target": "codex",
+          "target_label": "Codex",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Vercel AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "codex",
+              "required": true,
+              "hint": "Codex",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://ai-gateway.vercel.sh/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://vercel.com/ai-gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Vercel AI Gateway",
+            "target_app": "codex",
+            "base_url": "https://ai-gateway.vercel.sh/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "gemini": {
+          "status": "unknown",
+          "target": "gemini",
+          "target_label": "Gemini CLI",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Vercel AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "gemini",
+              "required": true,
+              "hint": "Gemini CLI",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://ai-gateway.vercel.sh/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://vercel.com/ai-gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Vercel AI Gateway",
+            "target_app": "gemini",
+            "base_url": "https://ai-gateway.vercel.sh/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "opencode": {
+          "status": "unknown",
+          "target": "opencode",
+          "target_label": "OpenCode",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Vercel AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "opencode",
+              "required": true,
+              "hint": "OpenCode",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://ai-gateway.vercel.sh/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://vercel.com/ai-gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Vercel AI Gateway",
+            "target_app": "opencode",
+            "base_url": "https://ai-gateway.vercel.sh/v1",
+            "model_id": null,
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "openclaw": {
+          "status": "unknown",
+          "target": "openclaw",
+          "target_label": "OpenClaw",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Vercel AI Gateway",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "openclaw",
+              "required": true,
+              "hint": "OpenClaw",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://ai-gateway.vercel.sh/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": null,
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": "https://vercel.com/ai-gateway",
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Vercel AI Gateway",
+            "target_app": "openclaw",
+            "base_url": "https://ai-gateway.vercel.sh/v1",
+            "model_id": null,
             "protocols": [],
             "api_key": null
           },
