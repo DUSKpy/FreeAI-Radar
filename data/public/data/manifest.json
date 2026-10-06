@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
-  "dataset_version": "sha256:c0c2e0d9ef827653bf86fbe4d0dbf50bcc5eac05ceea2e0011d0e4a50fabe88d",
-  "changes_version": "sha256:14156499d5d6098e91ffd74016ec6c211810a4fcb394e0a50450349dbb6e0889",
+  "dataset_version": "sha256:046f7a0f5641bfcf7ff0e688b40c330ed7bb090712ab11ce9828dd19dcf89c9d",
+  "changes_version": "sha256:625b7422510e7406210860c3e23a4e25e98e2a4a132bba147006d5f88507eba9",
   "build_commit": "unknown-local-build",
-  "generated_at": "2026-10-05T05:52:34Z",
-  "last_successful_collection_at": "2026-10-05T05:52:33Z",
-  "last_complete_collection_at": "2026-10-05T05:52:33Z",
-  "catalog_url": "/FreeAI-Radar/data/catalog.c0c2e0d9ef827653.json",
-  "changes_url": "/FreeAI-Radar/data/changes.14156499d5d6098e.json",
+  "generated_at": "2026-10-06T06:31:22Z",
+  "last_successful_collection_at": "2026-10-06T06:31:20Z",
+  "last_complete_collection_at": "2026-10-06T06:31:20Z",
+  "catalog_url": "/FreeAI-Radar/data/catalog.046f7a0f5641bfcf.json",
+  "changes_url": "/FreeAI-Radar/data/changes.625b7422510e7406.json",
   "reports": [
+    "/FreeAI-Radar/data/reports/2026-10-06.md",
     "/FreeAI-Radar/data/reports/2026-10-05.md",
     "/FreeAI-Radar/data/reports/2026-10-04.md",
     "/FreeAI-Radar/data/reports/2026-10-02.md",
     "/FreeAI-Radar/data/reports/2026-10-01.md",
     "/FreeAI-Radar/data/reports/2026-09-30.md",
-    "/FreeAI-Radar/data/reports/2026-09-29.md",
-    "/FreeAI-Radar/data/reports/2026-09-27.md"
+    "/FreeAI-Radar/data/reports/2026-09-29.md"
   ],
   "sources": [
     {
@@ -24,9 +24,9 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-05T05:52:33Z",
-      "last_success_at": "2026-10-05T05:52:33Z",
-      "record_count": 82,
+      "last_attempt_at": "2026-10-06T06:31:20Z",
+      "last_success_at": "2026-10-06T06:31:20Z",
+      "record_count": 81,
       "error": null
     },
     {
@@ -35,8 +35,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-05T05:52:33Z",
-      "last_success_at": "2026-10-05T05:52:33Z",
+      "last_attempt_at": "2026-10-06T06:31:20Z",
+      "last_success_at": "2026-10-06T06:31:20Z",
       "record_count": 116,
       "error": null
     },
@@ -46,8 +46,8 @@
       "source_family": "google",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-05T05:52:33Z",
-      "last_success_at": "2026-10-05T05:52:33Z",
+      "last_attempt_at": "2026-10-06T06:31:20Z",
+      "last_success_at": "2026-10-06T06:31:20Z",
       "record_count": 78,
       "error": null
     },
@@ -57,8 +57,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-05T05:52:33Z",
-      "last_success_at": "2026-10-05T05:52:33Z",
+      "last_attempt_at": "2026-10-06T06:31:20Z",
+      "last_success_at": "2026-10-06T06:31:20Z",
       "record_count": 0,
       "error": null
     },
@@ -68,32 +68,32 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-05T05:52:33Z",
-      "last_success_at": "2026-10-05T05:52:33Z",
+      "last_attempt_at": "2026-10-06T06:31:20Z",
+      "last_success_at": "2026-10-06T06:31:20Z",
       "record_count": 0,
       "error": null
     }
   ],
   "counts": {
     "providers": 59,
-    "models": 213,
-    "offers": 224,
+    "models": 212,
+    "offers": 223,
     "official_confirmed": 26,
     "needs_review": 0,
-    "changes_today": 125
+    "changes_today": 7
   },
   "collection": {
     "job_type": "collect",
     "outcome": "success",
-    "started_at": "2026-10-05T05:52:33Z",
-    "finished_at": "2026-10-05T05:52:34Z",
+    "started_at": "2026-10-06T06:31:20Z",
+    "finished_at": "2026-10-06T06:31:22Z",
     "counts": {
-      "candidates": 276,
+      "candidates": 275,
       "providers": 59,
-      "models": 213,
-      "offers": 224,
-      "claims": 642,
-      "changes": 125
+      "models": 212,
+      "offers": 223,
+      "claims": 641,
+      "changes": 7
     }
   },
   "state": {
