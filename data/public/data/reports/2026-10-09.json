@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-09",
+  "generated_at": "2026-10-09T06:19:36Z",
+  "data_cutoff": "2026-10-09T06:19:35Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 5,
+    "success_rate_percent": 100.0
+  },
+  "counts": {
+    "new": 2,
+    "important": 2,
+    "pending": 4,
+    "total": 4
+  },
+  "new_entries": [
+    {
+      "id": "ch_bb4efda30c93436b",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_46a4f9887dbd149e",
+      "subject_label": "stepfun/step-3.7-flash:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": null,
+      "new": "stepfun/step-3.7-flash",
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_8df3705461635769",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_d9131d386d4d87de",
+      "subject_label": "NVIDIA: Nemotron 3.5 Lightning (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "nvidia/nemotron-3.5-lightning:free",
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_725f0789123d3011",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_3e16cff05271546b",
+      "subject_label": "stepfun/step-3.7-flash:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": "stepfun/step-3.7-flash:free",
+      "new": null,
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_36ae658f888ea00d",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_52a1474de0c939a9",
+      "subject_label": "Poolside: Laguna M.1 (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "poolside/laguna-m.1:free",
+      "new": null,
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_bb4efda30c93436b",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_46a4f9887dbd149e",
+      "subject_label": "stepfun/step-3.7-flash:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": null,
+      "new": "stepfun/step-3.7-flash",
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_8df3705461635769",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_d9131d386d4d87de",
+      "subject_label": "NVIDIA: Nemotron 3.5 Lightning (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "nvidia/nemotron-3.5-lightning:free",
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_725f0789123d3011",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_3e16cff05271546b",
+      "subject_label": "stepfun/step-3.7-flash:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": "stepfun/step-3.7-flash:free",
+      "new": null,
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_36ae658f888ea00d",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_52a1474de0c939a9",
+      "subject_label": "Poolside: Laguna M.1 (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "poolside/laguna-m.1:free",
+      "new": null,
+      "detected_at": "2026-10-09T06:19:35Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}
