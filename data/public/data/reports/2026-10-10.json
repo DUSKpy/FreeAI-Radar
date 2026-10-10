@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-10",
+  "generated_at": "2026-10-10T06:01:55Z",
+  "data_cutoff": "2026-10-10T06:01:54Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 5,
+    "success_rate_percent": 100.0
+  },
+  "counts": {
+    "new": 1,
+    "important": 3,
+    "pending": 4,
+    "total": 4
+  },
+  "new_entries": [
+    {
+      "id": "ch_71cb9a3c5abce4f5",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_267501c0fa404e4d",
+      "subject_label": "Qwen/Qwen3-8B",
+      "provider_id": "p_siliconflow",
+      "field": "model_id",
+      "old": null,
+      "new": "Qwen/Qwen3-8B",
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_2d7aa85415bc147f",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_2134da9deff63e11",
+      "subject_label": "Gemini 3.5 Flash",
+      "provider_id": "p_rate-limits-gemini-api-google-ai-for-developers",
+      "field": "model_id",
+      "old": "Gemini 3.5 Flash",
+      "new": null,
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "google",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_f554eed344537b5a",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_478faf026bc7d0a8",
+      "subject_label": "Gemini 3.7 Flash",
+      "provider_id": "p_rate-limits-gemini-api-google-ai-for-developers",
+      "field": "model_id",
+      "old": "Gemini 3.7 Flash",
+      "new": null,
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "google",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_3b9b3e89b54a37bb",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_a121549427dbc55e",
+      "subject_label": "deepseek-ai/DeepSeek-OCR",
+      "provider_id": "p_siliconflow",
+      "field": "model_id",
+      "old": "deepseek-ai-deepseek-ocr",
+      "new": null,
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_71cb9a3c5abce4f5",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_267501c0fa404e4d",
+      "subject_label": "Qwen/Qwen3-8B",
+      "provider_id": "p_siliconflow",
+      "field": "model_id",
+      "old": null,
+      "new": "Qwen/Qwen3-8B",
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_2d7aa85415bc147f",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_2134da9deff63e11",
+      "subject_label": "Gemini 3.5 Flash",
+      "provider_id": "p_rate-limits-gemini-api-google-ai-for-developers",
+      "field": "model_id",
+      "old": "Gemini 3.5 Flash",
+      "new": null,
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "google",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_f554eed344537b5a",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_478faf026bc7d0a8",
+      "subject_label": "Gemini 3.7 Flash",
+      "provider_id": "p_rate-limits-gemini-api-google-ai-for-developers",
+      "field": "model_id",
+      "old": "Gemini 3.7 Flash",
+      "new": null,
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "google",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_3b9b3e89b54a37bb",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_a121549427dbc55e",
+      "subject_label": "deepseek-ai/DeepSeek-OCR",
+      "provider_id": "p_siliconflow",
+      "field": "model_id",
+      "old": "deepseek-ai-deepseek-ocr",
+      "new": null,
+      "detected_at": "2026-10-10T06:01:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}
