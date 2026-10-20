@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-20",
+  "generated_at": "2026-10-20T05:00:28Z",
+  "data_cutoff": "2026-10-20T05:00:26Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 5,
+    "success_rate_percent": 100.0
+  },
+  "counts": {
+    "new": 2,
+    "important": 1,
+    "pending": 3,
+    "total": 3
+  },
+  "new_entries": [
+    {
+      "id": "ch_116834d16b5161e1",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_f3f9edcace535fc9",
+      "subject_label": "MiniMax: MiniMax M3.1 Flash (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "minimax/minimax-m3.1-flash:free",
+      "detected_at": "2026-10-20T05:00:26Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_ec9e7b61110fce50",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_9864e64875ccd0af",
+      "subject_label": "NVIDIA: Nemotron 3.5 Super VL (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "nvidia/nemotron-3.5-super-vl:free",
+      "detected_at": "2026-10-20T05:00:26Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_9e0bba8a04610acf",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_d9131d386d4d87de",
+      "subject_label": "NVIDIA: Nemotron 3.5 Lightning (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "nvidia/nemotron-3.5-lightning:free",
+      "new": null,
+      "detected_at": "2026-10-20T05:00:26Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_116834d16b5161e1",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_f3f9edcace535fc9",
+      "subject_label": "MiniMax: MiniMax M3.1 Flash (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "minimax/minimax-m3.1-flash:free",
+      "detected_at": "2026-10-20T05:00:26Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_ec9e7b61110fce50",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_9864e64875ccd0af",
+      "subject_label": "NVIDIA: Nemotron 3.5 Super VL (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": null,
+      "new": "nvidia/nemotron-3.5-super-vl:free",
+      "detected_at": "2026-10-20T05:00:26Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_9e0bba8a04610acf",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_d9131d386d4d87de",
+      "subject_label": "NVIDIA: Nemotron 3.5 Lightning (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "nvidia/nemotron-3.5-lightning:free",
+      "new": null,
+      "detected_at": "2026-10-20T05:00:26Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}
