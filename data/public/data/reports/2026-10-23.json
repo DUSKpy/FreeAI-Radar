@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-23",
+  "generated_at": "2026-10-23T05:02:32Z",
+  "data_cutoff": "2026-10-23T05:02:31Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 5,
+    "success_rate_percent": 100.0
+  },
+  "counts": {
+    "new": 1,
+    "important": 2,
+    "pending": 3,
+    "total": 3
+  },
+  "new_entries": [
+    {
+      "id": "ch_cf644e315f70cf45",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_4b1e6170959f1ed7",
+      "subject_label": "Beam",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": null,
+      "new": "reflection/beam-free",
+      "detected_at": "2026-10-23T05:02:31Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_2d9bb5e331d6e7f7",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_3e1fecb19a08d735",
+      "subject_label": "Minimax M3.1 Flash",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": "cline-free/minimax-m3.1-flash",
+      "new": null,
+      "detected_at": "2026-10-23T05:02:31Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_4b99548142a4d31b",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_f3f9edcace535fc9",
+      "subject_label": "MiniMax: MiniMax M3.1 Flash (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "minimax/minimax-m3.1-flash:free",
+      "new": null,
+      "detected_at": "2026-10-23T05:02:31Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_cf644e315f70cf45",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_4b1e6170959f1ed7",
+      "subject_label": "Beam",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": null,
+      "new": "reflection/beam-free",
+      "detected_at": "2026-10-23T05:02:31Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_2d9bb5e331d6e7f7",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_3e1fecb19a08d735",
+      "subject_label": "Minimax M3.1 Flash",
+      "provider_id": "p_cline",
+      "field": "model_id",
+      "old": "cline-free/minimax-m3.1-flash",
+      "new": null,
+      "detected_at": "2026-10-23T05:02:31Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_4b99548142a4d31b",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_f3f9edcace535fc9",
+      "subject_label": "MiniMax: MiniMax M3.1 Flash (free)",
+      "provider_id": "p_openrouter",
+      "field": "model_id",
+      "old": "minimax/minimax-m3.1-flash:free",
+      "new": null,
+      "detected_at": "2026-10-23T05:02:31Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}

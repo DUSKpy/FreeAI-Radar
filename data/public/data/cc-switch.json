@@ -3910,7 +3910,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/minimax-m3.1-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3941,7 +3941,7 @@
             "provider_name": "Cline",
             "target_app": "claude",
             "base_url": null,
-            "model_id": "cline-free/minimax-m3.1-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -3994,7 +3994,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/minimax-m3.1-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4025,7 +4025,7 @@
             "provider_name": "Cline",
             "target_app": "codex",
             "base_url": null,
-            "model_id": "cline-free/minimax-m3.1-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -4078,7 +4078,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/minimax-m3.1-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4109,7 +4109,7 @@
             "provider_name": "Cline",
             "target_app": "gemini",
             "base_url": null,
-            "model_id": "cline-free/minimax-m3.1-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -4162,7 +4162,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/minimax-m3.1-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4193,7 +4193,7 @@
             "provider_name": "Cline",
             "target_app": "opencode",
             "base_url": null,
-            "model_id": "cline-free/minimax-m3.1-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -4246,7 +4246,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/minimax-m3.1-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4277,7 +4277,7 @@
             "provider_name": "Cline",
             "target_app": "openclaw",
             "base_url": null,
-            "model_id": "cline-free/minimax-m3.1-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },

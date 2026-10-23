@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-22T05:01:53Z",
-  "dataset_version": "sha256:569ec5a3323f04f6c43790bf1047bbd84b2dbd0bbfcc2ef36fb4714e1ab07a69",
-  "changes_version": "sha256:e07271d2b069900098826da4266e5642fa9258aa80ed4201d821e7e9cdf40440",
+  "generated_at": "2026-10-23T05:02:32Z",
+  "dataset_version": "sha256:eb900b40ec6a283fbf33183f249e807e70382e86b386a9b75b673e2fac478af2",
+  "changes_version": "sha256:efccae228b461beccde4a38c377889eda2ffc6fc605f1a139d7687e055b4c697",
   "counts": {
     "providers": 59,
     "models": 233,
     "offers": 239,
     "official_confirmed": 25,
     "needs_review": 0,
-    "changes_today": 0
+    "changes_today": 3
   },
   "sources": [
     {
@@ -18,8 +18,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-22T05:01:51Z",
-      "last_success_at": "2026-10-22T05:01:51Z",
+      "last_attempt_at": "2026-10-23T05:02:31Z",
+      "last_success_at": "2026-10-23T05:02:31Z",
       "record_count": 82,
       "error": null
     },
@@ -29,8 +29,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-22T05:01:51Z",
-      "last_success_at": "2026-10-22T05:01:51Z",
+      "last_attempt_at": "2026-10-23T05:02:31Z",
+      "last_success_at": "2026-10-23T05:02:31Z",
       "record_count": 132,
       "error": null
     },
@@ -40,8 +40,8 @@
       "source_family": "google",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-22T05:01:51Z",
-      "last_success_at": "2026-10-22T05:01:51Z",
+      "last_attempt_at": "2026-10-23T05:02:31Z",
+      "last_success_at": "2026-10-23T05:02:31Z",
       "record_count": 75,
       "error": null
     },
@@ -51,8 +51,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-22T05:01:51Z",
-      "last_success_at": "2026-10-22T05:01:51Z",
+      "last_attempt_at": "2026-10-23T05:02:31Z",
+      "last_success_at": "2026-10-23T05:02:31Z",
       "record_count": 0,
       "error": null
     },
@@ -62,13 +62,17 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-10-22T05:01:51Z",
-      "last_success_at": "2026-10-22T05:01:51Z",
+      "last_attempt_at": "2026-10-23T05:02:31Z",
+      "last_success_at": "2026-10-23T05:02:31Z",
       "record_count": 0,
       "error": null
     }
   ],
   "reports": [
+    {
+      "date": "2026-10-23",
+      "url": "data/reports/2026-10-23.md"
+    },
     {
       "date": "2026-10-21",
       "url": "data/reports/2026-10-21.md"
@@ -92,10 +96,6 @@
     {
       "date": "2026-10-07",
       "url": "data/reports/2026-10-07.md"
-    },
-    {
-      "date": "2026-10-06",
-      "url": "data/reports/2026-10-06.md"
     }
   ],
   "recent_changes": [
