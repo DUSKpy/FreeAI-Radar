@@ -7709,6 +7709,434 @@
         }
       }
     },
+    "p_gonka-broker": {
+      "provider_slug": "gonka-broker",
+      "provider_name": "Gonka Broker",
+      "base_url": "https://proxy.gonkabroker.com/v1",
+      "protocols": [],
+      "apps": {
+        "claude": {
+          "status": "unknown",
+          "target": "claude",
+          "target_label": "Claude Code",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Gonka Broker",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "claude",
+              "required": true,
+              "hint": "Claude Code",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://proxy.gonkabroker.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "deepseek-ai-deepseek-v4-flash-0731",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": null,
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Gonka Broker",
+            "target_app": "claude",
+            "base_url": "https://proxy.gonkabroker.com/v1",
+            "model_id": "deepseek-ai-deepseek-v4-flash-0731",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "codex": {
+          "status": "unknown",
+          "target": "codex",
+          "target_label": "Codex",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Gonka Broker",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "codex",
+              "required": true,
+              "hint": "Codex",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://proxy.gonkabroker.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "deepseek-ai-deepseek-v4-flash-0731",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": null,
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Gonka Broker",
+            "target_app": "codex",
+            "base_url": "https://proxy.gonkabroker.com/v1",
+            "model_id": "deepseek-ai-deepseek-v4-flash-0731",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "gemini": {
+          "status": "unknown",
+          "target": "gemini",
+          "target_label": "Gemini CLI",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Gonka Broker",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "gemini",
+              "required": true,
+              "hint": "Gemini CLI",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://proxy.gonkabroker.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "deepseek-ai-deepseek-v4-flash-0731",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": null,
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Gonka Broker",
+            "target_app": "gemini",
+            "base_url": "https://proxy.gonkabroker.com/v1",
+            "model_id": "deepseek-ai-deepseek-v4-flash-0731",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "opencode": {
+          "status": "unknown",
+          "target": "opencode",
+          "target_label": "OpenCode",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Gonka Broker",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "opencode",
+              "required": true,
+              "hint": "OpenCode",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://proxy.gonkabroker.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "deepseek-ai-deepseek-v4-flash-0731",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": null,
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Gonka Broker",
+            "target_app": "opencode",
+            "base_url": "https://proxy.gonkabroker.com/v1",
+            "model_id": "deepseek-ai-deepseek-v4-flash-0731",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        },
+        "openclaw": {
+          "status": "unknown",
+          "target": "openclaw",
+          "target_label": "OpenClaw",
+          "supported_version": "3.20.3",
+          "supported_commit": "06082e1",
+          "resource": "provider",
+          "protocol": null,
+          "protocol_label": null,
+          "requires_conversion": false,
+          "reason": "protocol_unknown",
+          "warnings": [
+            "来源未声明协议，无法判断该服务是否满足目标工具的调用路径。已标记为 unknown，不会生成可用的导入链接。",
+            "该配置未经过真实 API 调用验证。Radar 只确认字段格式与协议声明，不代表密钥有效或额度可用。"
+          ],
+          "deep_link": null,
+          "fields": [
+            {
+              "key": "name",
+              "label": "Provider 名称",
+              "value": "Gonka Broker",
+              "required": true,
+              "hint": "在 CC Switch 中显示的供应商名称",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "app",
+              "label": "目标应用",
+              "value": "openclaw",
+              "required": true,
+              "hint": "OpenClaw",
+              "secret": false,
+              "copiable": false
+            },
+            {
+              "key": "endpoint",
+              "label": "Base URL",
+              "value": "https://proxy.gonkabroker.com/v1",
+              "required": true,
+              "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "model",
+              "label": "模型 ID",
+              "value": "deepseek-ai-deepseek-v4-flash-0731",
+              "required": false,
+              "hint": "精确的上游模型标识",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "homepage",
+              "label": "供应商官网",
+              "value": null,
+              "required": false,
+              "hint": "可选",
+              "secret": false,
+              "copiable": true
+            },
+            {
+              "key": "apiKey",
+              "label": "API Key",
+              "value": null,
+              "required": true,
+              "hint": "请在你自己的 CC Switch 中填写。Radar 不收集、不传输、不记录任何上游密钥。",
+              "secret": true,
+              "copiable": false
+            }
+          ],
+          "radar_export": {
+            "kind": "freeai-radar.exchange.v1",
+            "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
+            "provider_name": "Gonka Broker",
+            "target_app": "openclaw",
+            "base_url": "https://proxy.gonkabroker.com/v1",
+            "model_id": "deepseek-ai-deepseek-v4-flash-0731",
+            "protocols": [],
+            "api_key": null
+          },
+          "radar_export_label": "Radar 数据交换文件（非 CC Switch 原生导入文件）"
+        }
+      }
+    },
     "p_google-ai-studio": {
       "provider_slug": "google-ai-studio",
       "provider_name": "Google AI Studio",
@@ -11614,7 +12042,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11645,7 +12073,7 @@
             "provider_name": "Kilo Code",
             "target_app": "claude",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -11698,7 +12126,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11729,7 +12157,7 @@
             "provider_name": "Kilo Code",
             "target_app": "codex",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -11782,7 +12210,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11813,7 +12241,7 @@
             "provider_name": "Kilo Code",
             "target_app": "gemini",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -11866,7 +12294,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11897,7 +12325,7 @@
             "provider_name": "Kilo Code",
             "target_app": "opencode",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -11950,7 +12378,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -11981,7 +12409,7 @@
             "provider_name": "Kilo Code",
             "target_app": "openclaw",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
