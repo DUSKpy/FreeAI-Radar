@@ -16700,7 +16700,7 @@
     "p_ollama-cloud": {
       "provider_slug": "ollama-cloud",
       "provider_name": "Ollama Cloud",
-      "base_url": "https://ollama.com/v1",
+      "base_url": "https://ollama.com/api",
       "protocols": [],
       "apps": {
         "claude": {
@@ -16741,7 +16741,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://ollama.com/v1",
+              "value": "https://ollama.com/api",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -16780,7 +16780,7 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "Ollama Cloud",
             "target_app": "claude",
-            "base_url": "https://ollama.com/v1",
+            "base_url": "https://ollama.com/api",
             "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
@@ -16825,7 +16825,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://ollama.com/v1",
+              "value": "https://ollama.com/api",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -16864,7 +16864,7 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "Ollama Cloud",
             "target_app": "codex",
-            "base_url": "https://ollama.com/v1",
+            "base_url": "https://ollama.com/api",
             "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
@@ -16909,7 +16909,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://ollama.com/v1",
+              "value": "https://ollama.com/api",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -16948,7 +16948,7 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "Ollama Cloud",
             "target_app": "gemini",
-            "base_url": "https://ollama.com/v1",
+            "base_url": "https://ollama.com/api",
             "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
@@ -16993,7 +16993,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://ollama.com/v1",
+              "value": "https://ollama.com/api",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -17032,7 +17032,7 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "Ollama Cloud",
             "target_app": "opencode",
-            "base_url": "https://ollama.com/v1",
+            "base_url": "https://ollama.com/api",
             "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
@@ -17077,7 +17077,7 @@
             {
               "key": "endpoint",
               "label": "Base URL",
-              "value": "https://ollama.com/v1",
+              "value": "https://ollama.com/api",
               "required": true,
               "hint": "API 端点地址；Radar 已检查 /v1 拼接规则，不会重复拼接",
               "secret": false,
@@ -17116,7 +17116,7 @@
             "notice": "这是 FreeAI Radar 的数据交换文件，不是 CC Switch 原生导入文件。CC Switch 原生的批量导入能力请使用 ccswitch:// 深度链接。",
             "provider_name": "Ollama Cloud",
             "target_app": "openclaw",
-            "base_url": "https://ollama.com/v1",
+            "base_url": "https://ollama.com/api",
             "model_id": "DeepSeek V4.1 Flash",
             "protocols": [],
             "api_key": null
