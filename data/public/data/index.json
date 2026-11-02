@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-01T06:23:29Z",
-  "dataset_version": "sha256:414ee25174da4ceb3ae88a1f17f6c54ac7b6d2986e08ce1712ff67c31945c11c",
+  "generated_at": "2026-11-02T06:24:32Z",
+  "dataset_version": "sha256:34add241092922f189a79009bfc9be33c010352762036210d9e7cee0232d0007",
   "changes_version": "sha256:83813f01806422037d78b4616e5a754eeb2d33e6fe78071d5379146dd376ee2e",
   "counts": {
     "providers": 59,
@@ -18,8 +18,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-01T06:23:28Z",
-      "last_success_at": "2026-11-01T06:23:28Z",
+      "last_attempt_at": "2026-11-02T06:24:30Z",
+      "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 82,
       "error": null
     },
@@ -29,8 +29,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-01T06:23:28Z",
-      "last_success_at": "2026-11-01T06:23:28Z",
+      "last_attempt_at": "2026-11-02T06:24:30Z",
+      "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 132,
       "error": null
     },
@@ -40,8 +40,8 @@
       "source_family": "google",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-01T06:23:28Z",
-      "last_success_at": "2026-11-01T06:23:28Z",
+      "last_attempt_at": "2026-11-02T06:24:30Z",
+      "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 75,
       "error": null
     },
@@ -51,8 +51,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-01T06:23:28Z",
-      "last_success_at": "2026-11-01T06:23:28Z",
+      "last_attempt_at": "2026-11-02T06:24:30Z",
+      "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 0,
       "error": null
     },
@@ -62,8 +62,8 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-01T06:23:28Z",
-      "last_success_at": "2026-11-01T06:23:28Z",
+      "last_attempt_at": "2026-11-02T06:24:30Z",
+      "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 0,
       "error": null
     }
