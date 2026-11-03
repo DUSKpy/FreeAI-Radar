@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
-  "dataset_version": "sha256:34add241092922f189a79009bfc9be33c010352762036210d9e7cee0232d0007",
-  "changes_version": "sha256:83813f01806422037d78b4616e5a754eeb2d33e6fe78071d5379146dd376ee2e",
+  "dataset_version": "sha256:ba42cd135d8c873c856656034104d3c91f605f5bf1d35445b1f462da34ec9e3b",
+  "changes_version": "sha256:33c63fbfda566e338910124bd6a88c11647168f4db2e14d04c2aa1f0ef5a376c",
   "build_commit": "unknown-local-build",
-  "generated_at": "2026-11-02T06:24:32Z",
-  "last_successful_collection_at": "2026-11-02T06:24:30Z",
+  "generated_at": "2026-11-03T06:58:32Z",
+  "last_successful_collection_at": "2026-11-03T06:58:30Z",
   "last_complete_collection_at": "2026-11-02T06:24:30Z",
-  "catalog_url": "/FreeAI-Radar/data/catalog.34add241092922f1.json",
-  "changes_url": "/FreeAI-Radar/data/changes.83813f0180642203.json",
+  "catalog_url": "/FreeAI-Radar/data/catalog.ba42cd135d8c873c.json",
+  "changes_url": "/FreeAI-Radar/data/changes.33c63fbfda566e33.json",
   "reports": [
+    "/FreeAI-Radar/data/reports/2026-11-03.md",
     "/FreeAI-Radar/data/reports/2026-10-27.md",
     "/FreeAI-Radar/data/reports/2026-10-26.md",
     "/FreeAI-Radar/data/reports/2026-10-24.md",
     "/FreeAI-Radar/data/reports/2026-10-23.md",
     "/FreeAI-Radar/data/reports/2026-10-21.md",
-    "/FreeAI-Radar/data/reports/2026-10-20.md",
-    "/FreeAI-Radar/data/reports/2026-10-14.md"
+    "/FreeAI-Radar/data/reports/2026-10-20.md"
   ],
   "sources": [
     {
@@ -24,8 +24,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-02T06:24:30Z",
-      "last_success_at": "2026-11-02T06:24:30Z",
+      "last_attempt_at": "2026-11-03T06:58:30Z",
+      "last_success_at": "2026-11-03T06:58:30Z",
       "record_count": 82,
       "error": null
     },
@@ -35,8 +35,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-02T06:24:30Z",
-      "last_success_at": "2026-11-02T06:24:30Z",
+      "last_attempt_at": "2026-11-03T06:58:30Z",
+      "last_success_at": "2026-11-03T06:58:30Z",
       "record_count": 132,
       "error": null
     },
@@ -45,11 +45,11 @@
       "name": "Google AI Studio (official rate limits)",
       "source_family": "google",
       "enabled": true,
-      "status": "ok",
-      "last_attempt_at": "2026-11-02T06:24:30Z",
+      "status": "failed",
+      "last_attempt_at": "2026-11-03T06:58:30Z",
       "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 75,
-      "error": null
+      "error": "refused to fetch https://aistudio.google.com/docs/rate-limits: host aistudio.google.com outside allowed_domains ['ai.google.dev']"
     },
     {
       "id": "official-groq",
@@ -57,8 +57,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-02T06:24:30Z",
-      "last_success_at": "2026-11-02T06:24:30Z",
+      "last_attempt_at": "2026-11-03T06:58:30Z",
+      "last_success_at": "2026-11-03T06:58:30Z",
       "record_count": 0,
       "error": null
     },
@@ -68,38 +68,38 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-02T06:24:30Z",
-      "last_success_at": "2026-11-02T06:24:30Z",
+      "last_attempt_at": "2026-11-03T06:58:30Z",
+      "last_success_at": "2026-11-03T06:58:30Z",
       "record_count": 0,
       "error": null
     }
   ],
   "counts": {
-    "providers": 59,
-    "models": 233,
+    "providers": 58,
+    "models": 208,
     "offers": 239,
     "official_confirmed": 25,
     "needs_review": 0,
-    "changes_today": 0
+    "changes_today": 25
   },
   "collection": {
     "job_type": "collect",
-    "outcome": "success",
-    "started_at": "2026-11-02T06:24:30Z",
-    "finished_at": "2026-11-02T06:24:31Z",
+    "outcome": "partial",
+    "started_at": "2026-11-03T06:58:30Z",
+    "finished_at": "2026-11-03T06:58:31Z",
     "counts": {
-      "candidates": 289,
-      "providers": 59,
-      "models": 233,
+      "candidates": 214,
+      "providers": 58,
+      "models": 208,
       "offers": 239,
-      "claims": 634,
-      "changes": 0
+      "claims": 610,
+      "changes": 25
     }
   },
   "state": {
     "no_data_yet": false,
     "message": null,
-    "serving_last_known_good": false
+    "serving_last_known_good": true
   },
   "reviews_source": "config/reviews.yaml"
 }
