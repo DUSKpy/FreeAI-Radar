@@ -6050,7 +6050,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/mimo-v2.6-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6081,7 +6081,7 @@
             "provider_name": "Cline",
             "target_app": "claude",
             "base_url": null,
-            "model_id": "cline-free/mimo-v2.6-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -6134,7 +6134,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/mimo-v2.6-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6165,7 +6165,7 @@
             "provider_name": "Cline",
             "target_app": "codex",
             "base_url": null,
-            "model_id": "cline-free/mimo-v2.6-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -6218,7 +6218,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/mimo-v2.6-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6249,7 +6249,7 @@
             "provider_name": "Cline",
             "target_app": "gemini",
             "base_url": null,
-            "model_id": "cline-free/mimo-v2.6-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -6302,7 +6302,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/mimo-v2.6-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6333,7 +6333,7 @@
             "provider_name": "Cline",
             "target_app": "opencode",
             "base_url": null,
-            "model_id": "cline-free/mimo-v2.6-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -6386,7 +6386,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cline-free/mimo-v2.6-flash",
+              "value": "cline-free/nemotron-3.5-super-vl",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6417,7 +6417,7 @@
             "provider_name": "Cline",
             "target_app": "openclaw",
             "base_url": null,
-            "model_id": "cline-free/mimo-v2.6-flash",
+            "model_id": "cline-free/nemotron-3.5-super-vl",
             "protocols": [],
             "api_key": null
           },
@@ -18034,7 +18034,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18065,7 +18065,7 @@
             "provider_name": "Kilo Code",
             "target_app": "claude",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -18118,7 +18118,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18149,7 +18149,7 @@
             "provider_name": "Kilo Code",
             "target_app": "codex",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -18202,7 +18202,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18233,7 +18233,7 @@
             "provider_name": "Kilo Code",
             "target_app": "gemini",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -18286,7 +18286,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18317,7 +18317,7 @@
             "provider_name": "Kilo Code",
             "target_app": "opencode",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
@@ -18370,7 +18370,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-super-120b-a12b:free",
+              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18401,7 +18401,7 @@
             "provider_name": "Kilo Code",
             "target_app": "openclaw",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
             "protocols": [],
             "api_key": null
           },
