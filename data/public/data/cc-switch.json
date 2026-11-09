@@ -18034,7 +18034,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+              "value": "cohere/north-mini-code:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18065,7 +18065,7 @@
             "provider_name": "Kilo Code",
             "target_app": "claude",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+            "model_id": "cohere/north-mini-code:free",
             "protocols": [],
             "api_key": null
           },
@@ -18118,7 +18118,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+              "value": "cohere/north-mini-code:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18149,7 +18149,7 @@
             "provider_name": "Kilo Code",
             "target_app": "codex",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+            "model_id": "cohere/north-mini-code:free",
             "protocols": [],
             "api_key": null
           },
@@ -18202,7 +18202,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+              "value": "cohere/north-mini-code:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18233,7 +18233,7 @@
             "provider_name": "Kilo Code",
             "target_app": "gemini",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+            "model_id": "cohere/north-mini-code:free",
             "protocols": [],
             "api_key": null
           },
@@ -18286,7 +18286,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+              "value": "cohere/north-mini-code:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18317,7 +18317,7 @@
             "provider_name": "Kilo Code",
             "target_app": "opencode",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+            "model_id": "cohere/north-mini-code:free",
             "protocols": [],
             "api_key": null
           },
@@ -18370,7 +18370,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+              "value": "cohere/north-mini-code:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -18401,7 +18401,7 @@
             "provider_name": "Kilo Code",
             "target_app": "openclaw",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "nvidia/nemotron-3-nano-omni-30b-a3b-re",
+            "model_id": "cohere/north-mini-code:free",
             "protocols": [],
             "api_key": null
           },
@@ -27450,7 +27450,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "meta-llama-3_3-70b-instruct",
+              "value": "gpt-oss-120b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -27481,7 +27481,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "claude",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "meta-llama-3_3-70b-instruct",
+            "model_id": "gpt-oss-120b",
             "protocols": [],
             "api_key": null
           },
@@ -27534,7 +27534,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "meta-llama-3_3-70b-instruct",
+              "value": "gpt-oss-120b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -27565,7 +27565,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "codex",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "meta-llama-3_3-70b-instruct",
+            "model_id": "gpt-oss-120b",
             "protocols": [],
             "api_key": null
           },
@@ -27618,7 +27618,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "meta-llama-3_3-70b-instruct",
+              "value": "gpt-oss-120b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -27649,7 +27649,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "gemini",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "meta-llama-3_3-70b-instruct",
+            "model_id": "gpt-oss-120b",
             "protocols": [],
             "api_key": null
           },
@@ -27702,7 +27702,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "meta-llama-3_3-70b-instruct",
+              "value": "gpt-oss-120b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -27733,7 +27733,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "opencode",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "meta-llama-3_3-70b-instruct",
+            "model_id": "gpt-oss-120b",
             "protocols": [],
             "api_key": null
           },
@@ -27786,7 +27786,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "meta-llama-3_3-70b-instruct",
+              "value": "gpt-oss-120b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -27817,7 +27817,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "openclaw",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "meta-llama-3_3-70b-instruct",
+            "model_id": "gpt-oss-120b",
             "protocols": [],
             "api_key": null
           },

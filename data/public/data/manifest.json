@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
-  "dataset_version": "sha256:b3d08d75550478b81200d7e4ab1e8029f3d898841cfc56ed4da35cc7afe67ecd",
-  "changes_version": "sha256:7c9451103b99616614c8546d99fa949baba1217d05a0a8538a43eea9de7b1d6c",
+  "dataset_version": "sha256:df7a0ba5bbede9addc95169b742cd60fb35eb0f639963028f5a3e7ca03c2dbea",
+  "changes_version": "sha256:f7701af2ea3c7deba74234720aaa991b38d5f4a4a4195aac6829f2c76cdd033a",
   "build_commit": "unknown-local-build",
-  "generated_at": "2026-11-08T06:18:17Z",
-  "last_successful_collection_at": "2026-11-08T06:18:16Z",
+  "generated_at": "2026-11-09T06:50:31Z",
+  "last_successful_collection_at": "2026-11-09T06:50:29Z",
   "last_complete_collection_at": "2026-11-02T06:24:30Z",
-  "catalog_url": "/FreeAI-Radar/data/catalog.b3d08d75550478b8.json",
-  "changes_url": "/FreeAI-Radar/data/changes.7c9451103b996166.json",
+  "catalog_url": "/FreeAI-Radar/data/catalog.df7a0ba5bbede9ad.json",
+  "changes_url": "/FreeAI-Radar/data/changes.f7701af2ea3c7deb.json",
   "reports": [
+    "/FreeAI-Radar/data/reports/2026-11-09.md",
     "/FreeAI-Radar/data/reports/2026-11-08.md",
     "/FreeAI-Radar/data/reports/2026-11-05.md",
     "/FreeAI-Radar/data/reports/2026-11-03.md",
     "/FreeAI-Radar/data/reports/2026-10-27.md",
     "/FreeAI-Radar/data/reports/2026-10-26.md",
-    "/FreeAI-Radar/data/reports/2026-10-24.md",
-    "/FreeAI-Radar/data/reports/2026-10-23.md"
+    "/FreeAI-Radar/data/reports/2026-10-24.md"
   ],
   "sources": [
     {
@@ -24,8 +24,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-08T06:18:16Z",
-      "last_success_at": "2026-11-08T06:18:16Z",
+      "last_attempt_at": "2026-11-09T06:50:29Z",
+      "last_success_at": "2026-11-09T06:50:29Z",
       "record_count": 85,
       "error": null
     },
@@ -35,8 +35,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-08T06:18:16Z",
-      "last_success_at": "2026-11-08T06:18:16Z",
+      "last_attempt_at": "2026-11-09T06:50:29Z",
+      "last_success_at": "2026-11-09T06:50:29Z",
       "record_count": 235,
       "error": null
     },
@@ -46,7 +46,7 @@
       "source_family": "google",
       "enabled": true,
       "status": "failed",
-      "last_attempt_at": "2026-11-08T06:18:16Z",
+      "last_attempt_at": "2026-11-09T06:50:29Z",
       "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 75,
       "error": "refused to fetch https://aistudio.google.com/docs/rate-limits: host aistudio.google.com outside allowed_domains ['ai.google.dev']"
@@ -57,8 +57,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-08T06:18:16Z",
-      "last_success_at": "2026-11-08T06:18:16Z",
+      "last_attempt_at": "2026-11-09T06:50:29Z",
+      "last_success_at": "2026-11-09T06:50:29Z",
       "record_count": 0,
       "error": null
     },
@@ -68,8 +68,8 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-08T06:18:16Z",
-      "last_success_at": "2026-11-08T06:18:16Z",
+      "last_attempt_at": "2026-11-09T06:50:29Z",
+      "last_success_at": "2026-11-09T06:50:29Z",
       "record_count": 0,
       "error": null
     }
@@ -80,20 +80,20 @@
     "offers": 345,
     "official_confirmed": 25,
     "needs_review": 0,
-    "changes_today": 2
+    "changes_today": 12
   },
   "collection": {
     "job_type": "collect",
     "outcome": "partial",
-    "started_at": "2026-11-08T06:18:16Z",
-    "finished_at": "2026-11-08T06:18:17Z",
+    "started_at": "2026-11-09T06:50:29Z",
+    "finished_at": "2026-11-09T06:50:30Z",
     "counts": {
       "candidates": 320,
       "providers": 91,
       "models": 314,
       "offers": 345,
       "claims": 728,
-      "changes": 2
+      "changes": 12
     }
   },
   "state": {
