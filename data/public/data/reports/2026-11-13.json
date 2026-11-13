@@ -1,0 +1,82 @@
+{
+  "date": "2026-11-13",
+  "generated_at": "2026-11-13T06:56:40Z",
+  "data_cutoff": "2026-11-13T06:56:38Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 4,
+    "success_rate_percent": 80.0
+  },
+  "counts": {
+    "new": 1,
+    "important": 1,
+    "pending": 2,
+    "total": 2
+  },
+  "new_entries": [
+    {
+      "id": "ch_e6cbd918bb7a72cd",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_ff32eb5cd3c77052",
+      "subject_label": "codestral-latest",
+      "provider_id": "p_llm7-io",
+      "field": "model_id",
+      "old": null,
+      "new": "codestral-latest",
+      "detected_at": "2026-11-13T06:56:38Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_8f983ac8b00fc091",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_ce9ece59bf6c2066",
+      "subject_label": "nemotron-3-nano:30b",
+      "provider_id": "p_llm7-io",
+      "field": "model_id",
+      "old": "nemotron-3-nano-30b",
+      "new": null,
+      "detected_at": "2026-11-13T06:56:38Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_e6cbd918bb7a72cd",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_ff32eb5cd3c77052",
+      "subject_label": "codestral-latest",
+      "provider_id": "p_llm7-io",
+      "field": "model_id",
+      "old": null,
+      "new": "codestral-latest",
+      "detected_at": "2026-11-13T06:56:38Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_8f983ac8b00fc091",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_ce9ece59bf6c2066",
+      "subject_label": "nemotron-3-nano:30b",
+      "provider_id": "p_llm7-io",
+      "field": "model_id",
+      "old": "nemotron-3-nano-30b",
+      "new": null,
+      "detected_at": "2026-11-13T06:56:38Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}
