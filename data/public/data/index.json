@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-16T06:46:35Z",
-  "dataset_version": "sha256:2e529ff19bb1a6be0f2a6f491b380e391e838f8650585c9e8b93651f92911845",
+  "generated_at": "2026-11-17T08:06:12Z",
+  "dataset_version": "sha256:581ff6c580ac2babbc7d9e737fb7a274ab43a7e61e86253f424355a4e0ed09d1",
   "changes_version": "sha256:c55b1df3ba6f2c14c8878240d55e974636aa8574a9e3cc922056df89c90a873c",
   "counts": {
     "providers": 83,
@@ -18,8 +18,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-16T06:46:34Z",
-      "last_success_at": "2026-11-16T06:46:34Z",
+      "last_attempt_at": "2026-11-17T08:06:10Z",
+      "last_success_at": "2026-11-17T08:06:10Z",
       "record_count": 62,
       "error": null
     },
@@ -29,8 +29,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-16T06:46:34Z",
-      "last_success_at": "2026-11-16T06:46:34Z",
+      "last_attempt_at": "2026-11-17T08:06:10Z",
+      "last_success_at": "2026-11-17T08:06:10Z",
       "record_count": 235,
       "error": null
     },
@@ -40,7 +40,7 @@
       "source_family": "google",
       "enabled": true,
       "status": "failed",
-      "last_attempt_at": "2026-11-16T06:46:34Z",
+      "last_attempt_at": "2026-11-17T08:06:10Z",
       "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 75,
       "error": "refused to fetch https://aistudio.google.com/docs/rate-limits: host aistudio.google.com outside allowed_domains ['ai.google.dev']"
@@ -51,8 +51,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-16T06:46:34Z",
-      "last_success_at": "2026-11-16T06:46:34Z",
+      "last_attempt_at": "2026-11-17T08:06:10Z",
+      "last_success_at": "2026-11-17T08:06:10Z",
       "record_count": 0,
       "error": null
     },
@@ -62,8 +62,8 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-16T06:46:34Z",
-      "last_success_at": "2026-11-16T06:46:34Z",
+      "last_attempt_at": "2026-11-17T08:06:10Z",
+      "last_success_at": "2026-11-17T08:06:10Z",
       "record_count": 0,
       "error": null
     }
