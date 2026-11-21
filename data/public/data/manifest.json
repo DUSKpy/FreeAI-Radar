@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
-  "dataset_version": "sha256:b3989d0e65134891da5633046017b77c0d4c7bfb24c3415d02bb7340b575c91e",
-  "changes_version": "sha256:0920758404b00d923d5dde0226ac79aee5663d986b5924365f969b6b754074e5",
+  "dataset_version": "sha256:0dbd18a7e42e835a1e4eca80ddc7eb816e473e94cf16a98b2b992235f349f5bb",
+  "changes_version": "sha256:523a841a91bcf86f0b2bd6386af7324b86fdb97e6a0eaef6b5b0e2a073d71dc0",
   "build_commit": "unknown-local-build",
-  "generated_at": "2026-11-20T07:28:52Z",
-  "last_successful_collection_at": "2026-11-20T07:28:50Z",
+  "generated_at": "2026-11-21T07:24:30Z",
+  "last_successful_collection_at": "2026-11-21T07:24:28Z",
   "last_complete_collection_at": "2026-11-02T06:24:30Z",
-  "catalog_url": "/FreeAI-Radar/data/catalog.b3989d0e65134891.json",
-  "changes_url": "/FreeAI-Radar/data/changes.0920758404b00d92.json",
+  "catalog_url": "/FreeAI-Radar/data/catalog.0dbd18a7e42e835a.json",
+  "changes_url": "/FreeAI-Radar/data/changes.523a841a91bcf86f.json",
   "reports": [
+    "/FreeAI-Radar/data/reports/2026-11-21.md",
     "/FreeAI-Radar/data/reports/2026-11-19.md",
     "/FreeAI-Radar/data/reports/2026-11-15.md",
     "/FreeAI-Radar/data/reports/2026-11-14.md",
     "/FreeAI-Radar/data/reports/2026-11-13.md",
     "/FreeAI-Radar/data/reports/2026-11-12.md",
-    "/FreeAI-Radar/data/reports/2026-11-09.md",
-    "/FreeAI-Radar/data/reports/2026-11-08.md"
+    "/FreeAI-Radar/data/reports/2026-11-09.md"
   ],
   "sources": [
     {
@@ -24,8 +24,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-20T07:28:50Z",
-      "last_success_at": "2026-11-20T07:28:50Z",
+      "last_attempt_at": "2026-11-21T07:24:28Z",
+      "last_success_at": "2026-11-21T07:24:28Z",
       "record_count": 62,
       "error": null
     },
@@ -35,9 +35,9 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-20T07:28:50Z",
-      "last_success_at": "2026-11-20T07:28:50Z",
-      "record_count": 233,
+      "last_attempt_at": "2026-11-21T07:24:28Z",
+      "last_success_at": "2026-11-21T07:24:28Z",
+      "record_count": 251,
       "error": null
     },
     {
@@ -46,7 +46,7 @@
       "source_family": "google",
       "enabled": true,
       "status": "failed",
-      "last_attempt_at": "2026-11-20T07:28:50Z",
+      "last_attempt_at": "2026-11-21T07:24:28Z",
       "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 75,
       "error": "refused to fetch https://aistudio.google.com/docs/rate-limits: host aistudio.google.com outside allowed_domains ['ai.google.dev']"
@@ -57,8 +57,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-20T07:28:50Z",
-      "last_success_at": "2026-11-20T07:28:50Z",
+      "last_attempt_at": "2026-11-21T07:24:28Z",
+      "last_success_at": "2026-11-21T07:24:28Z",
       "record_count": 0,
       "error": null
     },
@@ -68,32 +68,32 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-20T07:28:50Z",
-      "last_success_at": "2026-11-20T07:28:50Z",
+      "last_attempt_at": "2026-11-21T07:24:28Z",
+      "last_success_at": "2026-11-21T07:24:28Z",
       "record_count": 0,
       "error": null
     }
   ],
   "counts": {
     "providers": 23,
-    "models": 230,
-    "offers": 283,
+    "models": 245,
+    "offers": 299,
     "official_confirmed": 25,
     "needs_review": 2,
-    "changes_today": 0
+    "changes_today": 31
   },
   "collection": {
     "job_type": "collect",
     "outcome": "partial",
-    "started_at": "2026-11-20T07:28:50Z",
-    "finished_at": "2026-11-20T07:28:52Z",
+    "started_at": "2026-11-21T07:24:28Z",
+    "finished_at": "2026-11-21T07:24:29Z",
     "counts": {
-      "candidates": 295,
+      "candidates": 313,
       "providers": 23,
-      "models": 230,
-      "offers": 283,
+      "models": 245,
+      "offers": 299,
       "claims": 226,
-      "changes": 0
+      "changes": 31
     }
   },
   "state": {
