@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "dataset_version": "sha256:0dbd18a7e42e835a1e4eca80ddc7eb816e473e94cf16a98b2b992235f349f5bb",
+  "dataset_version": "sha256:016e9e3331dac5151944d5df544794f05143922d30f4123119b8b975a5cd6887",
   "changes_version": "sha256:523a841a91bcf86f0b2bd6386af7324b86fdb97e6a0eaef6b5b0e2a073d71dc0",
   "build_commit": "unknown-local-build",
-  "generated_at": "2026-11-21T07:24:30Z",
-  "last_successful_collection_at": "2026-11-21T07:24:28Z",
+  "generated_at": "2026-11-22T07:04:24Z",
+  "last_successful_collection_at": "2026-11-22T07:04:23Z",
   "last_complete_collection_at": "2026-11-02T06:24:30Z",
-  "catalog_url": "/FreeAI-Radar/data/catalog.0dbd18a7e42e835a.json",
+  "catalog_url": "/FreeAI-Radar/data/catalog.016e9e3331dac515.json",
   "changes_url": "/FreeAI-Radar/data/changes.523a841a91bcf86f.json",
   "reports": [
     "/FreeAI-Radar/data/reports/2026-11-21.md",
@@ -24,8 +24,8 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-21T07:24:28Z",
-      "last_success_at": "2026-11-21T07:24:28Z",
+      "last_attempt_at": "2026-11-22T07:04:23Z",
+      "last_success_at": "2026-11-22T07:04:23Z",
       "record_count": 62,
       "error": null
     },
@@ -35,8 +35,8 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-21T07:24:28Z",
-      "last_success_at": "2026-11-21T07:24:28Z",
+      "last_attempt_at": "2026-11-22T07:04:23Z",
+      "last_success_at": "2026-11-22T07:04:23Z",
       "record_count": 251,
       "error": null
     },
@@ -46,7 +46,7 @@
       "source_family": "google",
       "enabled": true,
       "status": "failed",
-      "last_attempt_at": "2026-11-21T07:24:28Z",
+      "last_attempt_at": "2026-11-22T07:04:23Z",
       "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 75,
       "error": "refused to fetch https://aistudio.google.com/docs/rate-limits: host aistudio.google.com outside allowed_domains ['ai.google.dev']"
@@ -57,8 +57,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-21T07:24:28Z",
-      "last_success_at": "2026-11-21T07:24:28Z",
+      "last_attempt_at": "2026-11-22T07:04:23Z",
+      "last_success_at": "2026-11-22T07:04:23Z",
       "record_count": 0,
       "error": null
     },
@@ -68,8 +68,8 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-21T07:24:28Z",
-      "last_success_at": "2026-11-21T07:24:28Z",
+      "last_attempt_at": "2026-11-22T07:04:23Z",
+      "last_success_at": "2026-11-22T07:04:23Z",
       "record_count": 0,
       "error": null
     }
@@ -80,20 +80,20 @@
     "offers": 299,
     "official_confirmed": 25,
     "needs_review": 2,
-    "changes_today": 31
+    "changes_today": 0
   },
   "collection": {
     "job_type": "collect",
     "outcome": "partial",
-    "started_at": "2026-11-21T07:24:28Z",
-    "finished_at": "2026-11-21T07:24:29Z",
+    "started_at": "2026-11-22T07:04:23Z",
+    "finished_at": "2026-11-22T07:04:24Z",
     "counts": {
       "candidates": 313,
       "providers": 23,
       "models": 245,
       "offers": 299,
       "claims": 226,
-      "changes": 31
+      "changes": 0
     }
   },
   "state": {
