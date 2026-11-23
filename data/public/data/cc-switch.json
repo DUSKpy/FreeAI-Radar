@@ -1770,7 +1770,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "value": "@cf/thinkingmachines/inkling-2-small",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -1801,7 +1801,7 @@
             "provider_name": "Cloudflare Workers AI",
             "target_app": "claude",
             "base_url": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run",
-            "model_id": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+            "model_id": "@cf/thinkingmachines/inkling-2-small",
             "protocols": [],
             "api_key": null
           },
@@ -1854,7 +1854,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "value": "@cf/thinkingmachines/inkling-2-small",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -1885,7 +1885,7 @@
             "provider_name": "Cloudflare Workers AI",
             "target_app": "codex",
             "base_url": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run",
-            "model_id": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+            "model_id": "@cf/thinkingmachines/inkling-2-small",
             "protocols": [],
             "api_key": null
           },
@@ -1938,7 +1938,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "value": "@cf/thinkingmachines/inkling-2-small",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -1969,7 +1969,7 @@
             "provider_name": "Cloudflare Workers AI",
             "target_app": "gemini",
             "base_url": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run",
-            "model_id": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+            "model_id": "@cf/thinkingmachines/inkling-2-small",
             "protocols": [],
             "api_key": null
           },
@@ -2022,7 +2022,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "value": "@cf/thinkingmachines/inkling-2-small",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2053,7 +2053,7 @@
             "provider_name": "Cloudflare Workers AI",
             "target_app": "opencode",
             "base_url": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run",
-            "model_id": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+            "model_id": "@cf/thinkingmachines/inkling-2-small",
             "protocols": [],
             "api_key": null
           },
@@ -2106,7 +2106,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "value": "@cf/thinkingmachines/inkling-2-small",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2137,7 +2137,7 @@
             "provider_name": "Cloudflare Workers AI",
             "target_app": "openclaw",
             "base_url": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run",
-            "model_id": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+            "model_id": "@cf/thinkingmachines/inkling-2-small",
             "protocols": [],
             "api_key": null
           },
@@ -2198,7 +2198,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "command-a-111b",
+              "value": "command-r",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2229,7 +2229,7 @@
             "provider_name": "Cohere",
             "target_app": "claude",
             "base_url": "https://api.cohere.com/v2",
-            "model_id": "command-a-111b",
+            "model_id": "command-r",
             "protocols": [],
             "api_key": null
           },
@@ -2282,7 +2282,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "command-a-111b",
+              "value": "command-r",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2313,7 +2313,7 @@
             "provider_name": "Cohere",
             "target_app": "codex",
             "base_url": "https://api.cohere.com/v2",
-            "model_id": "command-a-111b",
+            "model_id": "command-r",
             "protocols": [],
             "api_key": null
           },
@@ -2366,7 +2366,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "command-a-111b",
+              "value": "command-r",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2397,7 +2397,7 @@
             "provider_name": "Cohere",
             "target_app": "gemini",
             "base_url": "https://api.cohere.com/v2",
-            "model_id": "command-a-111b",
+            "model_id": "command-r",
             "protocols": [],
             "api_key": null
           },
@@ -2450,7 +2450,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "command-a-111b",
+              "value": "command-r",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2481,7 +2481,7 @@
             "provider_name": "Cohere",
             "target_app": "opencode",
             "base_url": "https://api.cohere.com/v2",
-            "model_id": "command-a-111b",
+            "model_id": "command-r",
             "protocols": [],
             "api_key": null
           },
@@ -2534,7 +2534,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "command-a-111b",
+              "value": "command-r",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -2565,7 +2565,7 @@
             "provider_name": "Cohere",
             "target_app": "openclaw",
             "base_url": "https://api.cohere.com/v2",
-            "model_id": "command-a-111b",
+            "model_id": "command-r",
             "protocols": [],
             "api_key": null
           },
@@ -3482,7 +3482,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gemini-3.5-flash-lite",
+              "value": "gemini-3.7-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3513,7 +3513,7 @@
             "provider_name": "Google Gemini",
             "target_app": "claude",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "gemini-3.5-flash-lite",
+            "model_id": "gemini-3.7-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3566,7 +3566,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gemini-3.5-flash-lite",
+              "value": "gemini-3.7-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3597,7 +3597,7 @@
             "provider_name": "Google Gemini",
             "target_app": "codex",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "gemini-3.5-flash-lite",
+            "model_id": "gemini-3.7-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3650,7 +3650,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gemini-3.5-flash-lite",
+              "value": "gemini-3.7-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3681,7 +3681,7 @@
             "provider_name": "Google Gemini",
             "target_app": "gemini",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "gemini-3.5-flash-lite",
+            "model_id": "gemini-3.7-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3734,7 +3734,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gemini-3.5-flash-lite",
+              "value": "gemini-3.7-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3765,7 +3765,7 @@
             "provider_name": "Google Gemini",
             "target_app": "opencode",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "gemini-3.5-flash-lite",
+            "model_id": "gemini-3.7-flash",
             "protocols": [],
             "api_key": null
           },
@@ -3818,7 +3818,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gemini-3.5-flash-lite",
+              "value": "gemini-3.7-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -3849,7 +3849,7 @@
             "provider_name": "Google Gemini",
             "target_app": "openclaw",
             "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "model_id": "gemini-3.5-flash-lite",
+            "model_id": "gemini-3.7-flash",
             "protocols": [],
             "api_key": null
           },
@@ -4766,7 +4766,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "qwen/qwen3.8-27b",
+              "value": "meta-llama/llama-prompt-guard-2-22m",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4797,7 +4797,7 @@
             "provider_name": "Groq",
             "target_app": "claude",
             "base_url": "https://api.groq.com/openai/v1",
-            "model_id": "qwen/qwen3.8-27b",
+            "model_id": "meta-llama/llama-prompt-guard-2-22m",
             "protocols": [],
             "api_key": null
           },
@@ -4850,7 +4850,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "qwen/qwen3.8-27b",
+              "value": "meta-llama/llama-prompt-guard-2-22m",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4881,7 +4881,7 @@
             "provider_name": "Groq",
             "target_app": "codex",
             "base_url": "https://api.groq.com/openai/v1",
-            "model_id": "qwen/qwen3.8-27b",
+            "model_id": "meta-llama/llama-prompt-guard-2-22m",
             "protocols": [],
             "api_key": null
           },
@@ -4934,7 +4934,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "qwen/qwen3.8-27b",
+              "value": "meta-llama/llama-prompt-guard-2-22m",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -4965,7 +4965,7 @@
             "provider_name": "Groq",
             "target_app": "gemini",
             "base_url": "https://api.groq.com/openai/v1",
-            "model_id": "qwen/qwen3.8-27b",
+            "model_id": "meta-llama/llama-prompt-guard-2-22m",
             "protocols": [],
             "api_key": null
           },
@@ -5018,7 +5018,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "qwen/qwen3.8-27b",
+              "value": "meta-llama/llama-prompt-guard-2-22m",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5049,7 +5049,7 @@
             "provider_name": "Groq",
             "target_app": "opencode",
             "base_url": "https://api.groq.com/openai/v1",
-            "model_id": "qwen/qwen3.8-27b",
+            "model_id": "meta-llama/llama-prompt-guard-2-22m",
             "protocols": [],
             "api_key": null
           },
@@ -5102,7 +5102,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "qwen/qwen3.8-27b",
+              "value": "meta-llama/llama-prompt-guard-2-22m",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5133,7 +5133,7 @@
             "provider_name": "Groq",
             "target_app": "openclaw",
             "base_url": "https://api.groq.com/openai/v1",
-            "model_id": "qwen/qwen3.8-27b",
+            "model_id": "meta-llama/llama-prompt-guard-2-22m",
             "protocols": [],
             "api_key": null
           },
@@ -5194,7 +5194,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cohere/north-mini-code:free",
+              "value": "cohere-north-mini-code-free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5225,7 +5225,7 @@
             "provider_name": "Kilo Code",
             "target_app": "claude",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "cohere/north-mini-code:free",
+            "model_id": "cohere-north-mini-code-free",
             "protocols": [],
             "api_key": null
           },
@@ -5278,7 +5278,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cohere/north-mini-code:free",
+              "value": "cohere-north-mini-code-free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5309,7 +5309,7 @@
             "provider_name": "Kilo Code",
             "target_app": "codex",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "cohere/north-mini-code:free",
+            "model_id": "cohere-north-mini-code-free",
             "protocols": [],
             "api_key": null
           },
@@ -5362,7 +5362,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cohere/north-mini-code:free",
+              "value": "cohere-north-mini-code-free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5393,7 +5393,7 @@
             "provider_name": "Kilo Code",
             "target_app": "gemini",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "cohere/north-mini-code:free",
+            "model_id": "cohere-north-mini-code-free",
             "protocols": [],
             "api_key": null
           },
@@ -5446,7 +5446,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cohere/north-mini-code:free",
+              "value": "cohere-north-mini-code-free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5477,7 +5477,7 @@
             "provider_name": "Kilo Code",
             "target_app": "opencode",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "cohere/north-mini-code:free",
+            "model_id": "cohere-north-mini-code-free",
             "protocols": [],
             "api_key": null
           },
@@ -5530,7 +5530,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "cohere/north-mini-code:free",
+              "value": "cohere-north-mini-code-free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5561,7 +5561,7 @@
             "provider_name": "Kilo Code",
             "target_app": "openclaw",
             "base_url": "https://api.kilo.ai/api/gateway",
-            "model_id": "cohere/north-mini-code:free",
+            "model_id": "cohere-north-mini-code-free",
             "protocols": [],
             "api_key": null
           },
@@ -5622,7 +5622,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "codestral-latest",
+              "value": "DeepSeek-V4-Flash-0731",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5653,7 +5653,7 @@
             "provider_name": "LLM7.io",
             "target_app": "claude",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "codestral-latest",
+            "model_id": "DeepSeek-V4-Flash-0731",
             "protocols": [],
             "api_key": null
           },
@@ -5706,7 +5706,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "codestral-latest",
+              "value": "DeepSeek-V4-Flash-0731",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5737,7 +5737,7 @@
             "provider_name": "LLM7.io",
             "target_app": "codex",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "codestral-latest",
+            "model_id": "DeepSeek-V4-Flash-0731",
             "protocols": [],
             "api_key": null
           },
@@ -5790,7 +5790,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "codestral-latest",
+              "value": "DeepSeek-V4-Flash-0731",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5821,7 +5821,7 @@
             "provider_name": "LLM7.io",
             "target_app": "gemini",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "codestral-latest",
+            "model_id": "DeepSeek-V4-Flash-0731",
             "protocols": [],
             "api_key": null
           },
@@ -5874,7 +5874,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "codestral-latest",
+              "value": "DeepSeek-V4-Flash-0731",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5905,7 +5905,7 @@
             "provider_name": "LLM7.io",
             "target_app": "opencode",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "codestral-latest",
+            "model_id": "DeepSeek-V4-Flash-0731",
             "protocols": [],
             "api_key": null
           },
@@ -5958,7 +5958,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "codestral-latest",
+              "value": "DeepSeek-V4-Flash-0731",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -5989,7 +5989,7 @@
             "provider_name": "LLM7.io",
             "target_app": "openclaw",
             "base_url": "https://api.llm7.io/v1",
-            "model_id": "codestral-latest",
+            "model_id": "DeepSeek-V4-Flash-0731",
             "protocols": [],
             "api_key": null
           },
@@ -6050,7 +6050,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "mistral-medium-3-5-128b",
+              "value": "codestral",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6081,7 +6081,7 @@
             "provider_name": "Mistral AI",
             "target_app": "claude",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "mistral-medium-3-5-128b",
+            "model_id": "codestral",
             "protocols": [],
             "api_key": null
           },
@@ -6134,7 +6134,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "mistral-medium-3-5-128b",
+              "value": "codestral",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6165,7 +6165,7 @@
             "provider_name": "Mistral AI",
             "target_app": "codex",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "mistral-medium-3-5-128b",
+            "model_id": "codestral",
             "protocols": [],
             "api_key": null
           },
@@ -6218,7 +6218,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "mistral-medium-3-5-128b",
+              "value": "codestral",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6249,7 +6249,7 @@
             "provider_name": "Mistral AI",
             "target_app": "gemini",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "mistral-medium-3-5-128b",
+            "model_id": "codestral",
             "protocols": [],
             "api_key": null
           },
@@ -6302,7 +6302,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "mistral-medium-3-5-128b",
+              "value": "codestral",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6333,7 +6333,7 @@
             "provider_name": "Mistral AI",
             "target_app": "opencode",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "mistral-medium-3-5-128b",
+            "model_id": "codestral",
             "protocols": [],
             "api_key": null
           },
@@ -6386,7 +6386,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "mistral-medium-3-5-128b",
+              "value": "codestral",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6417,7 +6417,7 @@
             "provider_name": "Mistral AI",
             "target_app": "openclaw",
             "base_url": "https://api.mistral.ai/v1",
-            "model_id": "mistral-medium-3-5-128b",
+            "model_id": "codestral",
             "protocols": [],
             "api_key": null
           },
@@ -6478,7 +6478,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "MedAIBase/AntAngelMed",
+              "value": "deepseek-ai/DeepSeek-V4.1-Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6509,7 +6509,7 @@
             "provider_name": "ModelScope",
             "target_app": "claude",
             "base_url": "https://api-inference.modelscope.cn/v1",
-            "model_id": "MedAIBase/AntAngelMed",
+            "model_id": "deepseek-ai/DeepSeek-V4.1-Flash",
             "protocols": [],
             "api_key": null
           },
@@ -6562,7 +6562,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "MedAIBase/AntAngelMed",
+              "value": "deepseek-ai/DeepSeek-V4.1-Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6593,7 +6593,7 @@
             "provider_name": "ModelScope",
             "target_app": "codex",
             "base_url": "https://api-inference.modelscope.cn/v1",
-            "model_id": "MedAIBase/AntAngelMed",
+            "model_id": "deepseek-ai/DeepSeek-V4.1-Flash",
             "protocols": [],
             "api_key": null
           },
@@ -6646,7 +6646,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "MedAIBase/AntAngelMed",
+              "value": "deepseek-ai/DeepSeek-V4.1-Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6677,7 +6677,7 @@
             "provider_name": "ModelScope",
             "target_app": "gemini",
             "base_url": "https://api-inference.modelscope.cn/v1",
-            "model_id": "MedAIBase/AntAngelMed",
+            "model_id": "deepseek-ai/DeepSeek-V4.1-Flash",
             "protocols": [],
             "api_key": null
           },
@@ -6730,7 +6730,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "MedAIBase/AntAngelMed",
+              "value": "deepseek-ai/DeepSeek-V4.1-Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6761,7 +6761,7 @@
             "provider_name": "ModelScope",
             "target_app": "opencode",
             "base_url": "https://api-inference.modelscope.cn/v1",
-            "model_id": "MedAIBase/AntAngelMed",
+            "model_id": "deepseek-ai/DeepSeek-V4.1-Flash",
             "protocols": [],
             "api_key": null
           },
@@ -6814,7 +6814,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "MedAIBase/AntAngelMed",
+              "value": "deepseek-ai/DeepSeek-V4.1-Flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6845,7 +6845,7 @@
             "provider_name": "ModelScope",
             "target_app": "openclaw",
             "base_url": "https://api-inference.modelscope.cn/v1",
-            "model_id": "MedAIBase/AntAngelMed",
+            "model_id": "deepseek-ai/DeepSeek-V4.1-Flash",
             "protocols": [],
             "api_key": null
           },
@@ -7334,7 +7334,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss:120b",
+              "value": "deepseek-v4-pro:0813",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7365,7 +7365,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "claude",
             "base_url": "https://ollama.com/v1",
-            "model_id": "gpt-oss:120b",
+            "model_id": "deepseek-v4-pro:0813",
             "protocols": [],
             "api_key": null
           },
@@ -7418,7 +7418,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss:120b",
+              "value": "deepseek-v4-pro:0813",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7449,7 +7449,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "codex",
             "base_url": "https://ollama.com/v1",
-            "model_id": "gpt-oss:120b",
+            "model_id": "deepseek-v4-pro:0813",
             "protocols": [],
             "api_key": null
           },
@@ -7502,7 +7502,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss:120b",
+              "value": "deepseek-v4-pro:0813",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7533,7 +7533,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "gemini",
             "base_url": "https://ollama.com/v1",
-            "model_id": "gpt-oss:120b",
+            "model_id": "deepseek-v4-pro:0813",
             "protocols": [],
             "api_key": null
           },
@@ -7586,7 +7586,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss:120b",
+              "value": "deepseek-v4-pro:0813",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7617,7 +7617,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "opencode",
             "base_url": "https://ollama.com/v1",
-            "model_id": "gpt-oss:120b",
+            "model_id": "deepseek-v4-pro:0813",
             "protocols": [],
             "api_key": null
           },
@@ -7670,7 +7670,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss:120b",
+              "value": "deepseek-v4-pro:0813",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7701,7 +7701,7 @@
             "provider_name": "Ollama Cloud",
             "target_app": "openclaw",
             "base_url": "https://ollama.com/v1",
-            "model_id": "gpt-oss:120b",
+            "model_id": "deepseek-v4-pro:0813",
             "protocols": [],
             "api_key": null
           },
@@ -7762,7 +7762,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "big-pickle",
+              "value": "deepseek-v4.1-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7793,7 +7793,7 @@
             "provider_name": "OpenCode Zen",
             "target_app": "claude",
             "base_url": "https://opencode.ai/zen/v1",
-            "model_id": "big-pickle",
+            "model_id": "deepseek-v4.1-flash",
             "protocols": [],
             "api_key": null
           },
@@ -7846,7 +7846,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "big-pickle",
+              "value": "deepseek-v4.1-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7877,7 +7877,7 @@
             "provider_name": "OpenCode Zen",
             "target_app": "codex",
             "base_url": "https://opencode.ai/zen/v1",
-            "model_id": "big-pickle",
+            "model_id": "deepseek-v4.1-flash",
             "protocols": [],
             "api_key": null
           },
@@ -7930,7 +7930,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "big-pickle",
+              "value": "deepseek-v4.1-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7961,7 +7961,7 @@
             "provider_name": "OpenCode Zen",
             "target_app": "gemini",
             "base_url": "https://opencode.ai/zen/v1",
-            "model_id": "big-pickle",
+            "model_id": "deepseek-v4.1-flash",
             "protocols": [],
             "api_key": null
           },
@@ -8014,7 +8014,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "big-pickle",
+              "value": "deepseek-v4.1-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8045,7 +8045,7 @@
             "provider_name": "OpenCode Zen",
             "target_app": "opencode",
             "base_url": "https://opencode.ai/zen/v1",
-            "model_id": "big-pickle",
+            "model_id": "deepseek-v4.1-flash",
             "protocols": [],
             "api_key": null
           },
@@ -8098,7 +8098,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "big-pickle",
+              "value": "deepseek-v4.1-flash",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8129,7 +8129,7 @@
             "provider_name": "OpenCode Zen",
             "target_app": "openclaw",
             "base_url": "https://opencode.ai/zen/v1",
-            "model_id": "big-pickle",
+            "model_id": "deepseek-v4.1-flash",
             "protocols": [],
             "api_key": null
           },
@@ -8190,7 +8190,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-ultra-550b-a55b:free",
+              "value": "baidu/ernie-5.5-flash-preview:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8221,7 +8221,7 @@
             "provider_name": "OpenRouter",
             "target_app": "claude",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+            "model_id": "baidu/ernie-5.5-flash-preview:free",
             "protocols": [],
             "api_key": null
           },
@@ -8274,7 +8274,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-ultra-550b-a55b:free",
+              "value": "baidu/ernie-5.5-flash-preview:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8305,7 +8305,7 @@
             "provider_name": "OpenRouter",
             "target_app": "codex",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+            "model_id": "baidu/ernie-5.5-flash-preview:free",
             "protocols": [],
             "api_key": null
           },
@@ -8358,7 +8358,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-ultra-550b-a55b:free",
+              "value": "baidu/ernie-5.5-flash-preview:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8389,7 +8389,7 @@
             "provider_name": "OpenRouter",
             "target_app": "gemini",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+            "model_id": "baidu/ernie-5.5-flash-preview:free",
             "protocols": [],
             "api_key": null
           },
@@ -8442,7 +8442,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-ultra-550b-a55b:free",
+              "value": "baidu/ernie-5.5-flash-preview:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8473,7 +8473,7 @@
             "provider_name": "OpenRouter",
             "target_app": "opencode",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+            "model_id": "baidu/ernie-5.5-flash-preview:free",
             "protocols": [],
             "api_key": null
           },
@@ -8526,7 +8526,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "nvidia/nemotron-3-ultra-550b-a55b:free",
+              "value": "baidu/ernie-5.5-flash-preview:free",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8557,7 +8557,7 @@
             "provider_name": "OpenRouter",
             "target_app": "openclaw",
             "base_url": "https://openrouter.ai/api/v1",
-            "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+            "model_id": "baidu/ernie-5.5-flash-preview:free",
             "protocols": [],
             "api_key": null
           },
@@ -8618,7 +8618,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss-120b",
+              "value": "qwen3.5-9b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8649,7 +8649,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "claude",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "gpt-oss-120b",
+            "model_id": "qwen3.5-9b",
             "protocols": [],
             "api_key": null
           },
@@ -8702,7 +8702,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss-120b",
+              "value": "qwen3.5-9b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8733,7 +8733,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "codex",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "gpt-oss-120b",
+            "model_id": "qwen3.5-9b",
             "protocols": [],
             "api_key": null
           },
@@ -8786,7 +8786,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss-120b",
+              "value": "qwen3.5-9b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8817,7 +8817,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "gemini",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "gpt-oss-120b",
+            "model_id": "qwen3.5-9b",
             "protocols": [],
             "api_key": null
           },
@@ -8870,7 +8870,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss-120b",
+              "value": "qwen3.5-9b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8901,7 +8901,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "opencode",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "gpt-oss-120b",
+            "model_id": "qwen3.5-9b",
             "protocols": [],
             "api_key": null
           },
@@ -8954,7 +8954,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "gpt-oss-120b",
+              "value": "qwen3.5-9b",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -8985,7 +8985,7 @@
             "provider_name": "OVHcloud AI Endpoints",
             "target_app": "openclaw",
             "base_url": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1",
-            "model_id": "gpt-oss-120b",
+            "model_id": "qwen3.5-9b",
             "protocols": [],
             "api_key": null
           },
@@ -9474,7 +9474,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "glm-4.5",
+              "value": "glm-4.5-air",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -9505,7 +9505,7 @@
             "provider_name": "Z AI (Zhipu AI)",
             "target_app": "claude",
             "base_url": "https://open.bigmodel.cn/api/paas/v4",
-            "model_id": "glm-4.5",
+            "model_id": "glm-4.5-air",
             "protocols": [],
             "api_key": null
           },
@@ -9558,7 +9558,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "glm-4.5",
+              "value": "glm-4.5-air",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -9589,7 +9589,7 @@
             "provider_name": "Z AI (Zhipu AI)",
             "target_app": "codex",
             "base_url": "https://open.bigmodel.cn/api/paas/v4",
-            "model_id": "glm-4.5",
+            "model_id": "glm-4.5-air",
             "protocols": [],
             "api_key": null
           },
@@ -9642,7 +9642,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "glm-4.5",
+              "value": "glm-4.5-air",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -9673,7 +9673,7 @@
             "provider_name": "Z AI (Zhipu AI)",
             "target_app": "gemini",
             "base_url": "https://open.bigmodel.cn/api/paas/v4",
-            "model_id": "glm-4.5",
+            "model_id": "glm-4.5-air",
             "protocols": [],
             "api_key": null
           },
@@ -9726,7 +9726,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "glm-4.5",
+              "value": "glm-4.5-air",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -9757,7 +9757,7 @@
             "provider_name": "Z AI (Zhipu AI)",
             "target_app": "opencode",
             "base_url": "https://open.bigmodel.cn/api/paas/v4",
-            "model_id": "glm-4.5",
+            "model_id": "glm-4.5-air",
             "protocols": [],
             "api_key": null
           },
@@ -9810,7 +9810,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "glm-4.5",
+              "value": "glm-4.5-air",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -9841,7 +9841,7 @@
             "provider_name": "Z AI (Zhipu AI)",
             "target_app": "openclaw",
             "base_url": "https://open.bigmodel.cn/api/paas/v4",
-            "model_id": "glm-4.5",
+            "model_id": "glm-4.5-air",
             "protocols": [],
             "api_key": null
           },

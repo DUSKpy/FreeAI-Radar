@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
-  "dataset_version": "sha256:016e9e3331dac5151944d5df544794f05143922d30f4123119b8b975a5cd6887",
-  "changes_version": "sha256:523a841a91bcf86f0b2bd6386af7324b86fdb97e6a0eaef6b5b0e2a073d71dc0",
+  "dataset_version": "sha256:ab8d86f8508fd1750394aa24a000eeddd65904faa3d34da67b0daf7913d34b63",
+  "changes_version": "sha256:9a5b0d6e3ce7f97c9c4a0a788a78993b8f832a78b39c3ed355b7e973d20ac774",
   "build_commit": "unknown-local-build",
-  "generated_at": "2026-11-22T07:04:24Z",
-  "last_successful_collection_at": "2026-11-22T07:04:23Z",
+  "generated_at": "2026-11-23T07:52:17Z",
+  "last_successful_collection_at": "2026-11-23T07:52:16Z",
   "last_complete_collection_at": "2026-11-02T06:24:30Z",
-  "catalog_url": "/FreeAI-Radar/data/catalog.016e9e3331dac515.json",
-  "changes_url": "/FreeAI-Radar/data/changes.523a841a91bcf86f.json",
+  "catalog_url": "/FreeAI-Radar/data/catalog.ab8d86f8508fd175.json",
+  "changes_url": "/FreeAI-Radar/data/changes.9a5b0d6e3ce7f97c.json",
   "reports": [
+    "/FreeAI-Radar/data/reports/2026-11-23.md",
     "/FreeAI-Radar/data/reports/2026-11-21.md",
     "/FreeAI-Radar/data/reports/2026-11-19.md",
     "/FreeAI-Radar/data/reports/2026-11-15.md",
     "/FreeAI-Radar/data/reports/2026-11-14.md",
     "/FreeAI-Radar/data/reports/2026-11-13.md",
-    "/FreeAI-Radar/data/reports/2026-11-12.md",
-    "/FreeAI-Radar/data/reports/2026-11-09.md"
+    "/FreeAI-Radar/data/reports/2026-11-12.md"
   ],
   "sources": [
     {
@@ -24,9 +24,9 @@
       "source_family": "freellm-net",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-22T07:04:23Z",
-      "last_success_at": "2026-11-22T07:04:23Z",
-      "record_count": 62,
+      "last_attempt_at": "2026-11-23T07:52:16Z",
+      "last_success_at": "2026-11-23T07:52:16Z",
+      "record_count": 61,
       "error": null
     },
     {
@@ -35,9 +35,9 @@
       "source_family": "free-llm",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-22T07:04:23Z",
-      "last_success_at": "2026-11-22T07:04:23Z",
-      "record_count": 251,
+      "last_attempt_at": "2026-11-23T07:52:16Z",
+      "last_success_at": "2026-11-23T07:52:16Z",
+      "record_count": 249,
       "error": null
     },
     {
@@ -46,7 +46,7 @@
       "source_family": "google",
       "enabled": true,
       "status": "failed",
-      "last_attempt_at": "2026-11-22T07:04:23Z",
+      "last_attempt_at": "2026-11-23T07:52:16Z",
       "last_success_at": "2026-11-02T06:24:30Z",
       "record_count": 75,
       "error": "refused to fetch https://aistudio.google.com/docs/rate-limits: host aistudio.google.com outside allowed_domains ['ai.google.dev']"
@@ -57,8 +57,8 @@
       "source_family": "groq",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-22T07:04:23Z",
-      "last_success_at": "2026-11-22T07:04:23Z",
+      "last_attempt_at": "2026-11-23T07:52:16Z",
+      "last_success_at": "2026-11-23T07:52:16Z",
       "record_count": 0,
       "error": null
     },
@@ -68,32 +68,32 @@
       "source_family": "openrouter",
       "enabled": true,
       "status": "ok",
-      "last_attempt_at": "2026-11-22T07:04:23Z",
-      "last_success_at": "2026-11-22T07:04:23Z",
+      "last_attempt_at": "2026-11-23T07:52:16Z",
+      "last_success_at": "2026-11-23T07:52:16Z",
       "record_count": 0,
       "error": null
     }
   ],
   "counts": {
     "providers": 23,
-    "models": 245,
-    "offers": 299,
+    "models": 242,
+    "offers": 297,
     "official_confirmed": 25,
     "needs_review": 2,
-    "changes_today": 0
+    "changes_today": 65
   },
   "collection": {
     "job_type": "collect",
     "outcome": "partial",
-    "started_at": "2026-11-22T07:04:23Z",
-    "finished_at": "2026-11-22T07:04:24Z",
+    "started_at": "2026-11-23T07:52:16Z",
+    "finished_at": "2026-11-23T07:52:17Z",
     "counts": {
-      "candidates": 313,
+      "candidates": 310,
       "providers": 23,
-      "models": 245,
-      "offers": 299,
-      "claims": 226,
-      "changes": 0
+      "models": 242,
+      "offers": 297,
+      "claims": 225,
+      "changes": 65
     }
   },
   "state": {
