@@ -1,0 +1,142 @@
+{
+  "date": "2026-11-25",
+  "generated_at": "2026-11-25T08:49:56Z",
+  "data_cutoff": "2026-11-25T08:49:54Z",
+  "collection": {
+    "enabled_sources": 5,
+    "succeeded_sources": 4,
+    "success_rate_percent": 80.0
+  },
+  "counts": {
+    "new": 1,
+    "important": 3,
+    "pending": 4,
+    "total": 4
+  },
+  "new_entries": [
+    {
+      "id": "ch_a03c338b70ba2f14",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_d4f0029b2ec1ea1a",
+      "subject_label": "xingchen-agi/xing4.0-29b-a4b:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": null,
+      "new": "xingchen-agi/xing4.0-29b-a4b:free",
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    }
+  ],
+  "important_changes": [
+    {
+      "id": "ch_1912cf3dc95fbf7d",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_dddcd354afe9d387",
+      "subject_label": "Auto",
+      "provider_id": "p_google-ai-studio-no-card",
+      "field": "model_id",
+      "old": "Auto",
+      "new": null,
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_91e002c63be325b6",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_ec57cb1a5c415b15",
+      "subject_label": "cohere/north-mini-code:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": "cohere-north-mini-code-free",
+      "new": null,
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_3667a9562c72fc7c",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_87f9d3f3d0377e5c",
+      "subject_label": "moonshotai/kimi-k3.1-pro",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": "moonshotai/kimi-k3.1-pro",
+      "new": null,
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ch_a03c338b70ba2f14",
+      "type": "new_model",
+      "subject_type": "model",
+      "subject_id": "m_d4f0029b2ec1ea1a",
+      "subject_label": "xingchen-agi/xing4.0-29b-a4b:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": null,
+      "new": "xingchen-agi/xing4.0-29b-a4b:free",
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": null
+    },
+    {
+      "id": "ch_1912cf3dc95fbf7d",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_dddcd354afe9d387",
+      "subject_label": "Auto",
+      "provider_id": "p_google-ai-studio-no-card",
+      "field": "model_id",
+      "old": "Auto",
+      "new": null,
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "free-llm",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_91e002c63be325b6",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_ec57cb1a5c415b15",
+      "subject_label": "cohere/north-mini-code:free",
+      "provider_id": "p_kilo-code",
+      "field": "model_id",
+      "old": "cohere-north-mini-code-free",
+      "new": null,
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    },
+    {
+      "id": "ch_3667a9562c72fc7c",
+      "type": "missing_from_source",
+      "subject_type": "model",
+      "subject_id": "m_87f9d3f3d0377e5c",
+      "subject_label": "moonshotai/kimi-k3.1-pro",
+      "provider_id": "p_nvidia",
+      "field": "model_id",
+      "old": "moonshotai/kimi-k3.1-pro",
+      "new": null,
+      "detected_at": "2026-11-25T08:49:54Z",
+      "source_id": "freellm-net",
+      "confirmed": false,
+      "note": "no longer listed by this source; not a confirmed shutdown"
+    }
+  ]
+}
