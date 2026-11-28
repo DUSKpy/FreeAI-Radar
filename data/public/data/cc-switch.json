@@ -6906,7 +6906,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "moonshotai/kimi-k3.1-pro",
+              "value": "moonshotai/kimi-k2.6",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -6937,7 +6937,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "claude",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "moonshotai/kimi-k3.1-pro",
+            "model_id": "moonshotai/kimi-k2.6",
             "protocols": [],
             "api_key": null
           },
@@ -6990,7 +6990,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "moonshotai/kimi-k3.1-pro",
+              "value": "moonshotai/kimi-k2.6",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7021,7 +7021,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "codex",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "moonshotai/kimi-k3.1-pro",
+            "model_id": "moonshotai/kimi-k2.6",
             "protocols": [],
             "api_key": null
           },
@@ -7074,7 +7074,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "moonshotai/kimi-k3.1-pro",
+              "value": "moonshotai/kimi-k2.6",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7105,7 +7105,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "gemini",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "moonshotai/kimi-k3.1-pro",
+            "model_id": "moonshotai/kimi-k2.6",
             "protocols": [],
             "api_key": null
           },
@@ -7158,7 +7158,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "moonshotai/kimi-k3.1-pro",
+              "value": "moonshotai/kimi-k2.6",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7189,7 +7189,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "opencode",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "moonshotai/kimi-k3.1-pro",
+            "model_id": "moonshotai/kimi-k2.6",
             "protocols": [],
             "api_key": null
           },
@@ -7242,7 +7242,7 @@
             {
               "key": "model",
               "label": "模型 ID",
-              "value": "moonshotai/kimi-k3.1-pro",
+              "value": "moonshotai/kimi-k2.6",
               "required": false,
               "hint": "精确的上游模型标识",
               "secret": false,
@@ -7273,7 +7273,7 @@
             "provider_name": "NVIDIA NIM",
             "target_app": "openclaw",
             "base_url": "https://integrate.api.nvidia.com/v1",
-            "model_id": "moonshotai/kimi-k3.1-pro",
+            "model_id": "moonshotai/kimi-k2.6",
             "protocols": [],
             "api_key": null
           },
